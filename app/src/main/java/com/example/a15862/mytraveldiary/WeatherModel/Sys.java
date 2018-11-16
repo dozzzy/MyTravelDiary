@@ -1,4 +1,4 @@
-package com.example.ivc.mtd_p1.Model;
+package com.example.a15862.mytraveldiary.WeatherModel;
 
 public class Sys {
     private int type;
