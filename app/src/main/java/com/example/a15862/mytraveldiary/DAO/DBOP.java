@@ -25,7 +25,7 @@ public class DBOP {
     }
 
     public void insertData(Map<String, Object> insertTest) {
-        db.collection("FirstTry").document("2")
+        db.collection("FirstTry").document()
                 .set(insertTest).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

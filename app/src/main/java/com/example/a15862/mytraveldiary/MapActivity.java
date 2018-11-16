@@ -1,14 +1,26 @@
 package com.example.a15862.mytraveldiary;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.example.a15862.mytraveldiary.ServiceImps.SearchServicesImp;
 import com.example.a15862.mytraveldiary.Services.SearchServices;
@@ -16,7 +28,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,7 +37,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -36,7 +46,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback, LocationDrawer {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationDrawer {
 
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
@@ -64,6 +74,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
+    // The sliding menu
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +91,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
 
         setContentView(R.layout.activity_map);
-
-
         // Construct a GeoDataClient.
-        mGeoDataClient = Places.getGeoDataClient(this, null);
+        //mGeoDataClient = Places.getGeoDataClient(this, null);
 
         // Construct a PlaceDetectionClient.
-        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
+        //mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
 
         // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -93,6 +105,35 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        /* sliding menu
+         * The listed items in the menu are temporary and the clicking function is not implemented
+         */
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        ImageView mAvatar = findViewById(R.id.imgProfile);
+
+        NavigationView navView = findViewById(R.id.nav_view);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        mDrawerLayout.closeDrawers();
+                        // do something corresponding to the item selected
+                        // functions will be implemented after intergrating other parts
+                        onOptionsItemSelected(menuItem);
+
+                        return true;
+                    }
+                });
+
+
     }
 
 
@@ -270,6 +311,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.goText:
+                //showDiaryFragment();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }
