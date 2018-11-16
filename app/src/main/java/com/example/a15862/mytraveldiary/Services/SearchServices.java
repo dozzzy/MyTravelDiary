@@ -1,4 +1,4 @@
-package com.example.a15862.mytraveldiary;
+package com.example.a15862.mytraveldiary.Services;
 
 import android.location.Location;
 

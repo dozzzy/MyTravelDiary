@@ -1,4 +1,4 @@
-package com.example.a15862.mytraveldiary;
+package com.example.a15862.mytraveldiary.DAO;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

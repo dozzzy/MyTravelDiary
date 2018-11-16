@@ -1,6 +1,5 @@
 package com.example.a15862.mytraveldiary;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -11,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 
+import com.example.a15862.mytraveldiary.ServiceImps.SearchServicesImp;
+import com.example.a15862.mytraveldiary.Services.SearchServices;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
@@ -28,17 +29,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.yelp.fusion.client.models.Business;
-import com.yelp.fusion.client.models.SearchResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback,LocationDrawer {
 
