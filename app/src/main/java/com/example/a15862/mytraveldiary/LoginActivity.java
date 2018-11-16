@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nullable;
+
 // this is the activity for login by using firebase Authentication.
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
@@ -73,14 +74,14 @@ public class LoginActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                Log.i("1st","auth complete");
+                Log.i("1st", "auth complete");
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Intent i=new Intent(this,MapActivity.class);
+                Intent i = new Intent(this, MapActivity.class);
                 startActivity(i);
                 // ...
             } else {
                 // Sign in failed.
-                Log.e("1st","not work");
+                Log.e("1st", "not work");
             }
         }
     }

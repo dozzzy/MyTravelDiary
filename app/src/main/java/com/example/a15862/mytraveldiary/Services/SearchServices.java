@@ -1,4 +1,4 @@
-package com.example.a15862.mytraveldiary;
+package com.example.a15862.mytraveldiary.Services;
 
 import android.location.Location;
 
@@ -10,5 +10,5 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public interface SearchServices {
-    void searchLocation (LatLng location, double radius) throws Exception;
+    void searchLocation(LatLng location, double radius) throws Exception;
 }

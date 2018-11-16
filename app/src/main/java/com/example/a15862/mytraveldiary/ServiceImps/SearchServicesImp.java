@@ -1,18 +1,16 @@
-package com.example.a15862.mytraveldiary;
+package com.example.a15862.mytraveldiary.ServiceImps;
 
-import android.content.Context;
-import android.location.Location;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
+import com.example.a15862.mytraveldiary.LocationDrawer;
+import com.example.a15862.mytraveldiary.Services.SearchServices;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -23,7 +21,7 @@ public class SearchServicesImp extends Handler implements SearchServices {
     static private String key = "&key=AIzaSyC1qPnWqt7G0areqx3sDhdElU04b0HTr6A";
     LocationDrawer context;
 
-    SearchServicesImp(LocationDrawer main){
+    public SearchServicesImp(LocationDrawer main){
         context = main;
     }
     @Override

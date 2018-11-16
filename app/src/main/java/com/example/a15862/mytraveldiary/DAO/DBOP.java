@@ -1,4 +1,4 @@
-package com.example.a15862.mytraveldiary;
+package com.example.a15862.mytraveldiary.DAO;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,11 +19,12 @@ import java.util.Map;
 
 public class DBOP {
     private FirebaseFirestore db;
-    public DBOP(){
-        db= FirebaseFirestore.getInstance();
+
+    public DBOP() {
+        db = FirebaseFirestore.getInstance();
     }
 
-    private void insertData(Map<String,Object> insertTest){
+    private void insertData(Map<String, Object> insertTest) {
         db.collection("FirstTry").document("firstDoc")
                 .set(insertTest).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -33,60 +34,65 @@ public class DBOP {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.e("my","somehow not work");
+                Log.e("my", "somehow not work");
             }
         });
     }
-    private void readSingleContract(){
-        DocumentReference contact=db.collection("FirstTry").document("firstDoc");
+
+    private void readSingleContract() {
+        DocumentReference contact = db.collection("FirstTry").document("firstDoc");
 
         contact.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                StringBuilder data=new StringBuilder("");
-                DocumentSnapshot doc=task.getResult();
+                StringBuilder data = new StringBuilder("");
+                DocumentSnapshot doc = task.getResult();
                 data.append(doc.get("int"));
             }
         });
     }
-    private void readObject(){
-        DocumentReference contact=db.collection("FirstTry").document("firstDoc");
+
+    private void readObject() {
+        DocumentReference contact = db.collection("FirstTry").document("firstDoc");
         contact.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 //User user=documentSnapshot.toObject(User.class);
-                StringBuilder data=new StringBuilder("");
+                StringBuilder data = new StringBuilder("");
             }
         });
     }
-    private void updateData(){
-        DocumentReference contact=db.collection("FirstTry").document("firstDoc");
-        contact.update("string","new String").addOnSuccessListener(new OnSuccessListener<Void>() {
+
+    private void updateData() {
+        DocumentReference contact = db.collection("FirstTry").document("firstDoc");
+        contact.update("string", "new String").addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.i("my","update");
+                Log.i("my", "update");
             }
         });
     }
-    private void delete(){
+
+    private void delete() {
         db.collection("FirstTry").document("firstDoc").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.i("my","delete");
+                Log.i("my", "delete");
             }
         });
     }
-    private void realtime(){
-        DocumentReference contact=db.collection("FirstTry").document("firstDoc");
+
+    private void realtime() {
+        DocumentReference contact = db.collection("FirstTry").document("firstDoc");
         contact.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (e!=null){
-                    Log.e("my",e.getMessage());
+                if (e != null) {
+                    Log.e("my", e.getMessage());
                     return;
                 }
-                if (documentSnapshot!=null && documentSnapshot.exists()){
-                    Log.e("my","realtime");
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    Log.e("my", "realtime");
                 }
             }
         });
