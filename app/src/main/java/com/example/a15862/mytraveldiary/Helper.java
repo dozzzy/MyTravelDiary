@@ -1,4 +1,4 @@
-package com.example.ivc.mtd_p1;
+package com.example.a15862.mytraveldiary;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

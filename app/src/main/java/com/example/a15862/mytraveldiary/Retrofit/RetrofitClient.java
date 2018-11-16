@@ -1,4 +1,4 @@
-package com.example.ivc.mtd_p1.Retrofit;
+package com.example.a15862.mytraveldiary.Retrofit;
 
 import io.reactivex.plugins.RxJavaPlugins;
 import retrofit2.Retrofit;

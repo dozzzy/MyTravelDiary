@@ -1,6 +1,6 @@
-package com.example.ivc.mtd_p1.Retrofit;
+package com.example.a15862.mytraveldiary.Retrofit;
 
-import com.example.ivc.mtd_p1.Model.WeatherResult;
+import com.example.a15862.mytraveldiary.WeatherModel.WeatherResult;
 
 import io.reactivex.Observable;
 import retrofit2.Call;

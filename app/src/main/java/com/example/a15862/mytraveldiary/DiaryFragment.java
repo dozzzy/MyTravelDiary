@@ -1,4 +1,4 @@
-package com.example.ivc.mtd_p1;
+package com.example.a15862.mytraveldiary;
 
 
 import android.content.ActivityNotFoundException;
@@ -24,9 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.example.ivc.mtd_p1.Model.WeatherResult;
-import com.example.ivc.mtd_p1.Retrofit.IOpenWeatherMap;
-import com.example.ivc.mtd_p1.Retrofit.RetrofitClient;
+import com.example.a15862.mytraveldiary.WeatherModel.WeatherResult;
+import com.example.a15862.mytraveldiary.Retrofit.IOpenWeatherMap;
+import com.example.a15862.mytraveldiary.Retrofit.RetrofitClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
