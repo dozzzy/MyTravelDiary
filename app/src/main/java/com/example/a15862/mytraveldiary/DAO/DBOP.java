@@ -24,8 +24,8 @@ public class DBOP {
         db = FirebaseFirestore.getInstance();
     }
 
-    private void insertData(Map<String, Object> insertTest) {
-        db.collection("FirstTry").document("firstDoc")
+    public void insertData(Map<String, Object> insertTest) {
+        db.collection("FirstTry").document("2")
                 .set(insertTest).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -39,7 +39,7 @@ public class DBOP {
         });
     }
 
-    private void readSingleContract() {
+    public void readSingleContract() {
         DocumentReference contact = db.collection("FirstTry").document("firstDoc");
 
         contact.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -52,7 +52,7 @@ public class DBOP {
         });
     }
 
-    private void readObject() {
+    public void readObject() {
         DocumentReference contact = db.collection("FirstTry").document("firstDoc");
         contact.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -63,7 +63,7 @@ public class DBOP {
         });
     }
 
-    private void updateData() {
+    public void updateData() {
         DocumentReference contact = db.collection("FirstTry").document("firstDoc");
         contact.update("string", "new String").addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -73,7 +73,7 @@ public class DBOP {
         });
     }
 
-    private void delete() {
+    public void delete() {
         db.collection("FirstTry").document("firstDoc").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -82,7 +82,7 @@ public class DBOP {
         });
     }
 
-    private void realtime() {
+    public void realtime() {
         DocumentReference contact = db.collection("FirstTry").document("firstDoc");
         contact.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override

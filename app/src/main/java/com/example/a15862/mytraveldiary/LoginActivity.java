@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.a15862.mytraveldiary.DAO.DBOP;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.auth.api.Auth;
@@ -50,40 +51,49 @@ public class LoginActivity extends AppCompatActivity {
         // we use firebase authenticationUI.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        // code is provided by firebase doc
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(Arrays.asList(
-                                new AuthUI.IdpConfig.GoogleBuilder().build(),
-                                new AuthUI.IdpConfig.PhoneBuilder().build())
-                                // we allow Google and Phone for demo, we may add twitter and facebook in future.
-                        )
-                        .build(),
-                RC_SIGN_IN);
+        Map<String,Object> testData = new HashMap<>();
+        testData.put("test",System.currentTimeMillis());
+        DBOP db=new DBOP();
+        db.insertData(testData);
+        Intent i = new Intent(this, MapActivity.class);
+        Log.i("mylogin","begin jump");
+        startActivity(i);
+
+//
+//        FirebaseAuth auth = FirebaseAuth.getInstance();
+//        // code is provided by firebase doc
+//        startActivityForResult(
+//                AuthUI.getInstance()
+//                        .createSignInIntentBuilder()
+//                        .setAvailableProviders(Arrays.asList(
+//                                new AuthUI.IdpConfig.GoogleBuilder().build(),
+//                                new AuthUI.IdpConfig.PhoneBuilder().build())
+//                                // we allow Google and Phone for demo, we may add twitter and facebook in future.
+//                        )
+//                        .build(),
+//                RC_SIGN_IN);
     }
 
     // RC_SIGN_IN is kind of channel, which can let us know which activity is finished.
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
-            if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                Log.i("1st", "auth complete");
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Intent i = new Intent(this, MapActivity.class);
-                startActivity(i);
-                // ...
-            } else {
-                // Sign in failed.
-                Log.e("1st", "not work");
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == RC_SIGN_IN) {
+//            IdpResponse response = IdpResponse.fromResultIntent(data);
+//
+//            if (resultCode == RESULT_OK) {
+//                // Successfully signed in
+//                Log.i("1st", "auth complete");
+//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                Intent i = new Intent(this, MapActivity.class);
+//                startActivity(i);
+//                // ...
+//            } else {
+//                // Sign in failed.
+//                Log.e("1st", "not work");
+//            }
+//        }
+//    }
 }
 

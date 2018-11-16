@@ -69,7 +69,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     protected void onCreate(Bundle savedInstanceState) {
         searchServices = new SearchServicesImp(this);
         super.onCreate(savedInstanceState);
-
+        Log.i("myMap","oncreate");
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
