@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback,LocationDrawer {
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback, LocationDrawer {
 
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
@@ -141,12 +141,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onMapClick(LatLng point) {
                 mMap.clear();
-                Log.i("Jing","Map onclick");
+                Log.i("Jing", "Map onclick");
 
                 // Use YelpAPI with parameters.
                 try {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
-                    searchServices.searchLocation(point,50);
+                    searchServices.searchLocation(point, 50);
                 } catch (IOException e) {
                     Log.e("Exception: %s", e.getMessage());
                 } catch (Exception e) {
@@ -259,21 +259,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
     }
 
-    public void draw(JSONObject res){
-        try{
+    public void draw(JSONObject res) {
+        try {
             //The candidate is the value of the key "Results" in JSON
             //for each location in result , get the longitue and latitude and the place name,use marker to draw them
             JSONArray array = res.getJSONArray("results");
-            for(int i = 0;i<array.length() ;i++){
+            for (int i = 0; i < array.length(); i++) {
                 System.out.println(i);
                 JSONObject cur = array.getJSONObject(i);
                 JSONObject location = cur.getJSONObject("geometry").getJSONObject("location");
-                LatLng loc = new LatLng(location.getDouble("lat"),location.getDouble("lng"));
+                LatLng loc = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
                 Marker marker = mMap.addMarker(new MarkerOptions().position(loc).title(cur.getString("name")));
                 marker.showInfoWindow();
             }
-        }
-        catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

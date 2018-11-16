@@ -23,25 +23,27 @@ public class SearchServicesImp extends Handler implements SearchServices {
     static private String key = "&key=AIzaSyC1qPnWqt7G0areqx3sDhdElU04b0HTr6A";
     LocationDrawer context;
 
-    SearchServicesImp(LocationDrawer main){
+    SearchServicesImp(LocationDrawer main) {
         context = main;
     }
+
     @Override
     public void searchLocation(LatLng location, double radius) throws Exception {
         System.out.println(key);
         //generate the query URL based on the input parameter
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?language=en&";
-        url+="location="+location.latitude+","+location.longitude +"&radius="+radius;
-        url+=key;
+        url += "location=" + location.latitude + "," + location.longitude + "&radius=" + radius;
+        url += key;
         getJson(url);
     }
 
     public void getJson(final String strUrl) throws Exception {
         //create a sub-thread to handle the network IO task
-        new Thread(){
+        new Thread() {
             private HttpURLConnection connection;
-            public void run(){
-                try{
+
+            public void run() {
+                try {
                     URL url = new URL(strUrl);
                     connection = (HttpURLConnection) url.openConnection();
                     //Open the connection and set the timeout,set the method tobe "GET"
@@ -64,10 +66,9 @@ public class SearchServicesImp extends Handler implements SearchServices {
                     msg.obj = jsonObject;
                     //send message back to handler
                     sendMessage(msg);
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                }finally {
+                } finally {
                     if (connection != null) {
                         connection.disconnect();
                     }
@@ -82,7 +83,7 @@ public class SearchServicesImp extends Handler implements SearchServices {
         super.handleMessage(msg);
         try {
             //Call the method in mainActivity to draw the marker
-            context.draw((JSONObject)msg.obj);
+            context.draw((JSONObject) msg.obj);
 
         } catch (JSONException e) {
             e.printStackTrace();
