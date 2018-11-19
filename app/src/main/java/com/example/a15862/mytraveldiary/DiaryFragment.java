@@ -1,11 +1,16 @@
 package com.example.a15862.mytraveldiary;
 
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
@@ -27,9 +32,21 @@ import android.widget.VideoView;
 import com.example.a15862.mytraveldiary.WeatherModel.WeatherResult;
 import com.example.a15862.mytraveldiary.Retrofit.IOpenWeatherMap;
 import com.example.a15862.mytraveldiary.Retrofit.RetrofitClient;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -42,6 +59,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import static android.app.Activity.RESULT_OK;
+import static android.provider.Settings.System.DATE_FORMAT;
 
 
 /**
@@ -55,13 +73,12 @@ public class DiaryFragment extends Fragment {
     private CompositeDisposable compositeDisposable;
     private IOpenWeatherMap mService;
 
-    private Button btnClear;
-    private Button btnTakePicture;
-    private Button btnSpeech2Text;
-    private Button btnSave;
+    private Button btnClear, btnSave;
+    private ImageButton btnSpeech2Text, btnTakePicture;
 
     public static final int TAKE_PHOTO = 9999;
     public static final int SPEECH_TO_TEXT = 9998;
+    public static final int SAVE = 9997;
 
     public DiaryFragment() {
 //        compositeDisposable = new CompositeDisposable();
@@ -81,13 +98,13 @@ public class DiaryFragment extends Fragment {
         txtDate = (TextView) diaryView.findViewById(R.id.txtDate);
 
         imgWeather = (ImageView) diaryView.findViewById(R.id.imgWeather);
-        imgPhoto = (ImageView) diaryView.findViewById(R.id.imgPhoto);
+        //imgPhoto = (ImageView) diaryView.findViewById(R.id.imgPhoto);
 
         edtTitle = (EditText) diaryView.findViewById(R.id.edtTitle);
         edtDiary = (EditText) diaryView.findViewById(R.id.edtDiary);
 
-        btnSpeech2Text = (Button) diaryView.findViewById(R.id.btnSpeech2Text);
-        btnTakePicture = (Button) diaryView.findViewById(R.id.btnTakePicture);
+        btnSpeech2Text = (ImageButton) diaryView.findViewById(R.id.btnSpeech2Text);
+        btnTakePicture = (ImageButton) diaryView.findViewById(R.id.btnTakePicture);
         btnClear = (Button) diaryView.findViewById(R.id.btnClear);
         btnSave = (Button) diaryView.findViewById(R.id.btnSave);
 
@@ -207,6 +224,7 @@ public class DiaryFragment extends Fragment {
                         .append(".png").toString()).into(imgWeather);
 
                 // Set corresponding TextView to the information retrieved
+                //TODO: change City to the location retrieved from the map
                 txtCity.setText(response.body().getName());
                 txtWeather.setText(new StringBuilder("The current temperature is ")
                         .append(String.valueOf(response.body().getMain().getTemp())).append("°C").toString());
@@ -220,6 +238,125 @@ public class DiaryFragment extends Fragment {
             }
         });
 
+    }
+
+    //-----------------------BUTTON LISTENERS--------------------------//
+    public void createJourney(View view)
+    {
+        final String title = edtTitle.getText().toString();
+        final String diary = edtDiary.getText().toString();
+        final String date = txtDate.getText().toString();
+        final String city = txtCity.getText().toString();
+        final String weather = txtWeather.getText().toString();
+        //final weatherIcon =
+
+        if(title.equals("")) {
+            Toast.makeText(this.getContext(), "Please give a title", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        final ProgressDialog dialog = ProgressDialog.show(this.getContext(), "Saving in Progress...", "Creating Diary...", true);
+
+
+
+        new SaveImages(getApplicationContext(),time,photos).execute();
+
+        //save title and description in online db
+        final Map<String, String> map = new HashMap<>();
+        map.put(TITLE, t);
+        map.put(DESCRIPTION, d);
+        map.put("longitude", lon);
+        map.put("latitude", lat);
+        map.put("address", address);
+        mReference.child(time).setValue(map);
+
+
+        Bitmap p = null;
+
+        //select one image as journey pic
+        if (photos.size() != 0)
+        {
+            Bitmap p1 = photos.get(0);
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            p1.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            p = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+        }
+
+        JourneyMini j1 = new JourneyMini(t, date, address, p, d);
+        FragmentJourneysList.journeys.add(j1);
+        FragmentJourneysList.adapter.notifyDataSetChanged();
+
+        //ALSO PLACE MARKER ON MAP
+
+        Double lon1 = Double.parseDouble(lon);
+        Double lat1 = Double.parseDouble(lat);
+
+        //Place the corresponding marker too
+        j1.marker = FragmentMap.mMap.addMarker(new MarkerOptions()
+                .title(t)
+                .position(new LatLng(lat1, lon1))
+                .snippet(time + "\n" + d));
+        j1.marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+
+        Toast.makeText(this, R.string.journeyCreated, Toast.LENGTH_LONG).show();
+
+        onBackPressed();
+    }
+
+    public void Cancel(View view) { onBackPressed(); }
+
+    public void getCameraPicture(View view) {
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, CAMERA);
+    }
+
+    public void getGalleryPictures(View view) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,getString(R.string.selectPicture)), GALLERY);
+    }
+
+
+    //-----------ASYNC TASK TO SAVE IMAGES------------------//
+    class SaveImages extends AsyncTask<Void, Integer, Void>
+    {
+        private Context context;
+        private String time;
+        private ArrayList<Bitmap> photos;
+
+        public SaveImages(Context context, String time, ArrayList<Bitmap> photos)
+        {
+            this.context = context;
+            this.time = time;
+            this.photos = photos;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids)
+        {
+
+            //Save Images Locally
+            ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
+            File file = wrapper.getDir(time, Context.MODE_PRIVATE);
+
+            for(int i = 0; i < photos.size(); i++)
+            {
+                File file1 = new File(file, i + ".jpg");
+                try
+                {
+                    OutputStream stream = new FileOutputStream(file1);
+                    photos.get(i).compress(Bitmap.CompressFormat.JPEG,100,stream);
+                    stream.flush();
+                    stream.close();
+                } catch (Exception e) {}
+            }
+
+            return null;
+        }
     }
 
 }

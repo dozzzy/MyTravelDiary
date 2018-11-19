@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
     tools:context=".DiaryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
+        android:id="@+id/layoutHeaderWeather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -17,24 +16,24 @@
 
         <ImageView
             android:id="@+id/imgWeather"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtWeather"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Weather" />
 
             <TextView
                 android:id="@+id/txtDate"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Today" />
 
@@ -49,66 +48,86 @@
 
     <EditText
         android:id="@+id/edtTitle"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutHeaderWeather"
+        android:layout_alignParentStart="true"
         android:ems="10"
-        android:hint="My Diary Title"
-        android:inputType="textPersonName" />
+        android:hint="Title" />
 
-    <EditText
-        android:id="@+id/edtDiary"
+    <ImageButton
+        android:id="@+id/btnSpeech2Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/edtTitle"
+        android:layout_toEndOf="@+id/edtTitle"
+        android:src="@drawable/btn_voice_black" />
+
+    <ImageButton
+        android:id="@+id/btnTakePicture"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/edtTitle"
+        android:layout_toEndOf="@+id/btnSpeech2Text"
+        android:src="@drawable/btn_camera_black"
+        tools:src="@drawable/btn_camera_black" />
+
+
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:hint="My Diary"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/edtTitle"
+        android:layout_above="@id/buttonLayout">
+
+        <EditText
+            android:id="@+id/edtDiary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="My Diary"
+            android:inputType="textMultiLine" />
+
+    </ScrollView>
 
     <LinearLayout
+        android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="fill_horizontal"
-        android:orientation="horizontal">
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true">
 
-        <Button
-            android:id="@+id/btnSpeech2Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Speech to text" />
 
         <Button
             android:id="@+id/btnClear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Clear" />
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/cancel"
+            android:onClick="Cancel"
+            android:text="Cancel"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnTakePicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Take a Picture" />
-
-        <ImageView
-            android:id="@+id/imgPhoto"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:cropToPadding="true"
-            tools:src="@tools:sample/backgrounds/scenic[0]" />
+            android:background="@drawable/create"
+            android:onClick="createJourney"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

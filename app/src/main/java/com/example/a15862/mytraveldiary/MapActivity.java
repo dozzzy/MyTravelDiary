@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,6 +46,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+
+
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationDrawer {
 
@@ -78,6 +81,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
 
+    // Diary
+    private DiaryFragment diaryFragment;
+    private FragmentManager fm;
+    private Button btnCreateDiary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +140,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                 });
 
+        btnCreateDiary = (Button) findViewById(R.id.btnCreateDiary);
+        btnCreateDiary.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                diaryFragment = new DiaryFragment();
+                fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction ();
+                ft.add(R.id.drawer_layout, diaryFragment,"diary");
+                ft.addToBackStack ("myDiary");
+                ft.commit();
+            }
 
+        });
     }
 
 
@@ -142,6 +162,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (mMap != null) {
             outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
             outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
+            System.out.println(mLastKnownLocation.getLongitude());
+            Helper.last_location.set(mLastKnownLocation);
+            System.out.println(Helper.last_location.getLongitude());
             super.onSaveInstanceState(outState);
         }
     }
@@ -324,5 +347,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void createDiary(View view){
+        diaryFragment = (DiaryFragment) fm.findFragmentByTag("diary");
+        if (diaryFragment == null) {
+            diaryFragment = new DiaryFragment();
+        }
+        FragmentTransaction ft = fm.beginTransaction ();
+        ft.replace(R.id.drawer_layout, diaryFragment, "diary");
+        ft.addToBackStack ("diary");
+        ft.show(diaryFragment);
+        ft.commit();
     }
 }
