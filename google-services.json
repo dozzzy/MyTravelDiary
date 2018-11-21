@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "593909787271",
+    "firebase_url": "https://mytraveldiary-d8885.firebaseio.com",
+    "project_id": "mytraveldiary-d8885",
+    "storage_bucket": "mytraveldiary-d8885.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593909787271:android:1e17c4e6883328b2",
+        "android_client_info": {
+          "package_name": "com.example.a15862.mytraveldiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593909787271-rchd3n0cvada0h2jdb1lehnsjvhak41d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.a15862.mytraveldiary",
+            "certificate_hash": "4ed494aec622699f707a8ac05f7072766c24483a"
+          }
+        },
+        {
+          "client_id": "593909787271-2kpcgpsi3jnnoc1bqd8k0a858vork95i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCj5byiNCuG_Mo96x0WWldA0MVVoPKBgA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593909787271-2kpcgpsi3jnnoc1bqd8k0a858vork95i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
