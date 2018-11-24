@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,6 +61,7 @@ import retrofit2.Retrofit;
 
 import static android.app.Activity.RESULT_OK;
 import static android.provider.Settings.System.DATE_FORMAT;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 
 /**
@@ -68,7 +70,7 @@ import static android.provider.Settings.System.DATE_FORMAT;
 public class DiaryFragment extends Fragment {
 
     private ImageView imgWeather, imgPhoto;
-    private TextView txtDate, txtCity, txtWeather;
+    private TextView txtDate, txtCity, txtTemperature;
     private EditText edtTitle, edtDiary;
     private CompositeDisposable compositeDisposable;
     private IOpenWeatherMap mService;
@@ -94,7 +96,7 @@ public class DiaryFragment extends Fragment {
         View diaryView = inflater.inflate(R.layout.fragment_diary, container, false);
 
         txtCity = (TextView) diaryView.findViewById(R.id.txtCity);
-        txtWeather = (TextView) diaryView.findViewById(R.id.txtWeather);
+        txtTemperature = (TextView) diaryView.findViewById(R.id.txtTemperature);
         txtDate = (TextView) diaryView.findViewById(R.id.txtDate);
 
         imgWeather = (ImageView) diaryView.findViewById(R.id.imgWeather);
@@ -202,7 +204,6 @@ public class DiaryFragment extends Fragment {
 
                 break;
         }
-
     }
 
     private void getWeatherInfo() {
@@ -211,7 +212,8 @@ public class DiaryFragment extends Fragment {
         // that query for weather information in the format given in the interface of IOpenWeatherMap
         mService = retrofit.create(IOpenWeatherMap.class);
         //TODO: replace the hard coded location, after integration
-        Call<WeatherResult> model = mService.getWeatherByLatLng(42.33, -71.12, Helper.API_KEY_WEATHER, "metric");
+        Call<WeatherResult> model = mService.getWeatherByLatLng(
+                Helper.current_location.getLatitude(), Helper.current_location.getLongitude(), Helper.API_KEY_WEATHER, "metric");
         model.enqueue(new Callback<WeatherResult>() {
             // if success
             @Override
@@ -226,7 +228,7 @@ public class DiaryFragment extends Fragment {
                 // Set corresponding TextView to the information retrieved
                 //TODO: change City to the location retrieved from the map
                 txtCity.setText(response.body().getName());
-                txtWeather.setText(new StringBuilder("The current temperature is ")
+                txtTemperature.setText(new StringBuilder("The current temperature is ")
                         .append(String.valueOf(response.body().getMain().getTemp())).append("°C").toString());
                 txtDate.setText(Helper.convertUnixToDate(response.body().getDt()));
             }
@@ -240,15 +242,18 @@ public class DiaryFragment extends Fragment {
 
     }
 
+    //TODO: save locally, use a json file
     //-----------------------BUTTON LISTENERS--------------------------//
     public void createJourney(View view)
     {
+
         final String title = edtTitle.getText().toString();
         final String diary = edtDiary.getText().toString();
         final String date = txtDate.getText().toString();
-        final String city = txtCity.getText().toString();
-        final String weather = txtWeather.getText().toString();
-        //final weatherIcon =
+        final String location = txtCity.getText().toString();
+        final String weather = txtTemperature.getText().toString();
+        //TODO:
+        final Image weatherIcon = null;
 
         if(title.equals("")) {
             Toast.makeText(this.getContext(), "Please give a title", Toast.LENGTH_LONG).show();
@@ -259,15 +264,13 @@ public class DiaryFragment extends Fragment {
 
 
 
-        new SaveImages(getApplicationContext(),time,photos).execute();
+        new SaveImages(this.getContext(),time, photos).execute();
 
         //save title and description in online db
         final Map<String, String> map = new HashMap<>();
-        map.put(TITLE, t);
-        map.put(DESCRIPTION, d);
-        map.put("longitude", lon);
-        map.put("latitude", lat);
-        map.put("address", address);
+        map.put("title", title);
+        map.put("diary", diary);
+        map.put("place", location);
         mReference.child(time).setValue(map);
 
 

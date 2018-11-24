@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,7 +21,6 @@ public class Helper {
     public static final String API_KEY_WEATHER = "ab883506df2f0540d750749451be66a5";
     public static final String CLOUD_API_KEY = "AIzaSyCS8evwqgbJ7p7zp7bzEJNe9WVQn0Kg36Q";
     public static Location current_location = null;
-    public static Location last_location = null;
 
     public static boolean isNetworkAvailable(Context context)
     {
