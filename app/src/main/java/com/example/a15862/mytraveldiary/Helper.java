@@ -39,7 +39,7 @@ public class Helper {
     // get the system time and set the format
     public static String convertUnixToDate(int dt) {
         //Date date = new Date(dt*1000L);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd, EEE 'at' HH:mm:ss z");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd, EEE ' ' HH:mm:ss z");
         String date = sdf.format(Calendar.getInstance().getTime());
         return date;
     }

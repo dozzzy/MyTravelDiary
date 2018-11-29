@@ -13,6 +13,7 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -59,7 +60,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 import static android.provider.Settings.System.DATE_FORMAT;
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
@@ -78,9 +81,16 @@ public class DiaryFragment extends Fragment {
     private Button btnClear, btnSave;
     private ImageButton btnSpeech2Text, btnTakePicture;
 
+
     public static final int TAKE_PHOTO = 9999;
     public static final int SPEECH_TO_TEXT = 9998;
     public static final int SAVE = 9997;
+
+    private Uri photoUri; // for photos
+    private int photoCnt;
+    private String timeStamp;
+    private String cityLoc;
+    private String diaryName;
 
     public DiaryFragment() {
 //        compositeDisposable = new CompositeDisposable();
@@ -110,13 +120,29 @@ public class DiaryFragment extends Fragment {
         btnClear = (Button) diaryView.findViewById(R.id.btnClear);
         btnSave = (Button) diaryView.findViewById(R.id.btnSave);
 
+        timeStamp = new SimpleDateFormat("yyyy-MM-dd, EEE ' ' HH:mm:ss z").format(new Date());
+
+        //TODO: get the city name from the latLong
+        cityLoc = "abc";
+        diaryName = timeStamp + "_" + cityLoc;
+
+        txtDate.setText(timeStamp);
+        txtCity.setText(cityLoc);
+
         getWeatherInfo();
-        //Log.e("qwer", "got weather");
+        Log.e("qwer", "got weather");
 
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 edtDiary.setText("");
+            }
+        });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveDiary(diaryName);
             }
         });
 
@@ -171,6 +197,11 @@ public class DiaryFragment extends Fragment {
                 }
 
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                // TODO: integrate FireDB function
+                // the photo will be saved on the Fire database
+                // check internet access first
+                photoUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri); // set the image file name
                 startActivityForResult(cameraIntent, TAKE_PHOTO);
 
             }
@@ -184,9 +215,12 @@ public class DiaryFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (!(resultCode == RESULT_OK))
-        {
-            Toast.makeText(getContext(), "Start Activity for Result Failed.  Does your device support this feature?", Toast.LENGTH_LONG).show();
+        if (!(resultCode == RESULT_OK)) {
+            if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(getContext(), "Start Activity for Result Failed.  Your choice", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "Start Activity for Result Failed.  Does your device support this feature?", Toast.LENGTH_LONG).show();
+            }
             return;
         }
 
@@ -198,14 +232,13 @@ public class DiaryFragment extends Fragment {
             case TAKE_PHOTO:
                 Bundle bundleData = data.getExtras();           //images are stored in a bundle wrapped within the intent...
                 Bitmap Photo = (Bitmap)bundleData.get("data");  //the bundle key is "data".
-                imgPhoto.setImageBitmap(Photo);
-                // the photo will be saved on the Fire database
-                // TODO: integrate FireDB function
-
+                // imgPhoto.setImageBitmap(Photo);
+                Toast.makeText(getContext(), "Image saved to:\n" + data.getData(), Toast.LENGTH_LONG).show();
                 break;
         }
     }
 
+    /** get the weather information **/
     private void getWeatherInfo() {
         // establish the http request
         Retrofit retrofit = RetrofitClient.getInstance();
@@ -213,7 +246,7 @@ public class DiaryFragment extends Fragment {
         mService = retrofit.create(IOpenWeatherMap.class);
         //TODO: replace the hard coded location, after integration
         Call<WeatherResult> model = mService.getWeatherByLatLng(
-                Helper.current_location.getLatitude(), Helper.current_location.getLongitude(), Helper.API_KEY_WEATHER, "metric");
+                -33.8523341, 151.210608, Helper.API_KEY_WEATHER, "metric");
         model.enqueue(new Callback<WeatherResult>() {
             // if success
             @Override
@@ -227,10 +260,10 @@ public class DiaryFragment extends Fragment {
 
                 // Set corresponding TextView to the information retrieved
                 //TODO: change City to the location retrieved from the map
-                txtCity.setText(response.body().getName());
+                //txtCity.setText(response.body().getName());
                 txtTemperature.setText(new StringBuilder("The current temperature is ")
                         .append(String.valueOf(response.body().getMain().getTemp())).append("°C").toString());
-                txtDate.setText(Helper.convertUnixToDate(response.body().getDt()));
+                //txtDate.setText(Helper.convertUnixToDate(response.body().getDt()));
             }
             // if fail
             @Override
@@ -242,6 +275,70 @@ public class DiaryFragment extends Fragment {
 
     }
 
+
+    /** Create a file Uri for saving an image or video **/
+    private static Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(int type){
+        String path;
+
+        // check if the sd card is mounted
+        boolean sdCardMounted = Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED);
+        if (sdCardMounted) {
+
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), "MyTravelDiary");
+            // This location works best if you want the created images to be shared
+            // between applications and persist after your app has been uninstalled.
+
+            // Create the storage directory if it does not exist
+            if (! mediaStorageDir.exists()){
+                if (! mediaStorageDir.mkdirs()){
+                    Log.e("qwer", "failed to create directory");
+                    return null;
+                }
+            }
+
+            path = mediaStorageDir.getPath();
+
+        } else {
+            // no external sd card
+            Log.e("qwer", "Cannot save photo. No external storage detected");
+            // use the internal storage
+            //path = getFilesDir();
+            return null;
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        mediaFile = new File(path + File.separator + "IMG_"+ timeStamp + ".jpg");
+        return mediaFile;
+    }
+
+    private void saveDiary(String diary){
+
+    }
+
+
+    //判断缓存是否过期,比较文件最后修改时间
+    private boolean cacheIsOutDate(String cacheFileName) {
+        File file = new File(FileCacheUtil.getCachePath(getContext()) + "/"
+                + cacheFileName);
+        //获取缓存文件最后修改的时间，判断是是否从缓存读取
+        long date = file.lastModified();
+        long time_out = (System.currentTimeMillis() - date);
+        if (time_out > FileCacheUtil.CACHE_SHORT_TIMEOUT) {
+            return true;
+        }
+        return false;//未过期
+    }
+
+    /*
     //TODO: save locally, use a json file
     //-----------------------BUTTON LISTENERS--------------------------//
     public void createJourney(View view)
@@ -310,10 +407,6 @@ public class DiaryFragment extends Fragment {
 
     public void Cancel(View view) { onBackPressed(); }
 
-    public void getCameraPicture(View view) {
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, CAMERA);
-    }
 
     public void getGalleryPictures(View view) {
         Intent intent = new Intent();
@@ -361,5 +454,6 @@ public class DiaryFragment extends Fragment {
             return null;
         }
     }
+    */
 
 }

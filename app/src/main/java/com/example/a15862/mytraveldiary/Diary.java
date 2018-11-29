@@ -12,11 +12,11 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class Diary {
     private ImageView imgWeather, imgPhoto;
-    private String txtDate, txtCity, txtTemperature;
+    private String name, txtDate, txtCity, txtTemperature;
     private EditText edtTitle, edtDiary;
 
-    public Diary(String txtDate) {
-        this.txtDate = txtDate;
+    public Diary(String name) {
+        this.name = name;
     }
 
     public ImageView getImgWeather() {

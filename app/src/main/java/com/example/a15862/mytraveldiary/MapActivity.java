@@ -162,9 +162,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (mMap != null) {
             outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
             outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
-            System.out.println(mLastKnownLocation.getLongitude());
-            Helper.current_location.set(mLastKnownLocation);
-            System.out.println(Helper.current_location.getLongitude());
+            //System.out.println(mLastKnownLocation.getLongitude());
+            //Helper.current_location.set(mLastKnownLocation);
+            //System.out.println(Helper.current_location.getLongitude());
             super.onSaveInstanceState(outState);
         }
     }
@@ -234,7 +234,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = task.getResult();
-                            Helper.current_location.set(mLastKnownLocation); // send location to Helper
+                            //Helper.current_location.set(mLastKnownLocation); // send location to Helper
                             LatLng latLng = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
                             System.out.println("current loc: " + latLng);
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
