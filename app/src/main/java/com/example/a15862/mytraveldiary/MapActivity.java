@@ -149,8 +149,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         return true;
                     }
                 });
-
-
     }
 
 
@@ -195,6 +193,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onMapClick(final LatLng point) {
                 mMap.clear();
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
                 // Use YelpAPI with parameters.
                 try {
                     FirebaseFirestore db =  FirebaseFirestore.getInstance();
@@ -210,10 +209,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                     }
                                 }
                             }
+                            databaseInfoGet = true;
                         }
                     });
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
                     searchServices.searchLocation(point, radius);
+
                 } catch (IOException e) {
                     Log.e("Exception: %s", e.getMessage());
                 } catch (Exception e) {
@@ -341,23 +341,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-//    public void draw(JSONObject res) {
-//        try {
-//            //The candidate is the value of the key "Results" in JSON
-//            //for each location in result , get the longitue and latitude and the place name,use marker to draw them
-//            JSONArray array = res.getJSONArray("results");
-//            for (int i = 0; i < array.length(); i++) {
-//                System.out.println(i);
-//                JSONObject cur = array.getJSONObject(i);
-//                JSONObject location = cur.getJSONObject("geometry").getJSONObject("location");
-//                LatLng loc = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
-//                Marker marker = mMap.addMarker(new MarkerOptions().position(loc).title(cur.getString("name")));
-//                marker.showInfoWindow();
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void draw() {
+        while(databaseInfoGet!=true || googleInfoGet!=true);
+        for(Place p:nearbyPlaces){
+            Marker marker = mMap.addMarker(new MarkerOptions().position(p.getLocation()).title(p.getPlaceName()));
+            marker.showInfoWindow();
+        }
+    }
 
     @Override
     public void receive(JSONObject res) throws JSONException {
