@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.ServiceImps.SearchServicesImp;
 import com.example.a15862.mytraveldiary.Services.SearchServices;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -39,19 +40,33 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationDrawer {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver {
 
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
-
+    private final int radius = 50;
+    private static final double RAD = Math.PI / 180.0;
+    private static final double EARTH_RADIUS = 6378137;
+    private List<Place> nearbyPlaces;
+    Set<String> existed;
+    boolean googleInfoGet = false;
+    boolean databaseInfoGet = false;
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -82,6 +97,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        nearbyPlaces = new ArrayList<>();
         searchServices = new SearchServicesImp(this);
         super.onCreate(savedInstanceState);
         Log.i("myMap", "oncreate");
@@ -177,14 +193,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Create new marker when user pin on the map
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onMapClick(LatLng point) {
+            public void onMapClick(final LatLng point) {
                 mMap.clear();
-                Log.i("Jing", "Map onclick");
-
                 // Use YelpAPI with parameters.
                 try {
+                    FirebaseFirestore db =  FirebaseFirestore.getInstance();
+                    db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for(DocumentSnapshot ds:queryDocumentSnapshots){
+                                Place p = ds.toObject(Place.class);
+                                LatLng loc = p.getLocation();
+                                if(getDistance(loc.longitude,loc.latitude,point.longitude,point.latitude)<=radius){
+                                    if(existed.add(p.getPid())){
+                                        nearbyPlaces.add(p);
+                                    }
+                                }
+                            }
+                        }
+                    });
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
-                    searchServices.searchLocation(point, 50);
+                    searchServices.searchLocation(point, radius);
                 } catch (IOException e) {
                     Log.e("Exception: %s", e.getMessage());
                 } catch (Exception e) {
@@ -312,23 +341,52 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    public void draw(JSONObject res) {
+//    public void draw(JSONObject res) {
+//        try {
+//            //The candidate is the value of the key "Results" in JSON
+//            //for each location in result , get the longitue and latitude and the place name,use marker to draw them
+//            JSONArray array = res.getJSONArray("results");
+//            for (int i = 0; i < array.length(); i++) {
+//                System.out.println(i);
+//                JSONObject cur = array.getJSONObject(i);
+//                JSONObject location = cur.getJSONObject("geometry").getJSONObject("location");
+//                LatLng loc = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
+//                Marker marker = mMap.addMarker(new MarkerOptions().position(loc).title(cur.getString("name")));
+//                marker.showInfoWindow();
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    @Override
+    public void receive(JSONObject res) throws JSONException {
+        googleInfoGet = true;
         try {
             //The candidate is the value of the key "Results" in JSON
             //for each location in result , get the longitue and latitude and the place name,use marker to draw them
             JSONArray array = res.getJSONArray("results");
             for (int i = 0; i < array.length(); i++) {
-                System.out.println(i);
                 JSONObject cur = array.getJSONObject(i);
+                String pid = cur.getString("place_id");
+                if(!existed.add(pid)) continue;
+                String placeName = cur.getString("name");
                 JSONObject location = cur.getJSONObject("geometry").getJSONObject("location");
-                LatLng loc = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
-                Marker marker = mMap.addMarker(new MarkerOptions().position(loc).title(cur.getString("name")));
-                marker.showInfoWindow();
+                LatLng placeLoc = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
+                String vicinity = cur.getString("vicinity");
+                Place p = new Place(placeLoc,placeName,vicinity,pid);
+                if(cur.has("photos")){
+                    JSONObject photos = cur.getJSONArray("photos").getJSONObject(0);
+                    p.setPhotoPath(photos.getString("html_attributions"));
+                }
+                nearbyPlaces.add(p);
+                Log.i("JingNew",p.print());
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -340,5 +398,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public static double getDistance(double lng1, double lat1, double lng2, double lat2)
+    {
+        double radLat1 = lat1*RAD;
+        double radLat2 = lat2*RAD;
+        double a = radLat1 - radLat2;
+        double b = (lng1 - lng2)*RAD;
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
+                Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+        s = s * EARTH_RADIUS;
+        s = Math.round(s * 10000) / 10000;
+        return s;
     }
 }
