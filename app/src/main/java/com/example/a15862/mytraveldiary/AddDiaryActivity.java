@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.a15862.mytraveldiary.DAO.DiaryDAO;
 import com.example.a15862.mytraveldiary.Entity.Diary;
+import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Retrofit.IOpenWeatherMap;
 import com.example.a15862.mytraveldiary.Retrofit.RetrofitClient;
 import com.example.a15862.mytraveldiary.WeatherModel.WeatherResult;
@@ -57,7 +58,7 @@ public class AddDiaryActivity extends Activity {
     private Button btnClear, btnSave;
     private ImageButton btnSpeech2Text, btnTakePicture;
 
-    private Uri photoUri=null; // for photos
+    private Uri photoUri; // for photos
     private int photoCnt;
     private String timeStamp;
     private String cityLoc;
@@ -81,21 +82,11 @@ public class AddDiaryActivity extends Activity {
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // We first check if mic is available
-                if (!Helper.isCameraAvailable(getApplicationContext())) {
-                    Toast.makeText(getApplicationContext(), "Please make sure that your camera is available ", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                // TODO: integrate FireDB function
-                // the photo will be saved on the Fire database
-                // check internet access first
-                photoUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri); // set the image file name
-                startActivityForResult(cameraIntent, IMAGE_RESULT_CODE);
-
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(
+                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, IMAGE_RESULT_CODE);
             }
         });
 
@@ -124,30 +115,10 @@ public class AddDiaryActivity extends Activity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("jingD","click btn1");
-                Diary diary=new Diary("user1","place1");
-                Log.i("jingD","click btn2");
-                diary.setEdtDiary(edtDiary.getText().toString());
-                Log.i("jingD","click btn3");
-                diary.setImgWeather(imgWeatherUri);
-                Log.i("jingD","click btn4");
-                if (photoUri!=null){
-                    diary.setPhotoUri(photoUri.toString());
-                }else{
-                    diary.setPhotoUri(null);
-                }
-                Log.i("jingD","click btn5");
-                diary.setTxtCity(txtCity.getText().toString());
-                Log.i("jingD","click btn6");
-                diary.setTxtDate(txtDate.getText().toString());
-                Log.i("jingD","click btn7");
-                diary.setTxtTemperature(txtTemperature.getText().toString());
-                Log.i("jingD","click btn8");
-                DiaryDAO diaryDAO=new DiaryDAO();
-                Log.i("jingD","click btn9");
-                diaryDAO.uploadComment(diary);
+                //saveDiary(diaryName);
             }
         });
+
 
     }
 

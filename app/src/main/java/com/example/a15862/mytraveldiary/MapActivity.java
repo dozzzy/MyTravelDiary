@@ -53,8 +53,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver {
@@ -65,9 +67,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final double RAD = Math.PI / 180.0;
     private static final double EARTH_RADIUS = 6378137;
     private List<Place> nearbyPlaces;
-    Set<String> existed;
-    boolean googleInfoGet = false;
-    boolean databaseInfoGet = false;
+    private Set<String> existed;
+    private Map<String,Place> findPlaceByName;
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -101,6 +102,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         nearbyPlaces = new ArrayList<>();
         existed = new HashSet<>();
         searchServices = new SearchServicesImp(this);
+        findPlaceByName = new HashMap<>();
         super.onCreate(savedInstanceState);
         Log.i("myMap", "oncreate");
         // Retrieve location and camera position from saved instance state.
@@ -196,28 +198,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onMapClick(final LatLng point) {
                 mMap.clear();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
+                Log.i("Info",String.valueOf(point.latitude)+","+String.valueOf(point.longitude));
                 // Use YelpAPI with parameters.
                 try {
-//                    FirebaseFirestore db =  FirebaseFirestore.getInstance();
-//                    db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                            for(DocumentSnapshot ds:queryDocumentSnapshots){
-//                                Place p = ds.toObject(Place.class);
-//                                LatLng loc = p.getLocation();
-//                                if(getDistance(loc.longitude,loc.latitude,point.longitude,point.latitude)<=radius){
-//                                    if(existed.add(p.getPid())){
-//                                        nearbyPlaces.add(p);
-//                                    }
-//                                }
-//                            }
-//                            databaseInfoGet = true;
-//                        }
-//                    });
-                    searchServices.searchLocation(point, radius);
-
-                } catch (IOException e) {
-                    Log.e("Exception: %s", e.getMessage());
+                    FirebaseFirestore db =  FirebaseFirestore.getInstance();
+                    db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for(DocumentSnapshot ds:queryDocumentSnapshots){
+                                Place p = ds.toObject(Place.class);
+                                LatLng loc = new LatLng(p.getLatitude(),p.getLongitude());
+                                if(getDistance(loc.longitude,loc.latitude,point.longitude,point.latitude)<=radius){
+                                    if(existed.add(p.getPid())){
+                                        nearbyPlaces.add(p);
+                                        findPlaceByName.put(p.getPlaceName(),p);
+                                    }
+                                }
+                            }
+                            try {
+                                searchServices.searchLocation(point, radius);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                 } catch (Exception e) {
                     Log.e("Exception: %s", e.getMessage());
                 }
@@ -231,8 +235,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //                Intent intent = new Intent(MapActivity.this, ClickExistActivity.class);
 //                Intent intent = new Intent(MapActivity.this, ClickNotExistActivity.class);
                 Intent intent = new Intent(MapActivity.this, AddDiaryActivity.class);
-                intent.putExtra("CurrentLatitude", mLastKnownLocation.getLatitude());
-                intent.putExtra("CurrentLongitude", mLastKnownLocation.getLongitude());
+                Bundle b = new Bundle();
+                b.putSerializable("Place",findPlaceByName.get(marker.getTitle()));
+                intent.putExtras(b);
                 startActivity(intent);
 
                 return false;
@@ -344,7 +349,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void draw() {
-        while(databaseInfoGet!=true || googleInfoGet!=true);
         for(Place p:nearbyPlaces){
             Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(p.getLatitude(),p.getLongitude())).title(p.getPlaceName()));
             marker.showInfoWindow();
@@ -353,7 +357,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void receive(JSONObject res) throws JSONException {
-        googleInfoGet = true;
+
         try {
             //The candidate is the value of the key "Results" in JSON
             //for each location in result , get the longitue and latitude and the place name,use marker to draw them
@@ -372,8 +376,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     p.setPhotoPath(photos.getString("html_attributions"));
                 }
                 nearbyPlaces.add(p);
-                Log.i("JingNew",p.print());
+                findPlaceByName.put(p.getPlaceName(),p);
             }
+            draw();
         } catch (JSONException e) {
             e.printStackTrace();
         }
