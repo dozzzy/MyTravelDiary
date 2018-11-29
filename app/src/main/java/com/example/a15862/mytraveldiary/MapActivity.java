@@ -53,6 +53,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -98,6 +99,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         nearbyPlaces = new ArrayList<>();
+        existed = new HashSet<>();
         searchServices = new SearchServicesImp(this);
         super.onCreate(savedInstanceState);
         Log.i("myMap", "oncreate");
@@ -196,22 +198,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
                 // Use YelpAPI with parameters.
                 try {
-                    FirebaseFirestore db =  FirebaseFirestore.getInstance();
-                    db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for(DocumentSnapshot ds:queryDocumentSnapshots){
-                                Place p = ds.toObject(Place.class);
-                                LatLng loc = p.getLocation();
-                                if(getDistance(loc.longitude,loc.latitude,point.longitude,point.latitude)<=radius){
-                                    if(existed.add(p.getPid())){
-                                        nearbyPlaces.add(p);
-                                    }
-                                }
-                            }
-                            databaseInfoGet = true;
-                        }
-                    });
+//                    FirebaseFirestore db =  FirebaseFirestore.getInstance();
+//                    db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                            for(DocumentSnapshot ds:queryDocumentSnapshots){
+//                                Place p = ds.toObject(Place.class);
+//                                LatLng loc = p.getLocation();
+//                                if(getDistance(loc.longitude,loc.latitude,point.longitude,point.latitude)<=radius){
+//                                    if(existed.add(p.getPid())){
+//                                        nearbyPlaces.add(p);
+//                                    }
+//                                }
+//                            }
+//                            databaseInfoGet = true;
+//                        }
+//                    });
                     searchServices.searchLocation(point, radius);
 
                 } catch (IOException e) {
@@ -344,7 +346,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void draw() {
         while(databaseInfoGet!=true || googleInfoGet!=true);
         for(Place p:nearbyPlaces){
-            Marker marker = mMap.addMarker(new MarkerOptions().position(p.getLocation()).title(p.getPlaceName()));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(p.getLatitude(),p.getLongitude())).title(p.getPlaceName()));
             marker.showInfoWindow();
         }
     }

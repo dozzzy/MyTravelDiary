@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Place {
-    LatLng location;
-
+    double latitude;
+    double longitude;
     public String getPid() {
         return pid;
     }
@@ -20,12 +20,13 @@ public class Place {
 
     String pid;
 
-    public LatLng getLocation() {
-        return location;
+    public double getLatitude() {
+        return latitude;
     }
 
     public void setLocation(LatLng location) {
-        this.location = location;
+        this.latitude = location.latitude;
+        this.longitude = location.longitude;
     }
 
     public String getPlaceName() {
@@ -34,6 +35,18 @@ public class Place {
 
     public void setPlaceName(String placeName) {
         this.placeName = placeName;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public double getRate() {
@@ -74,7 +87,8 @@ public class Place {
     String vicinity;
     String photoPath;
     public Place(LatLng location,String name,String address,String pid){
-        this.location = location;
+        this.longitude = location.longitude;
+        this.latitude = location.latitude;
         placeName = name;
         vicinity = address;
         comments = new ArrayList<>();
@@ -83,6 +97,6 @@ public class Place {
 
 
     public String print(){
-        return ("Name:" +placeName +"Location:"+location +"vicinity:"+vicinity+"photoPath:"+photoPath );
+        return ("Name:" +placeName +"Location:"+latitude+","+longitude +"vicinity:"+vicinity+"photoPath:"+photoPath );
     }
 }
