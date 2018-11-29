@@ -198,22 +198,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
                 // Use YelpAPI with parameters.
                 try {
-//                    FirebaseFirestore db =  FirebaseFirestore.getInstance();
-//                    db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                            for(DocumentSnapshot ds:queryDocumentSnapshots){
-//                                Place p = ds.toObject(Place.class);
-//                                LatLng loc = p.getLocation();
-//                                if(getDistance(loc.longitude,loc.latitude,point.longitude,point.latitude)<=radius){
-//                                    if(existed.add(p.getPid())){
-//                                        nearbyPlaces.add(p);
-//                                    }
-//                                }
-//                            }
-//                            databaseInfoGet = true;
-//                        }
-//                    });
+                    FirebaseFirestore db =  FirebaseFirestore.getInstance();
+                    db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for(DocumentSnapshot ds:queryDocumentSnapshots){
+                                Place p = ds.toObject(Place.class);
+                                LatLng loc = new LatLng(p.getLatitude(),p.getLongitude());
+                                if(getDistance(loc.longitude,loc.latitude,point.longitude,point.latitude)<=radius){
+                                    if(existed.add(p.getPid())){
+                                        nearbyPlaces.add(p);
+                                        Log.i("JingFind",p.print());
+                                    }
+                                }
+                            }
+                            databaseInfoGet = true;
+                        }
+                    });
                     searchServices.searchLocation(point, radius);
 
                 } catch (IOException e) {

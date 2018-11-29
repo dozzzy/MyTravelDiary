@@ -95,6 +95,9 @@ public class Place {
         this.pid = pid;
     }
 
+    public Place(){
+    };
+
 
     public String print(){
         return ("Name:" +placeName +"Location:"+latitude+","+longitude +"vicinity:"+vicinity+"photoPath:"+photoPath );
