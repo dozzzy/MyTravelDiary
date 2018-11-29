@@ -3,8 +3,8 @@ package com.example.a15862.mytraveldiary.ServiceImps;
 import android.os.Handler;
 import android.os.Message;
 
-import com.example.a15862.mytraveldiary.LocationDrawer;
 import com.example.a15862.mytraveldiary.Services.SearchServices;
+import com.example.a15862.mytraveldiary.placeInfoReceiver;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
@@ -19,9 +19,9 @@ import java.net.URL;
 
 public class SearchServicesImp extends Handler implements SearchServices {
     static private String key = "&key=AIzaSyC1qPnWqt7G0areqx3sDhdElU04b0HTr6A";
-    LocationDrawer context;
+    placeInfoReceiver context;
 
-    public SearchServicesImp(LocationDrawer main){
+    public SearchServicesImp(placeInfoReceiver main){
         context = main;
     }
     @Override
@@ -80,7 +80,7 @@ public class SearchServicesImp extends Handler implements SearchServices {
         super.handleMessage(msg);
         try {
             //Call the method in mainActivity to draw the marker
-            context.draw((JSONObject)msg.obj);
+            context.receive((JSONObject)msg.obj);
 
         } catch (JSONException e) {
             e.printStackTrace();

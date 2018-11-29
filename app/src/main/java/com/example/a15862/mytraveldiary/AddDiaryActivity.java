@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a15862.mytraveldiary.DAO.DiaryDAO;
+import com.example.a15862.mytraveldiary.Entity.Diary;
+import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Retrofit.IOpenWeatherMap;
 import com.example.a15862.mytraveldiary.Retrofit.RetrofitClient;
 import com.example.a15862.mytraveldiary.WeatherModel.WeatherResult;
@@ -33,6 +37,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
+
 public class AddDiaryActivity extends Activity {
 
     private Button btnCamera, btnGallery;
@@ -41,7 +47,12 @@ public class AddDiaryActivity extends Activity {
     public static final int SAVE = 9997;
 
     private ImageView imgWeather, imgPhoto;
-    private TextView txtDate, txtCity, txtTemperature, edtDiary;
+
+    private String imgWeatherUri;
+
+    private TextView txtDate, txtCity, txtTemperature;
+    private TextView edtDiary;
+
     private CompositeDisposable compositeDisposable;
     private IOpenWeatherMap mService;
     private Button btnClear, btnSave;
@@ -131,6 +142,7 @@ public class AddDiaryActivity extends Activity {
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
                     imgPhoto.setImageURI(uri);
+
                 }
                 break;
         }
@@ -162,6 +174,9 @@ public class AddDiaryActivity extends Activity {
                 Picasso.get().load(new StringBuilder("https://openweathermap.org/img/w/")
                         .append(response.body().getWeather().get(0).getIcon())
                         .append(".png").toString()).into(imgWeather);
+                imgWeatherUri=new StringBuilder("https://openweathermap.org/img/w/")
+                        .append(response.body().getWeather().get(0).getIcon())
+                        .append(".png").toString();
 
                 // Set corresponding TextView to the information retrieved
                 //TODO: change City to the location retrieved from the map

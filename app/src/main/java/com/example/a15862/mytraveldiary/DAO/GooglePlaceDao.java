@@ -3,8 +3,6 @@ package com.example.a15862.mytraveldiary.DAO;
 import android.os.Handler;
 import android.os.Message;
 
-import com.example.a15862.mytraveldiary.LocationDrawer;
-import com.example.a15862.mytraveldiary.ServiceImps.GooglePlaceServiceImp;
 import com.example.a15862.mytraveldiary.Services.GooglePlaceService;
 import com.example.a15862.mytraveldiary.Services.SearchServices;
 import com.google.android.gms.maps.model.LatLng;
