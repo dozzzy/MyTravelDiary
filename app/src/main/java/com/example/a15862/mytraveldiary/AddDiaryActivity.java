@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Retrofit.IOpenWeatherMap;
 import com.example.a15862.mytraveldiary.Retrofit.RetrofitClient;
 import com.example.a15862.mytraveldiary.WeatherModel.WeatherResult;
@@ -152,8 +153,9 @@ public class AddDiaryActivity extends Activity {
         mService = retrofit.create(IOpenWeatherMap.class);
 
         Bundle info = getIntent().getExtras();
-        double lat = info.getDouble("CurrentLatitude");
-        double lon = info.getDouble("CurrentLongitude");
+        Place p = (Place) info.getSerializable("Place");
+        double lat = p.getLatitude();
+        double lon = p.getLongitude();
 
         Call<WeatherResult> model = mService.getWeatherByLatLng(
                 lat, lon, Helper.API_KEY_WEATHER, "metric");

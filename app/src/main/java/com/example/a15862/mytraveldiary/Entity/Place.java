@@ -4,10 +4,14 @@ import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Place {
+public class Place implements Serializable{
+
+    private static final long serialVersionUID = -7620435178023928252L;
+
     double latitude;
     double longitude;
     public String getPid() {
