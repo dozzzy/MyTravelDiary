@@ -84,7 +84,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         searchServices = new SearchServicesImp(this);
         super.onCreate(savedInstanceState);
-        Log.i("myMap","oncreate");
+        Log.i("myMap", "oncreate");
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -197,8 +197,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-//                Intent intent = new Intent(MapActivity.this, AddPlaceActivity.class);
+//                Intent intent = new Intent(MapActivity.this, ClickExistActivity.class);
+//                Intent intent = new Intent(MapActivity.this, ClickNotExistActivity.class);
                 Intent intent = new Intent(MapActivity.this, AddDiaryActivity.class);
+                intent.putExtra("CurrentLatitude", mLastKnownLocation.getLatitude());
+                intent.putExtra("CurrentLongitude", mLastKnownLocation.getLongitude());
                 startActivity(intent);
 
                 return false;

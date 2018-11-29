@@ -3,6 +3,12 @@
     package="com.example.a15862.mytraveldiary">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--<uses-permission android:name="android.permission.CAMERA" />-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -27,12 +33,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".MapActivity" />
-        <activity
-            android:name=".AddDiaryActivity"
-            android:theme="@android:style/Theme.Holo.Dialog" />
-        <activity
-            android:name=".AddPlaceActivity"
-            android:theme="@android:style/Theme.Holo.Dialog"></activity>
+        <activity android:name=".AddDiaryActivity" />
+        <activity android:name=".ClickNotExistActivity" />
+        <activity android:name=".ClickExistActivity" />
     </application>
 
 </manifest>
