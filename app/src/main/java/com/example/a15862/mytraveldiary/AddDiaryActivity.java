@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a15862.mytraveldiary.DAO.DiaryDAO;
+import com.example.a15862.mytraveldiary.Entity.Diary;
 import com.example.a15862.mytraveldiary.Retrofit.IOpenWeatherMap;
 import com.example.a15862.mytraveldiary.Retrofit.RetrofitClient;
 import com.example.a15862.mytraveldiary.WeatherModel.WeatherResult;
@@ -33,6 +36,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
+
 public class AddDiaryActivity extends Activity {
 
     private Button btnCamera, btnGallery;
@@ -42,6 +47,8 @@ public class AddDiaryActivity extends Activity {
     public static final int SAVE = 9997;
 
     private ImageView imgWeather, imgPhoto;
+    private String imgWeatherUri;
+
     private TextView txtDate, txtCity, txtTemperature;
     private TextView edtDiary;
     private CompositeDisposable compositeDisposable;
@@ -50,7 +57,7 @@ public class AddDiaryActivity extends Activity {
     private Button btnClear, btnSave;
     private ImageButton btnSpeech2Text, btnTakePicture;
 
-    private Uri photoUri; // for photos
+    private Uri photoUri=null; // for photos
     private int photoCnt;
     private String timeStamp;
     private String cityLoc;
@@ -74,11 +81,21 @@ public class AddDiaryActivity extends Activity {
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(
-                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, IMAGE_RESULT_CODE);
+            public void onClick(View v) {
+                // We first check if mic is available
+                if (!Helper.isCameraAvailable(getApplicationContext())) {
+                    Toast.makeText(getApplicationContext(), "Please make sure that your camera is available ", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                // TODO: integrate FireDB function
+                // the photo will be saved on the Fire database
+                // check internet access first
+                photoUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri); // set the image file name
+                startActivityForResult(cameraIntent, IMAGE_RESULT_CODE);
+
             }
         });
 
@@ -107,10 +124,30 @@ public class AddDiaryActivity extends Activity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //saveDiary(diaryName);
+                Log.i("jingD","click btn1");
+                Diary diary=new Diary("user1","place1");
+                Log.i("jingD","click btn2");
+                diary.setEdtDiary(edtDiary.getText().toString());
+                Log.i("jingD","click btn3");
+                diary.setImgWeather(imgWeatherUri);
+                Log.i("jingD","click btn4");
+                if (photoUri!=null){
+                    diary.setPhotoUri(photoUri.toString());
+                }else{
+                    diary.setPhotoUri(null);
+                }
+                Log.i("jingD","click btn5");
+                diary.setTxtCity(txtCity.getText().toString());
+                Log.i("jingD","click btn6");
+                diary.setTxtDate(txtDate.getText().toString());
+                Log.i("jingD","click btn7");
+                diary.setTxtTemperature(txtTemperature.getText().toString());
+                Log.i("jingD","click btn8");
+                DiaryDAO diaryDAO=new DiaryDAO();
+                Log.i("jingD","click btn9");
+                diaryDAO.uploadComment(diary);
             }
         });
-
 
     }
 
@@ -136,6 +173,7 @@ public class AddDiaryActivity extends Activity {
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
                     imgPhoto.setImageURI(uri);
+
                 }
                 break;
         }
@@ -167,6 +205,9 @@ public class AddDiaryActivity extends Activity {
                 Picasso.get().load(new StringBuilder("https://openweathermap.org/img/w/")
                         .append(response.body().getWeather().get(0).getIcon())
                         .append(".png").toString()).into(imgWeather);
+                imgWeatherUri=new StringBuilder("https://openweathermap.org/img/w/")
+                        .append(response.body().getWeather().get(0).getIcon())
+                        .append(".png").toString();
 
                 // Set corresponding TextView to the information retrieved
                 //TODO: change City to the location retrieved from the map

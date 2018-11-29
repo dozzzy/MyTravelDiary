@@ -98,5 +98,20 @@ public class DBOP {
         });
     }
 
+//        private void findUserInDB(User u){
+//        db.collection("FirstTry").whereEqualTo("username",u.getUsername()).whereEqualTo("password",u.getPassword())
+//            .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//            @Override
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                if (queryDocumentSnapshots.isEmpty()){
+//                    Toast.makeText(MainActivity.this,"error with username or password",Toast.LENGTH_SHORT).show();
+//                }else {
+//                    for(DocumentSnapshot d:queryDocumentSnapshots){
+//                        user=d.toObject(User.class);
+//                    }
+//                }
+//            }
+//        });
+//    }
 
 }
