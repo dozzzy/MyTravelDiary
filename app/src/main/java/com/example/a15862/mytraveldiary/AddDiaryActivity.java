@@ -38,17 +38,13 @@ public class AddDiaryActivity extends Activity {
     private Button btnCamera, btnGallery;
     private final int IMAGE_RESULT_CODE = 2;// 表示打开照相机
     private final int PICK = 1;// 选择图片库
-    public static final int SPEECH_TO_TEXT = 9998;
     public static final int SAVE = 9997;
 
     private ImageView imgWeather, imgPhoto;
-    private TextView txtDate, txtCity, txtTemperature;
-    private TextView edtDiary;
+    private TextView txtDate, txtCity, txtTemperature, edtDiary;
     private CompositeDisposable compositeDisposable;
     private IOpenWeatherMap mService;
-
     private Button btnClear, btnSave;
-    private ImageButton btnSpeech2Text, btnTakePicture;
 
     private Uri photoUri; // for photos
     private int photoCnt;
@@ -83,7 +79,6 @@ public class AddDiaryActivity extends Activity {
         });
 
         btnGallery.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub

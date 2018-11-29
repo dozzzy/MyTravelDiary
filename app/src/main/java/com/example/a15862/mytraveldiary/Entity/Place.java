@@ -13,7 +13,8 @@ public class Place {
     double rate;
     List<String> comments;
     String formatAddress;
-    public Place(LatLng location,String name,double rate,String address){
+
+    public Place(LatLng location, String name, double rate, String address) {
         this.location = location;
         placeName = name;
         this.rate = rate;
