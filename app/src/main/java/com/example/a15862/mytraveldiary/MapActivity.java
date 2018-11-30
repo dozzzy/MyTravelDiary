@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -15,13 +16,18 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.a15862.mytraveldiary.ServiceImps.SearchServicesImp;
 import com.example.a15862.mytraveldiary.Services.SearchServices;
@@ -76,8 +82,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String KEY_LOCATION = "location";
 
     // The sliding menu
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mToggle;
+    ListView menuDrawer ; //侧滑菜单视图
+    DrawerAdapter menuDrawerAdapter ; // 侧滑菜单ListView的Adapter
+    DrawerLayout mDrawerLayout;// DrawerLayout组件
+    //当前的内容视图下（即侧滑菜单关闭状态下），ActionBar上的标题,
+    String currentContentTitle ;
+    ActionBarDrawerToggle mToggle; //侧滑菜单状态监听器
 
 
     @Override
@@ -108,32 +118,49 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         /* sliding menu
-         * The listed items in the menu are temporary and the clicking function is not implemented
+         *
          */
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        ImageView mAvatar = findViewById(R.id.imgProfile);
+        //为侧滑菜单设置Adapter，并为ListView添加单击事件监听器
+        menuDrawer = findViewById(R.id.nav_view) ;
+        menuDrawerAdapter = new DrawerAdapter(this) ;
+        menuDrawer.setAdapter(menuDrawerAdapter);
+        menuDrawer.setOnItemClickListener(new DrawerItemClickListener());
 
-        NavigationView navView = findViewById(R.id.nav_view);
+        //为DrawerLayout注册状态监听器
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        //TODO: need to allow user change avater
+        ImageView mAvatar = findViewById(R.id.imgProfile);
+//        mDrawerToggle = new DrawerMenuToggle(
+//                this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) ;
+//        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        //NavigationView navView = findViewById(R.id.nav_view);
+        ListView navView = findViewById(R.id.nav_view);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
+        //设置ActionBar的指示图标bu可见，设置ActionBar上的应用图标位置处可以被单击
+        //getActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        navView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
-                        // do something corresponding to the item selected
-                        // functions will be implemented after intergrating other parts
-                        onOptionsItemSelected(menuItem);
+        //getActionBar().setHomeButtonEnabled(true);
+        //getActionBar().setTitle(currentContentTitle);
+//        //隐藏ActionBar上的应用图标，只显示文字label
 
-                        return true;
-                    }
-                });
-
+//        navView.setNavigationItemSelectedListener(
+//                new NavigationView.OnNavigationItemSelectedListener() {
+//                    @Override
+//                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+//                        // set item as selected to persist highlight
+//                        menuItem.setChecked(true);
+//                        // close drawer when item is tapped
+//                        mDrawerLayout.closeDrawers();
+//                        // do something corresponding to the item selected
+//                        // functions will be implemented after intergrating other parts
+//                        onOptionsItemSelected(menuItem);
+//
+//                        return true;
+//                    }
+//                });
 
     }
 
@@ -331,14 +358,113 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.goText:
-                //showDiaryFragment();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.sliding_menu, menu);
+        return true;
     }
-}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+        // Handle item selection
+//        int id = item.getItemId();
+//        Log.e("qwer","menu at " + id);
+//        switch (item.getItemId()) {
+//            case R.id.history:
+//                Intent i = new Intent(this,viewHistory.class);
+//                this.startActivity(i);
+//                return true;
+//            case R.id.setting:
+//
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+    }
+
+        /**侧滑菜单单击事件监听器*/
+        private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+
+                selectItem(position);
+
+            }
+
+            public void selectItem(int position){
+
+                //为内容视图加载新的Fragment
+                Bundle bd = new Bundle() ;
+                bd.putString(MenuFragment.SELECTED_ITEM,menuDrawerAdapter.getItem(position).menuTitle);
+
+                Fragment MenuFragment = new MenuFragment( ) ;
+                MenuFragment.setArguments(bd);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.map, MenuFragment).commit();
+
+                //将选中的菜单项置为高亮
+                menuDrawer.setItemChecked(position, true);
+                //将ActionBar中标题更改为选中的标题项
+                setTitle(menuDrawerAdapter.getItem(position).menuTitle);
+                //将当前的侧滑菜单关闭，调用DrawerLayout的closeDrawer（）方法即可
+                mDrawerLayout.closeDrawer(menuDrawer);
+            }
+
+            public void setTitle( String title ){
+                currentContentTitle = title ; // 更改当前的CurrentContentTitle标题内容
+                getActionBar().setTitle(title);
+
+            }
+        }
+
+
+
+        /**为了能够让ActionBarDrawerToggle监听器
+         * 能够在Activity的整个生命周期中都能够以正确的逻辑工作
+         * 需要添加下面两个方法*/
+        @Override
+        protected void onPostCreate(Bundle savedInstanceState) {
+            super.onPostCreate(savedInstanceState);
+            // Sync the toggle state after onRestoreInstanceState has occurred.
+            mToggle.syncState();
+        }
+
+
+        /**每次调用 invalidateOptionsMenu() ，下面的这个方法就会被回调*/
+        @Override
+        public boolean onPrepareOptionsMenu(Menu menu) {
+
+            // 如果侧滑菜单的状态监听器在侧滑菜单打开和关闭时都调用了invalidateOptionsMenu()方法，
+            //当侧滑菜单打开时将ActionBar上的某些菜单图标隐藏起来，使得这时仅显示“推酷”这个全局标题
+            //本应用中是将ActiongBar上的action菜单项隐藏起来
+            //TODO: 判断用户是否已经登陆
+            boolean userLoggedIn = false;
+            menu.findItem(R.id.login).setVisible(!userLoggedIn);
+            menu.findItem(R.id.logout).setVisible(userLoggedIn);
+            //boolean drawerOpen = mDrawerLayout.isDrawerOpen(menuDrawer);//判定当前侧滑菜单的状态
+            //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+            return super.onPrepareOptionsMenu(menu);
+        }
+
+        /**《当用户按下了"手机上的返回功能按键"的时候会回调这个方法》*/
+        @Override
+        public void onBackPressed() {
+            boolean drawerState =  mDrawerLayout.isDrawerOpen(menuDrawer);
+            if (drawerState) {
+                mDrawerLayout.closeDrawers();
+                return;
+            }
+            //也就是说，当按下返回功能键的时候，不是直接对Activity进行弹栈，而是先将菜单视图关闭
+            super.onBackPressed();
+        }
+
+
+    }

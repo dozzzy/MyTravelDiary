@@ -11,7 +11,7 @@
     tools:context=".MapActivity" >
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
-    <android.support.design.widget.NavigationView
+    <!--<android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -22,14 +22,16 @@
         app:menu="@menu/sliding_menu"
         app:headerLayout="@layout/header"
         />
-
-    <!--&lt;!&ndash; Layout to contain contents of main body of screen (drawer will slide over this) &ndash;&gt;-->
-    <!--<FrameLayout-->
-        <!--android:id="@+id/fragContainer"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical">-->
-    <!--</FrameLayout>-->
+        -->
+    <ListView android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="#33333333"
+        android:dividerHeight="0dp"
+        android:background="#ffeeeeee"
+        android:scrollbars="none"/>
 
     <fragment
         android:id="@+id/map"
