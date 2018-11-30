@@ -14,11 +14,15 @@ public class Diary {
     private String imgWeather=null;
     private String txtDate=null, txtCity=null, txtTemperature=null;
     private String edtDiary=null;
+    private long time;
 
-    public Diary(){}
+    public Diary(){
+        time=System.currentTimeMillis();
+    }
     public Diary(String userID,String placeID){
         this.userID=userID;
         this.placeID=placeID;
+        time=System.currentTimeMillis();
     }
 
     public String getUserID() {

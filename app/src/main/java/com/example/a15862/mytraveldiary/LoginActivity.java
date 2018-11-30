@@ -92,8 +92,9 @@ public class LoginActivity extends AppCompatActivity {
                 db.collection("users").document(authUser.getUid()).set(authUser);
                 Log.i("1st","insert finish");
                 Intent i = new Intent(this, MapActivity.class);
-                    //i.putExtra("user",user);
+                //i.putExtra("user",user);
                 startActivity(i);
+
             } else {
                 // Sign in failed.
                 Log.e("1st", "not work");
