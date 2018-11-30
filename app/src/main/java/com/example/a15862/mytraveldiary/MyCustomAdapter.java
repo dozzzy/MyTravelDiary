@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHolder> {
+public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHolder> implements View.OnClickListener{
 
     private List<Diary> upload;
     private Context context;
@@ -37,6 +37,7 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.e("3rd","onCreateViewHolder");
         View view = mInflater.inflate(R.layout.list_item, parent, false);
+        view.setOnClickListener(this);
         return new ViewHolder(view);
     }
 
@@ -46,6 +47,7 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHo
         Diary currentUp=upload.get(position);
         holder.txtLocation.setText(currentUp.getTxtCity());
         holder.edtDiary.setText(currentUp.getEdtDiary());
+        holder.itemView.setTag(position);
         // Picasso helps us load photo by using url.
         Picasso.get().load(currentUp.getPhotoUri()).fit().centerCrop().into(holder.photoUri);
     }
@@ -61,6 +63,7 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHo
         private ImageView photoUri;
         private CardView cardView;
 
+
         public ViewHolder(View itemView) {
             super(itemView);
             Log.e("3rd","viewholder constructor");
@@ -68,6 +71,27 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHo
             txtLocation=(TextView)itemView.findViewById(R.id.txtLocation);
             edtDiary=(TextView)itemView.findViewById(R.id.edtDiary);
             photoUri=(ImageView)itemView.findViewById(R.id.imageView);
+        }
+    }
+
+
+    private OnItemClickListener myOnItemClickListener = null;
+
+    //define interface
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        Log.e("haohui","lsi");
+        this.myOnItemClickListener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (myOnItemClickListener != null) {
+            Log.e("haohui","lsi");
+            myOnItemClickListener.onItemClick(v, (int) v.getTag());
         }
     }
 
