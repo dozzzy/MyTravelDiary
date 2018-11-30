@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/dashboard" android:title="dashBoard"/>
-    <item android:id="@+id/goVoice" android:title="history"/>
-    <item android:id="@+id/goText" android:title="text"/>
-    <item android:id="@+id/setting" android:title="setting"/>
-    <item android:id="@+id/myPlaces" android:title="places"/>
-    <item android:id="@+id/profile" android:title="profile"/>
-    <item android:id="@+id/logout" android:title="logout"/>
+    <item
+        android:id="@+id/friends"
+        android:title="Friends" />
+    <item
+        android:id="@+id/history"
+        android:title="History" />
+    <item
+        android:id="@+id/setting"
+        android:title="Setting" />
+    <item
+        android:id="@+id/login"
+        android:title="Login" />
+    <item
+        android:id="@+id/logout"
+        android:title="Logout" />
 </menu>
