@@ -5,8 +5,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class PlaceDAO {
     private FirebaseFirestore db;
-    PlaceDAO(Place place){
+    public PlaceDAO(){
         db = FirebaseFirestore.getInstance();
 
+    }
+
+    public void addPlace(Place p){
+        db.collection("Place").add(p);
     }
 }

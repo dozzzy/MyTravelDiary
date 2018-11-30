@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
 import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.ServiceImps.SearchServicesImp;
 import com.example.a15862.mytraveldiary.Services.SearchServices;
@@ -373,7 +374,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void receive(JSONObject res) throws JSONException {
-
+        PlaceDAO placeDAO = new PlaceDAO();
         try {
             //The candidate is the value of the key "Results" in JSON
             //for each location in result , get the longitue and latitude and the place name,use marker to draw them
@@ -393,6 +394,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
                 nearbyPlaces.add(p);
                 findPlaceByName.put(p.getPlaceName(),p);
+                placeDAO.addPlace(p);
             }
             draw();
         } catch (JSONException e) {
