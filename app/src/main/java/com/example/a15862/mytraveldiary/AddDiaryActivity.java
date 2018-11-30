@@ -58,7 +58,7 @@ public class AddDiaryActivity extends Activity {
     private Button btnClear, btnSave;
     private ImageButton btnSpeech2Text, btnTakePicture;
 
-    private Uri photoUri; // for photos
+    private Uri photoUri=null; // for photos
     private int photoCnt;
     private String timeStamp;
     private String cityLoc;
@@ -116,6 +116,19 @@ public class AddDiaryActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //saveDiary(diaryName);
+                Diary diary = new Diary("123","456");
+                if (photoUri!=null){
+                    diary.setPhotoUri(photoUri.toString());
+                }
+                if (imgWeatherUri!=null){
+                    diary.setImgWeather(imgWeatherUri);
+                }
+                diary.setTxtDate(txtDate.getText().toString());
+                diary.setTxtCity(txtCity.getText().toString());
+                diary.setTxtTemperature(txtTemperature.getText().toString());
+                diary.setEdtDiary(edtDiary.getText().toString());
+                DiaryDAO diaryDAO=new DiaryDAO();
+                diaryDAO.uploadDiary(diary);
             }
         });
 
