@@ -50,71 +50,58 @@ public class LoginActivity extends AppCompatActivity {
     private User user = null;
     private FirebaseFirestore db;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // we use firebase authenticationUI.
         super.onCreate(savedInstanceState);
-        Intent i = new Intent(this, MapActivity.class);
-        startActivity(i);
+//        Intent i = new Intent(this, MapActivity.class);
+//        startActivity(i);
 //        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
 //        intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
 //        startActivity(intent);
         setContentView(R.layout.activity_login);
-//        FirebaseAuth auth = FirebaseAuth.getInstance();
-//        db = FirebaseFirestore.getInstance();
-//        // code is provided by firebase doc
-//        startActivityForResult(
-//                AuthUI.getInstance()
-//                        .createSignInIntentBuilder()
-//                        .setIsSmartLockEnabled(false)
-//                        .setAvailableProviders(Arrays.asList(
-//                                new AuthUI.IdpConfig.GoogleBuilder().build(),
-//                                new AuthUI.IdpConfig.PhoneBuilder().build())
-//                                // we allow Google and Phone for demo, we may add twitter and facebook in future.
-//                        )
-//                        .build(),
-//                RC_SIGN_IN);
-//    }
-//
-//    // RC_SIGN_IN is kind of channel, which can let us know which activity is finished.
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == RC_SIGN_IN) {
-//            IdpResponse response = IdpResponse.fromResultIntent(data);
-//
-//            if (resultCode == RESULT_OK) {
-//                // Successfully signed in
-//                Log.i("1st", "auth complete");
-//                User newUser = new User();
-//                FirebaseUser authUser = FirebaseAuth.getInstance().getCurrentUser();
-////                Log.i("TuZ1", authUser.getProviderId());
-////                Log.i("TuZ2", authUser.getUid());
-//                newUser.setUserid(authUser.getUid());
-//                findUserInDB(newUser);
-//                if (user == null) {
-//
-//                    DBOP op = new DBOP();
-//                    op.insertData(authUser, "user");
-//                    Intent i = new Intent(this, MapActivity.class);
-//                    //i.putExtra("user",user);
-//                    startActivity(i);
-//                } else {
-//                    Intent i = new Intent(this, MapActivity.class);
-//                    startActivity(i);
-//                }
-//                //user.getPhotoUrl();
-//                // ...
-//            } else {
-//                // Sign in failed.
-//                Log.e("1st", "not work");
-//            }
-//        }
-//    }
-//
-//
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        // code is provided by firebase doc
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setIsSmartLockEnabled(false)
+                        .setAvailableProviders(Arrays.asList(
+                                new AuthUI.IdpConfig.GoogleBuilder().build(),
+                                new AuthUI.IdpConfig.PhoneBuilder().build())
+                                // we allow Google and Phone for demo, we may add twitter and facebook in future.
+                        )
+                        .build(),
+                RC_SIGN_IN);
+    }
+
+    // RC_SIGN_IN is kind of channel, which can let us know which activity is finished.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                Log.i("1st", "auth complete");
+                FirebaseUser authUser = FirebaseAuth.getInstance().getCurrentUser();
+                Log.i("1st","get current user");
+                db.collection("users").document(authUser.getUid()).set(authUser);
+                Log.i("1st","insert finish");
+                Intent i = new Intent(this, MapActivity.class);
+                    //i.putExtra("user",user);
+                startActivity(i);
+            } else {
+                // Sign in failed.
+                Log.e("1st", "not work");
+            }
+        }
+    }
+
+
 //    private void findUserInDB(User u) {
 //        db.collection("FirstTry").whereEqualTo("userid", u.getUserid())
 //                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -128,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-    }
+//    }
 }
 
 

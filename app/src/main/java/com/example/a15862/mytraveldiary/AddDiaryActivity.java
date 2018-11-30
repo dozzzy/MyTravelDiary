@@ -71,8 +71,8 @@ public class AddDiaryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_diary);
 
-        btnCamera = (Button) findViewById(R.id.btnCamera);
-        btnGallery = (Button) findViewById(R.id.btnGallery);
+//        btnCamera = (Button) findViewById(R.id.btnCamera);
+//        btnGallery = (Button) findViewById(R.id.btnGallery);
         imgPhoto = (ImageView) findViewById(R.id.imgPhoto);
         txtCity = (TextView) findViewById(R.id.txtCity);
         txtTemperature = (TextView) findViewById(R.id.txtTemperature);
