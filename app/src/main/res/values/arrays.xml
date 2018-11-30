@@ -5,4 +5,9 @@
         <item>Museum </item>
         <item>Cinema</item>
     </string-array>
+    <string-array name="CRUD">
+        <item>View Detail</item>
+        <item>Modify </item>
+        <item>Delete</item>
+    </string-array>
 </resources>
