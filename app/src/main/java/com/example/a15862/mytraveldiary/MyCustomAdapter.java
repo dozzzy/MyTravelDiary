@@ -71,7 +71,7 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHo
             cardView=(CardView)itemView.findViewById(R.id.card_view);
             txtLocation=(TextView)itemView.findViewById(R.id.txtLocation);
             txtDate = (TextView) itemView.findViewById(R.id.txtDate);
-            txtDiary=(TextView)itemView.findViewById(R.id.edtDiary);
+            txtDiary=(TextView)itemView.findViewById(R.id.txtDiary);
             photoUri=(ImageView)itemView.findViewById(R.id.imgPhoto);
         }
     }
