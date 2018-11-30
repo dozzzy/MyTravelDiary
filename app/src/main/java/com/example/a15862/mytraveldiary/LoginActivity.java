@@ -69,13 +69,13 @@ public class LoginActivity extends AppCompatActivity {
 //                        )
 //                        .build(),
 //                RC_SIGN_IN);
-    }
-
-    // RC_SIGN_IN is kind of channel, which can let us know which activity is finished.
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
+//    }
+//
+//    // RC_SIGN_IN is kind of channel, which can let us know which activity is finished.
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
 //        if (requestCode == RC_SIGN_IN) {
 //            IdpResponse response = IdpResponse.fromResultIntent(data);
 //
@@ -84,25 +84,28 @@ public class LoginActivity extends AppCompatActivity {
 //                Log.i("1st", "auth complete");
 //                User newUser = new User();
 //                FirebaseUser authUser = FirebaseAuth.getInstance().getCurrentUser();
-//                Log.i("hello provider", authUser.getProviderId());
-//                Log.i("hello uid", authUser.getUid());
+//                Log.i("TuZ1", authUser.getProviderId());
+//                Log.i("TuZ2", authUser.getUid());
 //                newUser.setUserid(authUser.getUid());
 //                findUserInDB(newUser);
 //                if (user == null) {
-////                    if (authUser.getDisplayName()!=null){
-////                        Log.i("hello displayname",authUser.getDisplayName());
-////                        user.setDisplayName(authUser.getDisplayName());
-////                    }
-////                    if (authUser.getEmail()!=null){
-////                        Log.i("hello email",user.getEmail());
-////                        user.setEmail(authUser.getEmail());
-////                    }
-////                    if (authUser.getPhoneNumber()!=null){
-////                        Log.i("hello phone",authUser.getPhoneNumber());
-////                        user.setPhone(authUser.getPhoneNumber());
-////                    }
+//                    Log.i("TuZa", authUser.getProviderId());
+//                    if (authUser.getDisplayName()!=null){
+//                        Log.i("TuZ3",authUser.getDisplayName());
+//                        user.setDisplayName(authUser.getDisplayName());
+//                    }
+//                    Log.i("TuZb", authUser.getProviderId());
+//                    if (authUser.getEmail()!=null){
+//                        Log.i("TuZ4",user.getEmail());
+//                        user.setEmail(authUser.getEmail());
+//                    }
+//                    Log.i("TuZc", authUser.getProviderId());
+//                    if (authUser.getPhoneNumber()!=null){
+//                        Log.i("TuZ5",authUser.getPhoneNumber());
+//                        user.setPhone(authUser.getPhoneNumber());
+//                    }
 //                    DBOP op = new DBOP();
-//                    //op.insertData("users",user.toMap());
+//                    op.insertData(user.toMap(),"user");
 //                    Intent i = new Intent(this, MapActivity.class);
 //                    //i.putExtra("user",user);
 //                    startActivity(i);
@@ -132,8 +135,8 @@ public class LoginActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-//    }
     }
-
 }
+
+
 
