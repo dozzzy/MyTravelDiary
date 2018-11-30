@@ -1,5 +1,6 @@
 package com.example.a15862.mytraveldiary;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -49,6 +50,17 @@ public class ClickExistActivity extends AppCompatActivity {
                 currentPlace.getComments().add(comment);
                 currentPlace.addScore(score);
                 pd.updateData(currentPlace);
+            }
+        });
+
+        btnJump.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ClickExistActivity.this, AddDiaryActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable("Place", currentPlace);
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
     }

@@ -40,9 +40,9 @@ import retrofit2.Retrofit;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
-public class AddDiaryActivity extends Activity {
+public class AddDiaryActivity extends AppCompatActivity {
 
-    private Button btnCamera, btnGallery;
+    private ImageButton btnCamera, btnGallery;
     private final int IMAGE_RESULT_CODE = 2;// 表示打开照相机
     private final int PICK = 1;// 选择图片库
     public static final int SAVE = 9997;
@@ -71,8 +71,8 @@ public class AddDiaryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_diary);
 
-//        btnCamera = (Button) findViewById(R.id.btnCamera);
-//        btnGallery = (Button) findViewById(R.id.btnGallery);
+        btnCamera = (ImageButton) findViewById(R.id.btnCamera);
+        btnGallery = (ImageButton) findViewById(R.id.btnGallery);
         imgPhoto = (ImageView) findViewById(R.id.imgPhoto);
         txtCity = (TextView) findViewById(R.id.txtCity);
         txtTemperature = (TextView) findViewById(R.id.txtTemperature);
