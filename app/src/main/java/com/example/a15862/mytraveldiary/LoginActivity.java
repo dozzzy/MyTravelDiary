@@ -2,7 +2,9 @@ package com.example.a15862.mytraveldiary;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.DocumentsContract;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,13 +57,17 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent i = new Intent(this, MapActivity.class);
         startActivity(i);
-//        setContentView(R.layout.activity_login);
+//        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+//        intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+//        startActivity(intent);
+        setContentView(R.layout.activity_login);
 //        FirebaseAuth auth = FirebaseAuth.getInstance();
 //        db = FirebaseFirestore.getInstance();
 //        // code is provided by firebase doc
 //        startActivityForResult(
 //                AuthUI.getInstance()
 //                        .createSignInIntentBuilder()
+//                        .setIsSmartLockEnabled(false)
 //                        .setAvailableProviders(Arrays.asList(
 //                                new AuthUI.IdpConfig.GoogleBuilder().build(),
 //                                new AuthUI.IdpConfig.PhoneBuilder().build())
@@ -84,28 +90,14 @@ public class LoginActivity extends AppCompatActivity {
 //                Log.i("1st", "auth complete");
 //                User newUser = new User();
 //                FirebaseUser authUser = FirebaseAuth.getInstance().getCurrentUser();
-//                Log.i("TuZ1", authUser.getProviderId());
-//                Log.i("TuZ2", authUser.getUid());
+////                Log.i("TuZ1", authUser.getProviderId());
+////                Log.i("TuZ2", authUser.getUid());
 //                newUser.setUserid(authUser.getUid());
 //                findUserInDB(newUser);
 //                if (user == null) {
-//                    Log.i("TuZa", authUser.getProviderId());
-//                    if (authUser.getDisplayName()!=null){
-//                        Log.i("TuZ3",authUser.getDisplayName());
-//                        user.setDisplayName(authUser.getDisplayName());
-//                    }
-//                    Log.i("TuZb", authUser.getProviderId());
-//                    if (authUser.getEmail()!=null){
-//                        Log.i("TuZ4",user.getEmail());
-//                        user.setEmail(authUser.getEmail());
-//                    }
-//                    Log.i("TuZc", authUser.getProviderId());
-//                    if (authUser.getPhoneNumber()!=null){
-//                        Log.i("TuZ5",authUser.getPhoneNumber());
-//                        user.setPhone(authUser.getPhoneNumber());
-//                    }
+//
 //                    DBOP op = new DBOP();
-//                    op.insertData(user.toMap(),"user");
+//                    op.insertData(authUser, "user");
 //                    Intent i = new Intent(this, MapActivity.class);
 //                    //i.putExtra("user",user);
 //                    startActivity(i);
@@ -121,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 //            }
 //        }
 //    }
+//
 //
 //    private void findUserInDB(User u) {
 //        db.collection("FirstTry").whereEqualTo("userid", u.getUserid())
@@ -140,3 +133,18 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+//                    Log.i("TuZa", authUser.getProviderId());
+//                            if (authUser.getDisplayName()!=null){
+//                            Log.i("TuZ3",authUser.getDisplayName());
+//                            user.setDisplayName(authUser.getDisplayName());
+//                            }
+//                            Log.i("TuZb", authUser.getProviderId());
+//                            if (authUser.getEmail()!=null){
+//                            Log.i("TuZ4",user.getEmail());
+//                            user.setEmail(authUser.getEmail());
+//                            }
+//                            Log.i("TuZc", authUser.getProviderId());
+//                            if (authUser.getPhoneNumber()!=null){
+//                            Log.i("TuZ5",authUser.getPhoneNumber());
+//                            user.setPhone(authUser.getPhoneNumber());
+//                            }

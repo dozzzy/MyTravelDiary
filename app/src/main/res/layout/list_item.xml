@@ -21,11 +21,13 @@
                 android:id="@+id/txtLocation"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
+                android:layout_weight="1"
                 android:text="LocationName" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="3"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -36,7 +38,7 @@
                     app:srcCompat="@drawable/kitty_001" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/edtDiary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
