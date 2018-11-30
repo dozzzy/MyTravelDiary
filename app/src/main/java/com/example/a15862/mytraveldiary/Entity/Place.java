@@ -88,18 +88,18 @@ public class Place implements Serializable{
     String placeName;
     double rate;
     List<String> comments;
-<<<<<<< HEAD
+
     String formatAddress;
 
-    public Place(LatLng location, String name, double rate, String address) {
-        this.location = location;
-=======
+//    public Place(LatLng location, String name, double rate, String address) {
+//        this.location = location;
+//    }
     String vicinity;
     String photoPath;
     public Place(LatLng location,String name,String address,String pid){
         this.longitude = location.longitude;
         this.latitude = location.latitude;
->>>>>>> 6786a68d987f639689196029148311a27021da9f
+
         placeName = name;
         vicinity = address;
         comments = new ArrayList<>();

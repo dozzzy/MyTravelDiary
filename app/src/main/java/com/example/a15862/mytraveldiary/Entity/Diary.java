@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Diary {
-    private String userID;
-    private String placeID;
-    private String photoUri;
-    private String imgWeather;
-    private String txtDate, txtCity, txtTemperature;
-    private String edtDiary;
+    private String userID=null;
+    private String placeID=null;
+    private String photoUri=null;
+    private String imgWeather=null;
+    private String txtDate=null, txtCity=null, txtTemperature=null;
+    private String edtDiary=null;
 
     public Diary(){}
     public Diary(String userID,String placeID){
