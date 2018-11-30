@@ -15,7 +15,7 @@ public class Place implements Serializable{
     private double latitude;
     private double longitude;
     private int scoreCount = 0;
-    private long totalScore = 0;
+    private float totalScore = 0;
     private String placeName;
     private double rate;
     private List<String> comments;
@@ -30,7 +30,7 @@ public class Place implements Serializable{
         this.scoreCount = scoreCount;
     }
 
-    public long getTotalScore() {
+    public float getTotalScore() {
         return totalScore;
     }
 
