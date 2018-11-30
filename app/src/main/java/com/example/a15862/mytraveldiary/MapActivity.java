@@ -1,5 +1,6 @@
 package com.example.a15862.mytraveldiary;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,8 +16,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import android.util.Log;
@@ -61,7 +69,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver, AdapterView.OnItemClickListener{
 
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
@@ -70,7 +78,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final double EARTH_RADIUS = 6378137;
     private List<Place> nearbyPlaces;
     private Set<String> existed;
-    private Map<String,Place> findPlaceByName;
+    private Map<String, Place> findPlaceByName;
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -94,9 +102,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-    // The sliding menu
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mToggle;
+
+
+    // DrawerLayout and adapter
+    private DrawerLayout drawer_layout;
+    private ListView list_left_drawer;
+    private ArrayAdapter<String> adapter = null;
 
 
     @Override
@@ -129,32 +140,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        /* sliding menu
-         * The listed items in the menu are temporary and the clicking function is not implemented
-         */
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        ImageView mAvatar = findViewById(R.id.imgProfile);
 
-        NavigationView navView = findViewById(R.id.nav_view);
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-        mDrawerLayout.addDrawerListener(mToggle);
-        mToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        navView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
-                        // do something corresponding to the item selected
-                        // functions will be implemented after intergrating other parts
-                        onOptionsItemSelected(menuItem);
+        // DrawerLayout and adapter
+        drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        list_left_drawer = (ListView) findViewById(R.id.list_left_drawer);
 
-                        return true;
-                    }
-                });
+        String[] left_menu = {"View Diary","Friends","Settings","Logout"};
+
+        adapter = new ArrayAdapter<String>
+                (this,android.R.layout.simple_expandable_list_item_1,left_menu);
+
+        list_left_drawer.setAdapter(adapter);
+        list_left_drawer.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(adapter.getItem(position) == "View Diary" ){
+            Intent intent = new Intent(MapActivity.this, ViewAllDiaryActivity.class);
+            startActivity(intent);
+        }
+        drawer_layout.closeDrawer(list_left_drawer);
     }
 
 
@@ -200,21 +206,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onMapClick(final LatLng point) {
                 mMap.clear();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
-                Log.i("Info",String.valueOf(point.latitude)+","+String.valueOf(point.longitude));
+                Log.i("Info", String.valueOf(point.latitude) + "," + String.valueOf(point.longitude));
                 // Use YelpAPI with parameters.
                 try {
-                    FirebaseFirestore db =  FirebaseFirestore.getInstance();
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
                     db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for(DocumentSnapshot ds:queryDocumentSnapshots){
+                            for (DocumentSnapshot ds : queryDocumentSnapshots) {
                                 Place p = ds.toObject(Place.class);
-                                Log.i("Check",String.valueOf(p.getComments()==null));
-                                LatLng loc = new LatLng(p.getLatitude(),p.getLongitude());
-                                if(getDistance(loc.longitude,loc.latitude,point.longitude,point.latitude)<=radius){
-                                    if(existed.add(p.getPid())){
+                                Log.i("Check", String.valueOf(p.getComments() == null));
+                                LatLng loc = new LatLng(p.getLatitude(), p.getLongitude());
+                                if (getDistance(loc.longitude, loc.latitude, point.longitude, point.latitude) <= radius) {
+                                    if (existed.add(p.getPid())) {
                                         nearbyPlaces.add(p);
-                                        findPlaceByName.put(p.getPlaceName(),p);
+                                        findPlaceByName.put(p.getPlaceName(), p);
                                     }
                                 }
                             }
@@ -254,7 +260,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //                Intent intent = new Intent(MapActivity.this, ClickNotExistActivity.class);
                 Intent intent = new Intent(MapActivity.this, ClickExistActivity.class);
                 Bundle b = new Bundle();
-                b.putSerializable("Place",findPlaceByName.get(marker.getTitle()));
+                b.putSerializable("Place", findPlaceByName.get(marker.getTitle()));
                 intent.putExtras(b);
                 startActivity(intent);
 
@@ -362,8 +368,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void draw() {
-        for(Place p:nearbyPlaces){
-            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(p.getLatitude(),p.getLongitude())).title(p.getPlaceName()));
+        for (Place p : nearbyPlaces) {
+            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(p.getLatitude(), p.getLongitude())).title(p.getPlaceName()));
             marker.showInfoWindow();
         }
     }
@@ -378,18 +384,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             for (int i = 0; i < array.length(); i++) {
                 JSONObject cur = array.getJSONObject(i);
                 String pid = cur.getString("place_id");
-                if(!existed.add(pid)) continue;
+                if (!existed.add(pid)) continue;
                 String placeName = cur.getString("name");
                 JSONObject location = cur.getJSONObject("geometry").getJSONObject("location");
                 LatLng placeLoc = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
                 String vicinity = cur.getString("vicinity");
-                Place p = new Place(placeLoc,placeName,vicinity,pid);
-                if(cur.has("photos")){
+                Place p = new Place(placeLoc, placeName, vicinity, pid);
+                if (cur.has("photos")) {
                     JSONObject photos = cur.getJSONArray("photos").getJSONObject(0);
                     p.setPhotoPath(photos.getString("html_attributions"));
                 }
                 nearbyPlaces.add(p);
-                findPlaceByName.put(p.getPlaceName(),p);
+                findPlaceByName.put(p.getPlaceName(), p);
                 placeDAO.addPlace(p);
             }
             draw();
@@ -399,26 +405,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.goText:
-                //showDiaryFragment();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public static double getDistance(double lng1, double lat1, double lng2, double lat2)
-    {
-        double radLat1 = lat1*RAD;
-        double radLat2 = lat2*RAD;
+    public static double getDistance(double lng1, double lat1, double lng2, double lat2) {
+        double radLat1 = lat1 * RAD;
+        double radLat2 = lat2 * RAD;
         double a = radLat1 - radLat2;
-        double b = (lng1 - lng2)*RAD;
-        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
-                Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+        double b = (lng1 - lng2) * RAD;
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
         s = s * EARTH_RADIUS;
         s = Math.round(s * 10000) / 10000;
         return s;
