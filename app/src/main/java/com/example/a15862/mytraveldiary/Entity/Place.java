@@ -12,8 +12,32 @@ public class Place implements Serializable{
 
     private static final long serialVersionUID = -7620435178023928252L;
 
-    double latitude;
-    double longitude;
+    private double latitude;
+    private double longitude;
+    private int scoreCount = 0;
+    private float totalScore = 0;
+    private String placeName;
+    private double rate;
+    private List<String> comments;
+    private String vicinity;
+    private String photoPath;
+
+    public int getScoreCount() {
+        return scoreCount;
+    }
+
+    public void setScoreCount(int scoreCount) {
+        this.scoreCount = scoreCount;
+    }
+
+    public float getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
     public String getPid() {
         return pid;
     }
@@ -22,7 +46,11 @@ public class Place implements Serializable{
         this.pid = pid;
     }
 
-    String pid;
+    public void addScore(float n){
+        scoreCount++;
+        totalScore+=n;
+    }
+    private String pid;
 
     public double getLatitude() {
         return latitude;
@@ -85,11 +113,7 @@ public class Place implements Serializable{
         this.photoPath = photoPath;
     }
 
-    String placeName;
-    double rate;
-    List<String> comments;
-    String vicinity;
-    String photoPath;
+
     public Place(LatLng location,String name,String address,String pid){
         this.longitude = location.longitude;
         this.latitude = location.latitude;
@@ -100,6 +124,7 @@ public class Place implements Serializable{
     }
 
     public Place(){
+        comments = new ArrayList<>();
     };
 
 

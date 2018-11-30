@@ -71,7 +71,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final double EARTH_RADIUS = 6378137;
     private List<Place> nearbyPlaces;
     private Set<String> existed;
-    private Map<String, Place> findPlaceByName;
+    private Map<String,Place> findPlaceByName;
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -206,20 +206,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onMapClick(final LatLng point) {
                 mMap.clear();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
-                Log.i("Info", String.valueOf(point.latitude) + "," + String.valueOf(point.longitude));
+                Log.i("Info",String.valueOf(point.latitude)+","+String.valueOf(point.longitude));
                 // Use YelpAPI with parameters.
                 try {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    FirebaseFirestore db =  FirebaseFirestore.getInstance();
                     db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for (DocumentSnapshot ds : queryDocumentSnapshots) {
+                            for(DocumentSnapshot ds:queryDocumentSnapshots){
                                 Place p = ds.toObject(Place.class);
-                                LatLng loc = new LatLng(p.getLatitude(), p.getLongitude());
-                                if (getDistance(loc.longitude, loc.latitude, point.longitude, point.latitude) <= radius) {
-                                    if (existed.add(p.getPid())) {
+                                Log.i("Check",String.valueOf(p.getComments()==null));
+                                LatLng loc = new LatLng(p.getLatitude(),p.getLongitude());
+                                if(getDistance(loc.longitude,loc.latitude,point.longitude,point.latitude)<=radius){
+                                    if(existed.add(p.getPid())){
                                         nearbyPlaces.add(p);
-                                        findPlaceByName.put(p.getPlaceName(), p);
+                                        findPlaceByName.put(p.getPlaceName(),p);
                                     }
                                 }
                             }
@@ -257,9 +258,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public boolean onMarkerClick(Marker marker) {
 //                Intent intent = new Intent(MapActivity.this, ClickExistActivity.class);
 //                Intent intent = new Intent(MapActivity.this, ClickNotExistActivity.class);
-                Intent intent = new Intent(MapActivity.this, AddDiaryActivity.class);
+                Intent intent = new Intent(MapActivity.this, ClickExistActivity.class);
                 Bundle b = new Bundle();
-                b.putSerializable("Place", findPlaceByName.get(marker.getTitle()));
+                b.putSerializable("Place",findPlaceByName.get(marker.getTitle()));
                 intent.putExtras(b);
                 startActivity(intent);
 
@@ -288,11 +289,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             mLastKnownLocation = task.getResult();
                             LatLng latLng = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
-                            Marker marker = mMap.addMarker(new MarkerOptions()
-                                    .position(latLng)
-                                    .title("Current Place")
-                                    .snippet("Latitude: " + latLng.latitude + " Longitude: " + latLng.longitude));
-                            marker.showInfoWindow();
                         } else {
                             Log.d("", "Current location is null. Using defaults.");
                             Log.e("", "Exception: %s", task.getException());
@@ -372,8 +368,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void draw() {
-        for (Place p : nearbyPlaces) {
-            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(p.getLatitude(), p.getLongitude())).title(p.getPlaceName()));
+        for(Place p:nearbyPlaces){
+            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(p.getLatitude(),p.getLongitude())).title(p.getPlaceName()));
             marker.showInfoWindow();
         }
     }
@@ -388,18 +384,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             for (int i = 0; i < array.length(); i++) {
                 JSONObject cur = array.getJSONObject(i);
                 String pid = cur.getString("place_id");
-                if (!existed.add(pid)) continue;
+                if(!existed.add(pid)) continue;
                 String placeName = cur.getString("name");
                 JSONObject location = cur.getJSONObject("geometry").getJSONObject("location");
                 LatLng placeLoc = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
                 String vicinity = cur.getString("vicinity");
-                Place p = new Place(placeLoc, placeName, vicinity, pid);
-                if (cur.has("photos")) {
+                Place p = new Place(placeLoc,placeName,vicinity,pid);
+                if(cur.has("photos")){
                     JSONObject photos = cur.getJSONArray("photos").getJSONObject(0);
                     p.setPhotoPath(photos.getString("html_attributions"));
                 }
                 nearbyPlaces.add(p);
-                findPlaceByName.put(p.getPlaceName(), p);
+                findPlaceByName.put(p.getPlaceName(),p);
                 placeDAO.addPlace(p);
             }
             draw();
@@ -429,13 +425,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    public static double getDistance(double lng1, double lat1, double lng2, double lat2) {
-        double radLat1 = lat1 * RAD;
-        double radLat2 = lat2 * RAD;
+    public static double getDistance(double lng1, double lat1, double lng2, double lat2)
+    {
+        double radLat1 = lat1*RAD;
+        double radLat2 = lat2*RAD;
         double a = radLat1 - radLat2;
-        double b = (lng1 - lng2) * RAD;
-        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
-                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+        double b = (lng1 - lng2)*RAD;
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
+                Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
         s = s * EARTH_RADIUS;
         s = Math.round(s * 10000) / 10000;
         return s;
