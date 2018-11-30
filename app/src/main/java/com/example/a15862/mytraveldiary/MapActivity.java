@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -139,22 +140,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        //mDrawerLayout.openDrawer();
                         // set item as selected to persist highlight
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-                        // do something corresponding to the item selected
-                        // functions will be implemented after intergrating other parts
-                        onOptionsItemSelected(menuItem);
 
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
+                        onOptionsItemSelected(menuItem);
                         return true;
                     }
                 });
+
     }
 
 
@@ -406,9 +412,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        int id = item.getItemId();
+        Log.e("qwer","menu at " + id);
+        Log.e("qwer","history at " + R.id.history);
+
         switch (item.getItemId()) {
-            case R.id.goText:
-                //showDiaryFragment();
+            case R.id.history:
+                Intent i = new Intent(this,viewHistory.class);
+                this.startActivity(i);
+                return true;
+            case R.id.setting:
+                Log.e("qwer","Setting at " + R.id.setting);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
