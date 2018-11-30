@@ -209,6 +209,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for(DocumentSnapshot ds:queryDocumentSnapshots){
                                 Place p = ds.toObject(Place.class);
+                                Log.i("Check",String.valueOf(p.getComments()==null));
                                 LatLng loc = new LatLng(p.getLatitude(),p.getLongitude());
                                 if(getDistance(loc.longitude,loc.latitude,point.longitude,point.latitude)<=radius){
                                     if(existed.add(p.getPid())){
@@ -251,7 +252,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public boolean onMarkerClick(Marker marker) {
 //                Intent intent = new Intent(MapActivity.this, ClickExistActivity.class);
 //                Intent intent = new Intent(MapActivity.this, ClickNotExistActivity.class);
-                Intent intent = new Intent(MapActivity.this, AddDiaryActivity.class);
+                Intent intent = new Intent(MapActivity.this, ClickExistActivity.class);
                 Bundle b = new Bundle();
                 b.putSerializable("Place",findPlaceByName.get(marker.getTitle()));
                 intent.putExtras(b);
@@ -282,11 +283,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             mLastKnownLocation = task.getResult();
                             LatLng latLng = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
-                            Marker marker = mMap.addMarker(new MarkerOptions()
-                                    .position(latLng)
-                                    .title("Current Place")
-                                    .snippet("Latitude: " + latLng.latitude + " Longitude: " + latLng.longitude));
-                            marker.showInfoWindow();
                         } else {
                             Log.d("", "Current location is null. Using defaults.");
                             Log.e("", "Exception: %s", task.getException());
