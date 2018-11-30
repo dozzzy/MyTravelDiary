@@ -155,6 +155,7 @@ public class AddDiaryActivity extends Activity {
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
                     imgPhoto.setImageURI(uri);
+                    photoUri=uri;
 
                 }
                 break;
