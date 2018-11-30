@@ -35,6 +35,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -225,6 +226,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 } catch (Exception e) {
                     Log.e("Exception: %s", e.getMessage());
                 }
+            }
+        });
+
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+//                mMap.clear();
+//                Marker marker = mMap.addMarker(new MarkerOptions()
+//                        .position(latLng)
+//                        .title("Touch to add a diary")
+//                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.question_32)));
+//                marker.showInfoWindow();
+
+                DialogFragment dialog = new ConfirmFragment();
+                dialog.show(getSupportFragmentManager(), "ConfirmFragment");
             }
         });
 
