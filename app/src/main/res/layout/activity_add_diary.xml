@@ -2,35 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/txtAddDiary"
-        android:layout_width="412dp"
-        android:layout_height="84dp"
-        android:text="Add New Diary"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+    android:padding="10dp"
+    android:weightSum="15">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal"
+        android:padding="2dp">
 
         <ImageView
             android:id="@+id/imgWeather"
-            android:layout_width="148dp"
-            android:layout_height="47dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/kitty_001" />
+            app:srcCompat="@drawable/kitty_001"
+            tools:srcCompat="@tools:sample/avatars[2]" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="2dp">
 
             <TextView
                 android:id="@+id/txtTemperature"
@@ -58,77 +57,103 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_weight="6"
         android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/txtDiary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="DiaryContent" />
 
         <EditText
             android:id="@+id/edtDiary"
             android:layout_width="wrap_content"
-            android:layout_height="119dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:ems="10"
+            android:hint="Your Diary"
             android:inputType="textMultiLine" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="251dp"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:orientation="vertical"
+        android:weightSum="5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+            <ImageButton
+                android:id="@+id/btnCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@null"
+                app:srcCompat="@android:drawable/ic_menu_camera" />
+
+            <ImageButton
+                android:id="@+id/btnGallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@null"
+                app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/imgPhoto"
             android:layout_width="200dp"
             android:layout_height="200dp"
+            android:layout_weight="4"
+            android:padding="4dp"
             app:srcCompat="@drawable/kitty_001" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnCamera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Camera" />
-
-            <Button
-                android:id="@+id/btnGallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Gallery" />
-        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1">
 
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Save" />
 
         <Button
             android:id="@+id/btnClear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_weight="1"
-            android:text="Clear" />
+            android:background="@drawable/cancel"
+            android:text="Cancel"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/create"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
     </LinearLayout>
 
 
