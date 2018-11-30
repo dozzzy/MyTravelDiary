@@ -1,6 +1,7 @@
 package com.example.a15862.mytraveldiary;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -57,11 +58,13 @@ public class AddDiaryActivity extends AppCompatActivity {
     private IOpenWeatherMap mService;
     private Button btnClear, btnSave;
 
+    private String PHOTO_FILE_NAME = "temp_photo.jpg";
     private Uri photoUri=null; // for photos
     private int photoCnt;
     private String timeStamp;
     private String cityLoc;
     private String diaryName;
+    private Uri tempUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +88,13 @@ public class AddDiaryActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(
                         android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+                File tempFile = new File(Environment.getExternalStorageDirectory(),PHOTO_FILE_NAME);
+                Uri uri = Uri.fromFile(tempFile);
+                photoUri=uri;
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 startActivityForResult(intent, IMAGE_RESULT_CODE);
+
             }
         });
 
@@ -147,8 +156,6 @@ public class AddDiaryActivity extends AppCompatActivity {
                     imgPhoto.setImageBitmap(bitmap);
                     Toast.makeText(getApplicationContext(), "Image saved to:\n" + data.getData(), Toast.LENGTH_LONG).show();
                 }
-
-
                 break;
             // 选择图片库的图片
             case PICK:

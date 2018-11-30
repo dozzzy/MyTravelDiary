@@ -1,13 +1,55 @@
 package com.example.a15862.mytraveldiary;
 
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
+import com.example.a15862.mytraveldiary.Entity.Diary;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewAllDiaryActivity extends AppCompatActivity {
-
+    private List<Diary> diaryList;
+    private FirebaseFirestore db;
+    RecyclerView cList;
+    MyCustomAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_diary);
+        cList = (RecyclerView) findViewById(R.id.cList);
+        cList.setHasFixedSize(true);
+        cList.setLayoutManager(new LinearLayoutManager(this));
+
+        db=FirebaseFirestore.getInstance();
+        // we use snapshotListener here so if other users upload new comments, we can see the changes in our view.
+        db.collection("Diary").whereEqualTo("userID","123").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.e("3rd",e.getMessage());
+                    return;
+                }
+
+                diaryList=new ArrayList<>();
+                for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                    if (doc.get("userID") != null) {
+                        diaryList.add(doc.toObject(Diary.class));
+                    }
+                }
+                mAdapter = new MyCustomAdapter(ViewAllDiaryActivity.this,diaryList);
+                cList.setAdapter(mAdapter);
+            }
+        });
     }
 }

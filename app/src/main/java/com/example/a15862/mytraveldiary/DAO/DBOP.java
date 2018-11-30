@@ -24,12 +24,26 @@ public class DBOP {
         db = FirebaseFirestore.getInstance();
     }
 
-    public void insertData(Map<String, Object> insertTest) {
-        db.collection("FirstTry").document()
+    public void insertData(Object insertTest,String tablename) {
+        db.collection(tablename).document()
                 .set(insertTest).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-
+                Log.i("TuZ","insert success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("my", "somehow not work");
+            }
+        });
+    }
+    public void insertData(Map<String,Object> insertTest,String tablename) {
+        db.collection(tablename).document()
+                .set(insertTest).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i("TuZ","insert success");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
