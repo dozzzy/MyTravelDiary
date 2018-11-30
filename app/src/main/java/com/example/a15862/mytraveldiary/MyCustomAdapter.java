@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.example.a15862.mytraveldiary.Entity.Diary;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHolder> {
@@ -45,7 +47,8 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHo
         Log.e("3rd","onBindViewHolder");
         Diary currentUp=upload.get(position);
         holder.txtLocation.setText(currentUp.getTxtCity());
-        holder.edtDiary.setText(currentUp.getEdtDiary());
+        holder.txtDate.setText(currentUp.getTxtDate());
+        holder.txtDiary.setText(currentUp.getEdtDiary());
         // Picasso helps us load photo by using url.
         Picasso.get().load(currentUp.getPhotoUri()).fit().centerCrop().into(holder.photoUri);
     }
@@ -56,7 +59,8 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView edtDiary;
+        private TextView txtDiary;
+        private TextView txtDate;
         private TextView txtLocation;
         private ImageView photoUri;
         private CardView cardView;
@@ -66,8 +70,9 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHo
             Log.e("3rd","viewholder constructor");
             cardView=(CardView)itemView.findViewById(R.id.card_view);
             txtLocation=(TextView)itemView.findViewById(R.id.txtLocation);
-            edtDiary=(TextView)itemView.findViewById(R.id.edtDiary);
-            photoUri=(ImageView)itemView.findViewById(R.id.imageView);
+            txtDate = (TextView) itemView.findViewById(R.id.txtDate);
+            txtDiary=(TextView)itemView.findViewById(R.id.edtDiary);
+            photoUri=(ImageView)itemView.findViewById(R.id.imgPhoto);
         }
     }
 
