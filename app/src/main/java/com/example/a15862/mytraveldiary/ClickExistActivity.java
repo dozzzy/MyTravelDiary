@@ -40,8 +40,8 @@ public class ClickExistActivity extends Activity {
         });
         Bundle info = getIntent().getExtras();
         currentPlace = (Place)info.getSerializable("Place");
-
         txtPlaceName.setText(currentPlace.getPlaceName());
+
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -51,12 +51,18 @@ public class ClickExistActivity extends Activity {
                 currentPlace.getComments().add(comment);
                 currentPlace.addScore(score);
                 pd.updateData(currentPlace);
+                Intent back = new Intent(ClickExistActivity.this,MapActivity.class);
+                startActivity(back);
             }
         });
 
         btnJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String comment = editText.getText().toString();
+                currentPlace.getComments().add(comment);
+                currentPlace.addScore(score);
+                pd.updateData(currentPlace);
                 Intent intent = new Intent(ClickExistActivity.this, AddDiaryActivity.class);
                 Bundle b = new Bundle();
                 b.putSerializable("Place", currentPlace);
