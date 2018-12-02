@@ -1,5 +1,6 @@
 package com.example.a15862.mytraveldiary.DAO;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.example.a15862.mytraveldiary.Entity.Place;
@@ -9,9 +10,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,14 +33,12 @@ public class PlaceDAO {
         data.put("placeName",p.getPlaceName());
         data.put("photoPath",p.getPhotoPath());
         data.put("vicinity",p.getVicinity());
-        data.put("rate",p.getRate());
+        data.put("catagoty",p.getCatagoty());
         db.collection("Place").document(p.getPlaceName()).set(data);
     }
 
     public void updateData(Place p) {
         CollectionReference cr = db.collection("Place");
-        Map<String,List<String>> m = new HashMap<>();
-        m.put("comments",p.getComments());
         cr.document(p.getPlaceName()).update("Comment",p.getComments());
         cr.document(p.getPlaceName()).update("totalScore",p.getTotalScore());
         cr.document(p.getPlaceName()).update("scoreCount",p.getScoreCount());

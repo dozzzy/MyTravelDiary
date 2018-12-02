@@ -3,22 +3,33 @@ package com.example.a15862.mytraveldiary.Entity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Diary {
+public class Diary implements Serializable{
+    private static final long serialVersionUID = -7634235178023352252L;
     private String userID=null;
     private String placeID=null;
     private String photoUri=null;
     private String imgWeather=null;
     private String txtDate=null, txtCity=null, txtTemperature=null;
     private String edtDiary=null;
+    private long time;
 
-    public Diary(){}
+    public Diary(){
+        time=System.currentTimeMillis();
+    }
+
     public Diary(String userID,String placeID){
         this.userID=userID;
         this.placeID=placeID;
+        time=System.currentTimeMillis();
+    }
+
+    public long getTime() {
+        return time;
     }
 
     public String getUserID() {

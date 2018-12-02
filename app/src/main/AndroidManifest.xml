@@ -25,26 +25,39 @@
             android:value="AIzaSyDjCrdGmiesceyoZTwl--AVr_KRkFYhXMs" />
 
         <activity android:name=".LoginActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".MapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MapActivity" />
         <activity
             android:name=".AddDiaryActivity"
-            android:label="Add new Diary" />
+            android:label="Add new Diary"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".ClickNotExistActivity"
-            android:label="Add new place" />
+            android:label="Add new place"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".ClickExistActivity"
-            android:label="Place info" />
+            android:label="Place info"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity android:name=".ViewAllDiaryActivity" />
         <activity android:name=".Register1Activity" />
         <activity android:name=".Register2Activity" />
-        <activity android:name=".Register3Activity"></activity>
+        <activity android:name=".Register3Activity" />
+        <activity android:name=".LoginNewActivity" />
+        <activity android:name=".ModifyActivity"></activity>
     </application>
 
 </manifest>

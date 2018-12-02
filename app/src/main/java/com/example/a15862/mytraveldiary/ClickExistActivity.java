@@ -1,5 +1,6 @@
 package com.example.a15862.mytraveldiary;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
 import com.example.a15862.mytraveldiary.Entity.Place;
 
-public class ClickExistActivity extends AppCompatActivity {
+public class ClickExistActivity extends Activity {
     private Place currentPlace;
     private TextView txtPlaceName;
     private RatingBar ratingBar;

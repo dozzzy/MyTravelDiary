@@ -59,6 +59,9 @@ public class ViewAllDiaryActivity extends AppCompatActivity {
                         Diary diary=diaryList.get(position);
                         Log.e("HAOHUI", "onItemClick: hahaha");
                         CRUDFragment crudFragment = new CRUDFragment();
+                        Bundle b = new Bundle();
+                        b.putSerializable("Diary",diary);
+                        crudFragment.setArguments(b);
                         crudFragment.show(getSupportFragmentManager(), "CRUD");
                     }
                 });
