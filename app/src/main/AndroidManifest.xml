@@ -25,7 +25,11 @@
             android:value="AIzaSyDjCrdGmiesceyoZTwl--AVr_KRkFYhXMs" />
 
         <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".MapActivity" />
         <activity android:name=".AddDiaryActivity"
@@ -35,11 +39,7 @@
         <activity android:name=".ClickExistActivity"
             android:label="Place info"/>
         <activity android:name=".ViewAllDiaryActivity" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
     </application>
 
