@@ -6,9 +6,8 @@
         <item>Cinema</item>
     </string-array>
     <string-array name="CRUD">
-        <item>View Detail</item>
+        <item>View and Modify</item>
         <item>Share</item>>
-        <item>Modify </item>
         <item>Delete</item>
     </string-array>
 </resources>
