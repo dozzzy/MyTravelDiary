@@ -46,7 +46,7 @@ public class AddDiaryActivity extends Activity {
     private final int IMAGE_RESULT_CODE = 2;// 表示打开照相机
     private final int PICK = 1;// 选择图片库
     public static final int SAVE = 9997;
-
+    private Place currentPlace;
     private ImageView imgWeather, imgPhoto;
 
     private String imgWeatherUri;
@@ -70,7 +70,8 @@ public class AddDiaryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_diary);
-
+        Bundle info = getIntent().getExtras();
+        currentPlace = (Place)info.getSerializable("Place");
         btnCamera = (ImageButton) findViewById(R.id.btnCamera);
         btnGallery = (ImageButton) findViewById(R.id.btnGallery);
         imgPhoto = (ImageView) findViewById(R.id.imgPhoto);
@@ -179,10 +180,9 @@ public class AddDiaryActivity extends Activity {
         // that query for weather information in the format given in the interface of IOpenWeatherMap
         mService = retrofit.create(IOpenWeatherMap.class);
 
-        Bundle info = getIntent().getExtras();
-        Place p = (Place)info.getSerializable("Place");
-        double lat = p.getLatitude();
-        double lon = p.getLongitude();
+
+        double lat = currentPlace.getLatitude();
+        double lon = currentPlace.getLongitude();
 
         Call<WeatherResult> model = mService.getWeatherByLatLng(
                 lat, lon, Helper.API_KEY_WEATHER, "metric");

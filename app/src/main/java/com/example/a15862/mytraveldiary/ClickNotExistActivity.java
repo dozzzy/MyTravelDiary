@@ -89,6 +89,9 @@ public class ClickNotExistActivity extends Activity {
                 p.getComments().add(comment);
                 p.getCatagoty().add(cat);
                 p.addScore(score);
+                //this place is user_defined , generate unique pid for it
+                String pid = String.valueOf(p.hashCode());
+                p.setPid(pid);
                 PlaceDAO pd = new PlaceDAO();
                 pd.addPlace(p);
                 pd.updateData(p);
