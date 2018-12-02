@@ -86,7 +86,14 @@
             android:text="Re-send" />
 
         <Button
-            android:id="@+id/btnRegister"
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="sentVerify" />
+
+        <Button
+            android:id="@+id/btnVerify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
