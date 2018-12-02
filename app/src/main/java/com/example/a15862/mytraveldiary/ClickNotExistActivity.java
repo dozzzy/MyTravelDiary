@@ -1,5 +1,6 @@
 package com.example.a15862.mytraveldiary;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import android.widget.Spinner;
 import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
 import com.example.a15862.mytraveldiary.Entity.Place;
 
-public class ClickNotExistActivity extends AppCompatActivity {
+public class ClickNotExistActivity extends Activity {
     private Button btnJump;
     private EditText edtPlaceName;
     private Spinner spinner;

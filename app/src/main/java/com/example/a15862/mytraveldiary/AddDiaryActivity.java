@@ -40,7 +40,7 @@ import retrofit2.Retrofit;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
-public class AddDiaryActivity extends AppCompatActivity {
+public class AddDiaryActivity extends Activity {
 
     private ImageButton btnCamera, btnGallery;
     private final int IMAGE_RESULT_CODE = 2;// 表示打开照相机
