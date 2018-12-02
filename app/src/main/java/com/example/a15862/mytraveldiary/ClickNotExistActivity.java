@@ -25,15 +25,16 @@ public class ClickNotExistActivity extends AppCompatActivity {
     double lat;
     double lon;
     private float score;
+    private Place currentPlace;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_not_exist);
         edtPlaceName = findViewById(R.id.edtPlaceName);
         ratingBar = findViewById(R.id.ratingBar);
-        btnJump = (Button) findViewById(R.id.btnJump);
+        btnJump = findViewById(R.id.btnSaveJump);
         spinner = findViewById(R.id.spinner);
-        btnSave = findViewById(R.id.btnSave);
+        btnSave = findViewById(R.id.btnSaveReturn);
         edtComment = findViewById(R.id.edtComment);
         Bundle b = getIntent().getExtras();
         lat = b.getDouble("Latitude");
@@ -45,17 +46,21 @@ public class ClickNotExistActivity extends AppCompatActivity {
             }
         });
 
-        Log.i("Jing","1");
 
 
         btnJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ClickNotExistActivity.this, AddDiaryActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable("Place",currentPlace);
+                intent.putExtras(b);
                 startActivity(intent);
             }
         });
-        Log.i("Jing","2");
+
+
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
@@ -85,6 +90,8 @@ public class ClickNotExistActivity extends AppCompatActivity {
                 p.addScore(score);
                 PlaceDAO pd = new PlaceDAO();
                 pd.addPlace(p);
+                pd.updateData(p);
+                currentPlace = p;
             }
         });
 

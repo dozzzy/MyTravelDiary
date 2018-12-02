@@ -3,22 +3,32 @@ package com.example.a15862.mytraveldiary.Entity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Diary {
+public class Diary implements Serializable{
+    private static final long serialVersionUID = -7634235178023352252L;
     private String userID=null;
     private String placeID=null;
     private String photoUri=null;
     private String imgWeather=null;
     private String txtDate=null, txtCity=null, txtTemperature=null;
     private String edtDiary=null;
-
+    private String id;
     public Diary(){}
     public Diary(String userID,String placeID){
         this.userID=userID;
         this.placeID=placeID;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserID() {
@@ -85,32 +95,4 @@ public class Diary {
         this.edtDiary = edtDiary;
     }
 
-    public Map<String,Object> toMap(){
-        Map<String, Object> map=new HashMap<>();
-        if (userID!=null){
-            map.put("userid",userID);
-        }
-        if (placeID!=null){
-            map.put("placeid",placeID);
-        }
-        if (photoUri!=null){
-            map.put("photoUri",photoUri);
-        }
-        if (imgWeather!=null){
-            map.put("imgWeather",imgWeather);
-        }
-        if (txtDate!=null){
-            map.put("txtDate",txtDate);
-        }
-        if (txtCity!=null){
-            map.put("txtCity",txtCity);
-        }
-        if (txtTemperature!=null){
-            map.put("txtTemperature",txtTemperature);
-        }
-        if (edtDiary!=null){
-            map.put("edtDiary",edtDiary);
-        }
-        return map;
-    }
 }
