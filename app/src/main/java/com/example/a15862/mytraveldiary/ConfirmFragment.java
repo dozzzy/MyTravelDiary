@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.gms.maps.model.LatLng;
 
 
 /**
@@ -18,10 +21,12 @@ import android.view.ViewGroup;
  */
 public class ConfirmFragment extends DialogFragment {
 
-
     public ConfirmFragment() {
         // Required empty public constructor
+
     }
+
+
 
 
     @Override
@@ -34,11 +39,15 @@ public class ConfirmFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Are you going to add a new place?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent intent = new Intent(getActivity(), ClickNotExistActivity.class);
+                        Log.i("Jing","go to Not exist");
+                        Bundle b = getArguments();
+                        intent.putExtras(b);
                         startActivity(intent);
                     }
                 })

@@ -86,7 +86,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/edtComment"
             android:layout_width="250dp"
             android:layout_height="121dp"
             android:layout_weight="1"
