@@ -72,6 +72,7 @@ public class AddDiaryActivity extends Activity {
         setContentView(R.layout.activity_add_diary);
         Bundle info = getIntent().getExtras();
         currentPlace = (Place)info.getSerializable("Place");
+
         btnCamera = (ImageButton) findViewById(R.id.btnCamera);
         btnGallery = (ImageButton) findViewById(R.id.btnGallery);
         imgPhoto = (ImageView) findViewById(R.id.imgPhoto);
@@ -137,6 +138,8 @@ public class AddDiaryActivity extends Activity {
                 diary.setEdtDiary(edtDiary.getText().toString());
                 DiaryDAO diaryDAO=new DiaryDAO();
                 diaryDAO.uploadDiary(diary);
+                Intent back = new Intent(AddDiaryActivity.this,MapActivity.class);
+                startActivity(back);
             }
         });
 
