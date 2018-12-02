@@ -69,6 +69,16 @@
             android:inputType="textMultiLine" />
 
         <ImageButton
+            android:id="@+id/btnGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+        <ImageButton
             android:id="@+id/btnCamera"
             android:layout_width="47dp"
             android:layout_height="46dp"
@@ -76,20 +86,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
-            android:background="@null"
             app:srcCompat="@android:drawable/ic_menu_camera"
             tools:src="@drawable/btn_camera_black" />
 
-        <ImageButton
-            android:id="@+id/btnGallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="1"
-            android:layout_gravity="right|top"
-            android:background="@null"
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     </FrameLayout>
 
@@ -108,7 +107,7 @@
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
-                app:srcCompat="@tools:sample/backgrounds/scenic[10]" />
+                android:src="@drawable/kitty_001"/>
 
             <ImageView
                 android:id="@+id/imageView"
@@ -148,7 +147,7 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:text="Cancel"
-            android:textSize="20sp" />
+            android:theme="@style/Base.V7.Theme.AppCompat.Light.Dialog"/>
 
         <Button
             android:id="@+id/btnSave"
@@ -158,7 +157,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:text="Save"
-            android:textSize="20sp" />
+            android:theme="@style/Base.V7.Theme.AppCompat.Light.Dialog"/>
 
     </LinearLayout>
 

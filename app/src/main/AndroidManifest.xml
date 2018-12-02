@@ -42,8 +42,7 @@
         </activity>
         <activity
             android:name=".AddDiaryActivity"
-            android:label="Add new Diary"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+            android:label="Add new Diary" />
         <activity
             android:name=".ClickNotExistActivity"
             android:label="Add new place"
