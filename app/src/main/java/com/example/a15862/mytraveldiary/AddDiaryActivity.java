@@ -123,13 +123,14 @@ public class AddDiaryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //saveDiary(diaryName);
-                Diary diary = new Diary("123","456");
+                Diary diary = new Diary("123","345");
                 if (photoUri!=null){
                     diary.setPhotoUri(photoUri.toString());
                 }
                 if (imgWeatherUri!=null){
                     diary.setImgWeather(imgWeatherUri);
                 }
+                diary.setDiaplayName("place holder");
                 diary.setTxtDate(txtDate.getText().toString());
                 diary.setTxtCity(txtCity.getText().toString());
                 diary.setTxtTemperature(txtTemperature.getText().toString());

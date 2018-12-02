@@ -1,16 +1,13 @@
 package com.example.a15862.mytraveldiary.Entity;
 
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Diary implements Serializable{
     private static final long serialVersionUID = -7634235178023352252L;
-    private String userID=null;
+    private String username =null;
+    private String diaplayName;
     private String placeID=null;
     private String photoUri=null;
     private String imgWeather=null;
@@ -22,9 +19,8 @@ public class Diary implements Serializable{
         time=System.currentTimeMillis();
     }
     private String id;
-    public Diary(){}
-    public Diary(String userID,String placeID){
-        this.userID=userID;
+    public Diary(String username, String placeID){
+        this.username = username;
         this.placeID=placeID;
         time=System.currentTimeMillis();
     }
@@ -37,12 +33,12 @@ public class Diary implements Serializable{
         this.id = id;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPlaceID() {
@@ -101,10 +97,26 @@ public class Diary implements Serializable{
         this.edtDiary = edtDiary;
     }
 
+    public String getDiaplayName() {
+        return diaplayName;
+    }
+
+    public void setDiaplayName(String diaplayName) {
+        this.diaplayName = diaplayName;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     public Map<String,Object> toMap(){
         Map<String, Object> map=new HashMap<>();
-        if (userID!=null){
-            map.put("userid",userID);
+        if (username !=null){
+            map.put("userid", username);
         }
         if (placeID!=null){
             map.put("placeid",placeID);

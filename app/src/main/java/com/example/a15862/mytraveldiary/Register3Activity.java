@@ -1,5 +1,7 @@
 package com.example.a15862.mytraveldiary;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.a15862.mytraveldiary.DAO.UserDAO;
 import com.example.a15862.mytraveldiary.Entity.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -80,7 +83,7 @@ public class Register3Activity extends AppCompatActivity implements
         edtVerify = (EditText)findViewById(R.id.edtVerify);
 
         btnStart = (Button)findViewById(R.id.btnStart);
-        btnVerify = (Button)findViewById(R.id.btnStart);
+        btnVerify = (Button)findViewById(R.id.btnVerify);
         btnResend = (Button) findViewById(R.id.btnResend);
 
         // Assign click listeners
@@ -239,18 +242,45 @@ public class Register3Activity extends AppCompatActivity implements
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser authUser = task.getResult().getUser();
 
-                            User currentUser=new User();
+                            final User currentUser=new User();
                             currentUser.setUserid(authUser.getUid());
                             currentUser.setPhone(authUser.getPhoneNumber());
                             currentUser.setDisplayName(authUser.getPhoneNumber());
                             currentUser.setUsername(authUser.getPhoneNumber());
+                            findUserInDB(currentUser);
                             if (detectUser!=null){
+                                Log.e(TAG,"old user");
+                                UserDAO userDAO=new UserDAO();
+                                userDAO.saveUserInApp(detectUser,getApplicationContext());
+
+                                SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+
+                                editor.putString("displayName", detectUser.getDisplayName());
+
+                                editor.putString("username",detectUser.getUsername());
+
+                                editor.commit();
+
+
                                 Intent i = new Intent(getApplicationContext(), MapActivity.class);
                                 startActivity(i);
                             }else{
                                 db.collection("User").document(currentUser.getUsername()).set(currentUser).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
+                                        SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+
+                                        editor.putString("displayName", currentUser.getDisplayName());
+
+                                        editor.putString("username",currentUser.getUsername());
+
+                                        editor.commit();
+
+                                        Log.e(TAG,"after save");
                                         Intent i = new Intent(getApplicationContext(), MapActivity.class);
                                         startActivity(i);
                                     }
@@ -297,20 +327,20 @@ public class Register3Activity extends AppCompatActivity implements
                 if (!validatePhoneNumber()) {
                     return;
                 }
-
                 startPhoneNumberVerification(edtPhone.getText().toString());
                 break;
             case R.id.btnVerify:
                 String code = edtVerify.getText().toString();
+                Log.i(TAG,"verify click");
                 if (TextUtils.isEmpty(code)) {
                     edtVerify.setError("Cannot be empty.");
                     return;
                 }
                 verifyPhoneNumberWithCode(mVerificationId, code);
                 break;
-//            case R.id.btnResend:
-//                resendVerificationCode(edtPhone.getText().toString(), mResendToken);
-//                break;
+            case R.id.btnResend:
+                resendVerificationCode(edtPhone.getText().toString(), mResendToken);
+                break;
 
         }
     }
