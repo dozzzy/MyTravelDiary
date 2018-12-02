@@ -43,4 +43,6 @@ public class PlaceDAO {
         cr.document(p.getPlaceName()).update("totalScore",p.getTotalScore());
         cr.document(p.getPlaceName()).update("scoreCount",p.getScoreCount());
     }
+
+
 }

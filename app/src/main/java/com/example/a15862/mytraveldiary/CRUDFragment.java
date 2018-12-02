@@ -3,7 +3,9 @@ package com.example.a15862.mytraveldiary;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.BundleCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -40,15 +42,16 @@ public class CRUDFragment extends DialogFragment {
                 .setItems(R.array.CRUD, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if(which==0){
-
+                            Intent i = new Intent(getActivity(),ModifyActivity.class);
+                            Bundle b = new Bundle();
+                            b.putSerializable("Diary",curDiary);
+                            i.putExtras(b);
+                            startActivity(i);
                         }
                         else if(which==1){
 
                         }
                         else if(which==2){
-
-                        }
-                        else if(which==3){
                             DiaryDAO dd = new DiaryDAO();
                             dd.delete(curDiary);
                         }
