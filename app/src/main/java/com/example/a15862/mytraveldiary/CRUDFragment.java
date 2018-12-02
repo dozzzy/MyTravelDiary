@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.a15862.mytraveldiary.DAO.DiaryDAO;
 import com.example.a15862.mytraveldiary.Entity.Diary;
 
 
@@ -41,14 +42,15 @@ public class CRUDFragment extends DialogFragment {
                         if(which==0){
 
                         }
+                        else if(which==1){
+
+                        }
                         else if(which==2){
 
                         }
                         else if(which==3){
-
-                        }
-                        else if(which==4){
-
+                            DiaryDAO dd = new DiaryDAO();
+                            dd.delete(curDiary);
                         }
                     }
                 });

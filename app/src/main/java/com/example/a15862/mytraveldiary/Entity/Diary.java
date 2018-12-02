@@ -21,20 +21,15 @@ public class Diary implements Serializable{
     public Diary(){
         time=System.currentTimeMillis();
     }
-    private String id;
-    public Diary(){}
+
     public Diary(String userID,String placeID){
         this.userID=userID;
         this.placeID=placeID;
         time=System.currentTimeMillis();
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public long getTime() {
+        return time;
     }
 
     public String getUserID() {
