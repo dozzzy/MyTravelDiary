@@ -390,6 +390,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 String pid = cur.getString("place_id");
                 if (!existed.add(pid)) continue;
                 String placeName = cur.getString("name");
+                placeName = placeName.replaceAll("/","_");
                 JSONObject location = cur.getJSONObject("geometry").getJSONObject("location");
                 LatLng placeLoc = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
                 String vicinity = cur.getString("vicinity");
