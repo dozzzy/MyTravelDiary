@@ -14,9 +14,10 @@
         android:id="@+id/txtPlaceName"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_gravity="fill_vertical"
         android:layout_weight="2"
         android:text="Boston University"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <RatingBar
@@ -25,6 +26,8 @@
         android:layout_height="0dp"
         android:layout_weight="2"
         android:numStars="5"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
         android:stepSize="0.1" />
 
     <ScrollView
