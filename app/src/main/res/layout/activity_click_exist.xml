@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
     android:orientation="vertical"
+    android:padding="@dimen/browser_actions_context_menu_min_padding"
     tools:context=".ClickExistActivity">
 
     <TextView

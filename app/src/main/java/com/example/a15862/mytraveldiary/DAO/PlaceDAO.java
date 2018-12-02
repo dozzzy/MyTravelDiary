@@ -35,7 +35,7 @@ public class PlaceDAO {
         data.put("placeName",p.getPlaceName());
         data.put("photoPath",p.getPhotoPath());
         data.put("vicinity",p.getVicinity());
-        data.put("rate",p.getRate());
+        data.put("catagoty",p.getCatagoty());
         db.collection("Place").document(p.getPlaceName()).set(data);
     }
 

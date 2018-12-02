@@ -248,6 +248,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //                marker.showInfoWindow();
 
                 DialogFragment dialog = new ConfirmFragment();
+                Bundle b = new Bundle();
+                b.putDouble("Latitude",latLng.latitude);
+                b.putDouble("Longitude",latLng.longitude);
+                dialog.setArguments(b);
                 dialog.show(getSupportFragmentManager(), "ConfirmFragment");
             }
         });
@@ -393,6 +397,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if (cur.has("photos")) {
                     JSONObject photos = cur.getJSONArray("photos").getJSONObject(0);
                     p.setPhotoPath(photos.getString("html_attributions"));
+                }
+                if(cur.has("types")){
+                    JSONArray ja = cur.getJSONArray("types");
+                    List<String> cat = new ArrayList<>();
+                    for(int j = 0;j<ja.length();j++){
+                        cat.add(ja.getString(j));
+                    }
+                    p.setCatagoty(cat);
                 }
                 nearbyPlaces.add(p);
                 findPlaceByName.put(p.getPlaceName(), p);
