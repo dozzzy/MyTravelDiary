@@ -25,23 +25,26 @@
             android:value="AIzaSyDjCrdGmiesceyoZTwl--AVr_KRkFYhXMs" />
 
         <activity android:name=".LoginActivity">
-
-        </activity>
-        <activity android:name=".MapActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".AddDiaryActivity"
-            android:label="Add new Diary"/>
-        <activity android:name=".ClickNotExistActivity"
-            android:label="Add new place"/>
-        <activity android:name=".ClickExistActivity"
-            android:label="Place info"/>
+        <activity android:name=".MapActivity" />
+        <activity
+            android:name=".AddDiaryActivity"
+            android:label="Add new Diary" />
+        <activity
+            android:name=".ClickNotExistActivity"
+            android:label="Add new place" />
+        <activity
+            android:name=".ClickExistActivity"
+            android:label="Place info" />
         <activity android:name=".ViewAllDiaryActivity" />
+        <activity android:name=".Register1Activity" />
+        <activity android:name=".Register2Activity" />
+        <activity android:name=".Register3Activity"></activity>
     </application>
 
 </manifest>
