@@ -7,124 +7,103 @@
     android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
     android:orientation="vertical"
     android:padding="@dimen/browser_actions_context_menu_min_padding"
-    android:weightSum="6"
+    android:weightSum="20"
     tools:context=".ClickNotExistActivity">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/txtPlaceName"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:text="Place name"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edtPlaceName"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingStart="@dimen/fui_auth_method_button_margin"
+        android:text="Name" />
+
+    <TextView
+        android:id="@+id/txtCategory"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:text="Category"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/txtPlaceName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:text="Place name"
-            android:textSize="18sp" />
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:entries="@array/placeCategory" />
 
-        <EditText
-            android:id="@+id/edtPlaceName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
-    </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/txtRating"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:text="Your rating"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/txtCategory"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Category"
-            android:textSize="18sp" />
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="left|center_vertical"
+        android:layout_weight="3"
+        android:numStars="5"
+        android:paddingStart="@dimen/fui_auth_method_button_drawablePadding"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:stepSize="0.2" />
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:entries="@array/placeCategory" />
-    </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/txtComment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:text="Your comment"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/txtRating"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Your rating"
-            android:textSize="18sp" />
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:paddingStart="@dimen/fui_auth_method_button_margin" />
 
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
         android:orientation="horizontal"
-        android:weightSum="3">
-
-        <TextView
-            android:id="@+id/txtComment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Your comment"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/editText4"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:ems="10"
-            android:inputType="textMultiLine" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="2">
 
         <Button
             android:id="@+id/btnSaveReturn"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:text="Save and Return" />
 
         <Button
             android:id="@+id/btnSaveJump"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:text="Save and Write Diary" />
     </LinearLayout>
 

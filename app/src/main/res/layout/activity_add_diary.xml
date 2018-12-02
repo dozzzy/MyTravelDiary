@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
     android:orientation="vertical"
     tools:context=".AddDiaryActivity">
 
@@ -54,67 +55,79 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
-        android:orientation="horizontal">
+        android:layout_weight="6">
 
         <EditText
             android:id="@+id/edtDiary"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:ems="10"
             android:hint="Your Diary"
             android:inputType="textMultiLine" />
-    </LinearLayout>
 
-    <LinearLayout
+        <ImageButton
+            android:id="@+id/btnCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:background="@null"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+
+        <ImageButton
+            android:id="@+id/btnGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:layout_gravity="right|top"
+            android:background="@null"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    </FrameLayout>
+
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
-        android:orientation="vertical"
-        android:weightSum="5">
+        android:layout_weight="5">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:padding="1dp">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/btnCamera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:background="@null"
-                app:srcCompat="@android:drawable/ic_menu_camera" />
+            <ImageView
+                android:id="@+id/imgPhoto"
+                android:layout_width="126dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/fui_auth_method_button_drawablePadding"
+                android:layout_weight="4"
+                app:srcCompat="@drawable/kitty_001" />
 
-            <ImageButton
-                android:id="@+id/btnGallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:background="@null"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/fui_auth_method_button_drawablePadding"
+                android:layout_weight="4"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/fui_auth_method_button_drawablePadding"
+                android:layout_weight="4"
+                tools:srcCompat="@tools:sample/backgrounds/scenic[14]" />
 
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imgPhoto"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_weight="4"
-            android:padding="4dp"
-            app:srcCompat="@drawable/kitty_001" />
-
-    </LinearLayout>
+    </HorizontalScrollView>
 
     <LinearLayout
         android:id="@+id/buttonLayout"
