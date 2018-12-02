@@ -27,7 +27,14 @@
         <activity android:name=".LoginActivity">
 
         </activity>
-        <activity android:name=".MapActivity" />
+        <activity android:name=".MapActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".AddDiaryActivity"
             android:label="Add new Diary" />
@@ -38,16 +45,11 @@
             android:name=".ClickExistActivity"
             android:label="Place info" />
         <activity android:name=".ViewAllDiaryActivity" />
-        <activity android:name=".Register1Activity" />
-        <activity android:name=".Register2Activity" />
-        <activity android:name=".Register3Activity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".Register1Activity" >
 
         </activity>
+        <activity android:name=".Register2Activity" />
+        <activity android:name=".Register3Activity"></activity>
     </application>
 
 </manifest>

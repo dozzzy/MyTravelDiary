@@ -3,11 +3,13 @@ package com.example.a15862.mytraveldiary.Entity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Diary {
+public class Diary implements Serializable{
+    private static final long serialVersionUID = -7634235178023352252L;
     private String userID=null;
     private String placeID=null;
     private String photoUri=null;
@@ -19,10 +21,20 @@ public class Diary {
     public Diary(){
         time=System.currentTimeMillis();
     }
+    private String id;
+    public Diary(){}
     public Diary(String userID,String placeID){
         this.userID=userID;
         this.placeID=placeID;
         time=System.currentTimeMillis();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserID() {

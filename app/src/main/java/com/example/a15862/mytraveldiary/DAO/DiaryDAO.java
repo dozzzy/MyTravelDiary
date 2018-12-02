@@ -30,10 +30,8 @@ public class DiaryDAO {
 
 
     public void uploadDiary(Diary diary){
-        Log.i("jingD","begin");
         uploadDiary =diary;
         if (diary.getPhotoUri()!=null){
-            Log.i("jingD","have photo");
             Uri uri=Uri.parse(diary.getPhotoUri());
             // if we have photo to upload we upload photo first, and retrieve the url of photo. then save the url with other things(username, comments....) in firestore
             final StorageReference fileRef = mStorageRef.child(System.currentTimeMillis() + "." +uri);
@@ -77,6 +75,11 @@ public class DiaryDAO {
                 }
             });
         }
+    }
+
+
+    public void delete(Diary diary){
+
     }
 
 //    // this method is to get the full name of a photo. (apple -> apple.jpg)
