@@ -29,8 +29,8 @@ public class ClickExistActivity extends AppCompatActivity {
         txtPlaceName = findViewById(R.id.txtPlaceName);
         ratingBar = findViewById(R.id.ratingBar);
         editText = findViewById(R.id.editText);
-        btnSave = findViewById(R.id.btnSave);
-        btnJump = findViewById(R.id.btnJump);
+        btnSave = findViewById(R.id.btnSaveReturn);
+        btnJump = findViewById(R.id.btnSaveJump);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {

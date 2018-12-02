@@ -14,7 +14,7 @@ public class ClickNotExistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_not_exist);
 
-        btnJump = (Button) findViewById(R.id.btnJump);
+        btnJump = (Button) findViewById(R.id.btnSaveJump);
         btnJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
