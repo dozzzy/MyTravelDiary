@@ -17,10 +17,10 @@ public class Place implements Serializable{
     private int scoreCount = 0;
     private float totalScore = 0;
     private String placeName;
-    private double rate;
     private List<String> comments;
     private String vicinity;
     private String photoPath;
+    private List<String> catagoty;
 
     public int getScoreCount() {
         return scoreCount;
@@ -34,9 +34,6 @@ public class Place implements Serializable{
         return totalScore;
     }
 
-    public void setTotalScore(int totalScore) {
-        this.totalScore = totalScore;
-    }
 
     public String getPid() {
         return pid;
@@ -81,14 +78,6 @@ public class Place implements Serializable{
         this.longitude = longitude;
     }
 
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
-    }
-
     public List<String> getComments() {
         return comments;
     }
@@ -113,18 +102,31 @@ public class Place implements Serializable{
         this.photoPath = photoPath;
     }
 
+    public void setTotalScore(float totalScore) {
+        this.totalScore = totalScore;
+    }
 
-    public Place(LatLng location,String name,String address,String pid){
+    public List<String> getCatagoty() {
+        return catagoty;
+    }
+
+    public void setCatagoty(List<String> catagoty) {
+        this.catagoty = catagoty;
+    }
+
+    public Place(LatLng location, String name, String address, String pid){
         this.longitude = location.longitude;
         this.latitude = location.latitude;
         placeName = name;
         vicinity = address;
         comments = new ArrayList<>();
+        catagoty = new ArrayList<>();
         this.pid = pid;
     }
 
     public Place(){
         comments = new ArrayList<>();
+        catagoty = new ArrayList<>();
     };
 
 
