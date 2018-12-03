@@ -110,8 +110,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-    private TextView txtUsername;
-    private TextView txtDisplayName;
+
     // DrawerLayout and adapter
 //    private DrawerLayout drawer_layout;
 //    private ListView list_left_drawer;
@@ -124,16 +123,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         searchServices = new SearchServicesImp(this);
         findPlaceByName = new HashMap<>();
         super.onCreate(savedInstanceState);
-
-
-
-
-
-
-
-
-
-
+        User testUser=new User();
+        SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
+        testUser.setDisplayName(load.getString("displayName", "DEFAULT"));
+        testUser.setUsername(load.getString("username","DEFAULT"));
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -183,22 +176,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
-
-        SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
-        String displayName=load.getString("displayName", "DEFAULT");
-        String username=load.getString("username","DEFAULT");
-
-        View headerView = navigationView.getHeaderView(0);
-
-        txtUsername=(TextView)headerView.findViewById(R.id.txtUsername);
-        txtDisplayName=(TextView)headerView.findViewById(R.id.txtDisplayName);
-        txtUsername.setText(username);
-        txtDisplayName.setText(displayName);
-
-
-
-
         navigationView.setNavigationItemSelectedListener(this);
 
 
