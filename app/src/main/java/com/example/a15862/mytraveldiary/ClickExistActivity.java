@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,8 +35,10 @@ public class ClickExistActivity extends Activity {
     private RatingBar ratingBar;
     private EditText editText;
     private Button btnSave;
+    private RecyclerView commentList;
     PlaceDAO pd;
     private float score;
+    private MyCustomAdapterForComment mAdapter;
     private Button btnJump;
     private List<Comment> commentArray = new ArrayList<>();
     @Override
@@ -47,6 +51,9 @@ public class ClickExistActivity extends Activity {
         editText = findViewById(R.id.editText);
         btnSave = findViewById(R.id.btnSaveReturn);
         btnJump = findViewById(R.id.btnSaveJump);
+        commentList=findViewById(R.id.commentList);
+        commentList.setHasFixedSize(true);
+        commentList.setLayoutManager(new LinearLayoutManager(this));
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -65,6 +72,8 @@ public class ClickExistActivity extends Activity {
                     Comment c = d.toObject(Comment.class);
                     commentArray.add(c);
                 }
+                mAdapter = new MyCustomAdapterForComment(ClickExistActivity.this, commentArray);
+                commentList.setAdapter(mAdapter);
             }
         });
         //TODO: add comment into view

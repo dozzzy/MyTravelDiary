@@ -11,28 +11,6 @@
     tools:context=".MapActivity" >
 
 
-
-    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
-    <!--<android.support.design.widget.NavigationView-->
-        <!--android:id="@+id/nav_view"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="start"-->
-        <!--android:fitsSystemWindows="false"-->
-        <!--app:itemTextColor="@color/darkGrey"-->
-        <!--app:itemIconTint="@color/darkGrey"-->
-        <!--app:menu="@menu/sliding_menu"-->
-        <!--app:headerLayout="@layout/header"-->
-        <!--/>-->
-
-    <!--&lt;!&ndash; Layout to contain contents of main body of screen (drawer will slide over this) &ndash;&gt;-->
-    <!--<FrameLayout-->
-        <!--android:id="@+id/fragContainer"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical">-->
-    <!--</FrameLayout>-->
-
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -40,16 +18,19 @@
         android:layout_height="match_parent"
         />
 
-    <ListView
-        android:id="@+id/list_left_drawer"
-        android:layout_width="180dp"
+    <include
+        layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#dddddd"
-        android:choiceMode="singleChoice"
-        android:divider="#eeeeee"
-        android:dividerHeight="1dp" />
-
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer" />
 
 
 </android.support.v4.widget.DrawerLayout>
