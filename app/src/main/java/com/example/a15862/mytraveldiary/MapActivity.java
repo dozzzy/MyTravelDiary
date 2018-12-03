@@ -110,7 +110,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-
+    private TextView txtUsername;
+    private TextView txtDisplayName;
     // DrawerLayout and adapter
 //    private DrawerLayout drawer_layout;
 //    private ListView list_left_drawer;
