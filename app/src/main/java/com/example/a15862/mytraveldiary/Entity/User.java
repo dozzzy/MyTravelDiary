@@ -11,6 +11,8 @@ public class User {
     private String phone;
     private String email;
     private String displayName;
+    private int scoreCountUser = 0;
+    private float totalScoreUser = 0;
     private List<String> following;
     //    private List<Diary> userDiary;
     public User(){}

@@ -59,6 +59,7 @@ public class ClickNotExistActivity extends Activity {
             public void onClick(View v) {
                 storeData();
                 Intent intent = new Intent(ClickNotExistActivity.this, AddDiaryActivity.class);
+                Log.e("qwer", "currentPlace" + currentPlace.getLatitude());
                 Bundle b = new Bundle();
                 b.putSerializable("Place",currentPlace);
                 intent.putExtras(b);

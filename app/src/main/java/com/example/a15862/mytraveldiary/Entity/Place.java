@@ -106,6 +106,11 @@ public class Place implements Serializable{
         this.totalScore = totalScore;
     }
 
+    public float getAvgScore (Place pl) {
+        return pl.totalScore / pl.scoreCount;
+    }
+
+
     public List<String> getCatagoty() {
         return catagoty;
     }
