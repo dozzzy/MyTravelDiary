@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
     android:orientation="vertical"
     tools:context=".AddDiaryActivity">
 
@@ -16,8 +17,8 @@
 
         <ImageView
             android:id="@+id/imgWeather"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/kitty_001"
             tools:srcCompat="@tools:sample/avatars[2]" />
@@ -54,67 +55,76 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
-        android:orientation="horizontal">
+        android:layout_weight="6">
 
         <EditText
             android:id="@+id/edtDiary"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:ems="10"
             android:hint="Your Diary"
             android:inputType="textMultiLine" />
-    </LinearLayout>
 
-    <LinearLayout
+        <ImageButton
+            android:id="@+id/btnGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+        <ImageButton
+            android:id="@+id/btnCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_camera"
+            tools:src="@drawable/btn_camera_black" />
+
+
+    </FrameLayout>
+
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
-        android:orientation="vertical"
-        android:weightSum="5">
+        android:layout_weight="5">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:padding="1dp">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/btnCamera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:background="@null"
-                app:srcCompat="@android:drawable/ic_menu_camera" />
+            <ImageView
+                android:id="@+id/imgPhoto"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:src="@drawable/kitty_001"/>
 
-            <ImageButton
-                android:id="@+id/btnGallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:background="@null"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                tools:srcCompat="@tools:sample/backgrounds/scenic[14]" />
 
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imgPhoto"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_weight="4"
-            android:padding="4dp"
-            app:srcCompat="@drawable/kitty_001" />
-
-    </LinearLayout>
+    </HorizontalScrollView>
 
     <LinearLayout
         android:id="@+id/buttonLayout"
@@ -136,10 +146,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
-            android:background="@drawable/cancel"
             android:text="Cancel"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp" />
+            android:theme="@style/Base.V7.Theme.AppCompat.Light.Dialog"/>
 
         <Button
             android:id="@+id/btnSave"
@@ -148,10 +156,8 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:background="@drawable/create"
             android:text="Save"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:theme="@style/Base.V7.Theme.AppCompat.Light.Dialog"/>
 
     </LinearLayout>
 

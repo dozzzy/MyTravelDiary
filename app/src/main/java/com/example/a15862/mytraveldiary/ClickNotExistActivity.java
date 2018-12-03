@@ -1,7 +1,9 @@
 package com.example.a15862.mytraveldiary;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,8 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.example.a15862.mytraveldiary.DAO.CommentDAO;
 import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
+import com.example.a15862.mytraveldiary.Entity.Comment;
 import com.example.a15862.mytraveldiary.Entity.Place;
 
 public class ClickNotExistActivity extends Activity {
@@ -37,7 +42,7 @@ public class ClickNotExistActivity extends Activity {
         spinner = findViewById(R.id.spinner);
         btnSave = findViewById(R.id.btnSaveReturn);
         edtComment = findViewById(R.id.edtComment);
-        Bundle b = getIntent().getExtras();
+        final Bundle b = getIntent().getExtras();
         lat = b.getDouble("Latitude");
         lon = b.getDouble("Longitude");
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -52,6 +57,7 @@ public class ClickNotExistActivity extends Activity {
         btnJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                storeData();
                 Intent intent = new Intent(ClickNotExistActivity.this, AddDiaryActivity.class);
                 Bundle b = new Bundle();
                 b.putSerializable("Place",currentPlace);
@@ -80,25 +86,35 @@ public class ClickNotExistActivity extends Activity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String pname = edtPlaceName.getText().toString();
-                String comment = edtComment.getText().toString();
-                Place p = new Place();
-                p.setLatitude(lat);
-                p.setLongitude(lon);
-                p.setPlaceName(pname);
-                p.getComments().add(comment);
-                p.getCatagoty().add(cat);
-                p.addScore(score);
-                //this place is user_defined , generate unique pid for it
-                String pid = String.valueOf(p.hashCode());
-                p.setPid(pid);
-                PlaceDAO pd = new PlaceDAO();
-                pd.addPlace(p);
-                pd.updateData(p);
-                currentPlace = p;
+                storeData();
+                Intent back = new Intent(ClickNotExistActivity.this,MapActivity.class);
+                startActivity(back);
             }
         });
-
-        Log.i("Jing","4");
+    }
+    private void storeData(){
+        String pname = edtPlaceName.getText().toString();
+        String comment = edtComment.getText().toString();
+//        testUser.setDisplayName(load.getString("displayName", "DEFAULT"));
+//        testUser.setUsername(load.getString("username","DEFAULT"));
+        Place p = new Place();
+        p.setLatitude(lat);
+        p.setLongitude(lon);
+        p.setPlaceName(pname);
+        p.getComments().add(comment);
+        p.getCatagoty().add(cat);
+        p.addScore(score);
+        //this place is user_defined , generate unique pid for it
+        String pid = String.valueOf(p.hashCode());
+        p.setPid(pid);
+        PlaceDAO pd = new PlaceDAO();
+        pd.addPlace(p);
+        pd.updateData(p);
+        currentPlace = p;
+        SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
+        Comment c = new Comment(load.getString("displayName", "123"),currentPlace.getPlaceName(),comment);
+        CommentDAO cd = new CommentDAO();
+        cd.addComment(c);
+        Toast.makeText(this,"Successfully added!",Toast.LENGTH_SHORT);
     }
 }

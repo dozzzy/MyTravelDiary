@@ -147,7 +147,7 @@ public class ModifyActivity extends Activity {
             }
         });
 
-        db.collection("Place").whereEqualTo("pid", curDiary.getPlaceID())
+        db.collection("Place").whereEqualTo("placeName", curDiary.getPlaceName())
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

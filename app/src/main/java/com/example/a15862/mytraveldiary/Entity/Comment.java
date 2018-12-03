@@ -4,30 +4,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Comment {
-    private String placeID;
-    private String userID;
+    private String placeName;
+    private String username;
     private String userComment;
-    public Comment(){}
-    public Comment(String userID,String placeID,String userComment){
-        this.placeID=placeID;
-        this.userID=userID;
-        this.userComment=userID;
+    private long time;
+    public Comment(){
+        time=System.currentTimeMillis();
+    }
+    public Comment(String userID,String placeName,String userComment){
+        this.placeName=placeName;
+        this.username=userID;
+        this.userComment=userComment;
+        time=System.currentTimeMillis();
     }
 
-    public String getPlaceID() {
-        return placeID;
+    public long getTime() {
+        return time;
     }
 
-    public void setPlaceID(String placeID) {
-        this.placeID = placeID;
+    public void setTime(long time) {
+        this.time = time;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getPlaceName() {
+        return placeName;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setPlaceName(String placeID) {
+        this.placeName = placeName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String userID) {
+        this.username = userID;
     }
 
     public String getUserComment() {
@@ -38,17 +50,4 @@ public class Comment {
         this.userComment = userComment;
     }
 
-    public Map<String,Object> toMap(){
-        Map<String, Object> map=new HashMap<>();
-        if (placeID!=null){
-            map.put("placeid",placeID);
-        }
-        if (userID!=null){
-            map.put("userid",userID);
-        }
-        if (userComment!=null){
-            map.put("userComment",userComment);
-        }
-        return map;
-    }
 }

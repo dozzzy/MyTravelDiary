@@ -2,8 +2,10 @@ package com.example.a15862.mytraveldiary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -36,7 +38,9 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
+import com.example.a15862.mytraveldiary.DAO.UserDAO;
 import com.example.a15862.mytraveldiary.Entity.Place;
+import com.example.a15862.mytraveldiary.Entity.User;
 import com.example.a15862.mytraveldiary.ServiceImps.SearchServicesImp;
 import com.example.a15862.mytraveldiary.Services.SearchServices;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -119,7 +123,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         searchServices = new SearchServicesImp(this);
         findPlaceByName = new HashMap<>();
         super.onCreate(savedInstanceState);
-        Log.i("myMap", "oncreate");
+        User testUser=new User();
+        SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
+        testUser.setDisplayName(load.getString("displayName", "DEFAULT"));
+        testUser.setUsername(load.getString("username","DEFAULT"));
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);

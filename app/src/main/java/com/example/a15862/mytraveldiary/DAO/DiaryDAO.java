@@ -48,7 +48,7 @@ public class DiaryDAO {
                                     // after we upload photo to storage, we restore the url of photo and other stuff to firestore
                                     Log.i("upload diary","photo in storage");
                                     uploadDiary.setPhotoUri(uri.toString());
-                                    db.collection("Diary").document(diary.getTime()+":"+diary.getUserID()).set(uploadDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    db.collection("Diary").document(diary.getTime()+":"+diary.getUsername()).set(uploadDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Log.i("upload diary","photo succ");
@@ -67,7 +67,7 @@ public class DiaryDAO {
                         }
                     });
         } else {
-            db.collection("Diary").document(diary.getTime()+":"+diary.getUserID()).set(uploadDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
+            db.collection("Diary").document(diary.getTime()+":"+diary.getUsername()).set(uploadDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.i("jingD","no photo succ");
@@ -78,8 +78,8 @@ public class DiaryDAO {
 
 
     public void delete(Diary diary){
-        Log.i("Jing",diary.getTime()+"."+diary.getUserID());
-        db.collection("Diary").document(diary.getTime()+":"+diary.getUserID()).delete();
+        Log.i("Jing",diary.getTime()+"."+diary.getUsername());
+        db.collection("Diary").document(diary.getTime()+":"+diary.getUsername()).delete();
     }
 
 //    // this method is to get the full name of a photo. (apple -> apple.jpg)

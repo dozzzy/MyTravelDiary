@@ -10,8 +10,9 @@ import java.util.Map;
 
 public class Diary implements Serializable{
     private static final long serialVersionUID = -7634235178023352252L;
-    private String userID=null;
-    private String placeID=null;
+    private String username =null;
+    private String diaplayName;
+    private String placeName=null;
     private String photoUri=null;
     private String imgWeather=null;
     private String txtDate=null, txtCity=null, txtTemperature=null;
@@ -22,9 +23,10 @@ public class Diary implements Serializable{
         time=System.currentTimeMillis();
     }
 
-    public Diary(String userID,String placeID){
-        this.userID=userID;
-        this.placeID=placeID;
+
+    public Diary(String username, String placeName){
+        this.username = username;
+        this.placeName=placeName;
         time=System.currentTimeMillis();
     }
 
@@ -32,20 +34,20 @@ public class Diary implements Serializable{
         return time;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPlaceID() {
-        return placeID;
+    public String getPlaceName() {
+        return placeName;
     }
 
-    public void setPlaceID(String placeID) {
-        this.placeID = placeID;
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
     }
 
     public String getPhotoUri() {
@@ -96,13 +98,26 @@ public class Diary implements Serializable{
         this.edtDiary = edtDiary;
     }
 
+    public String getDiaplayName() {
+        return diaplayName;
+    }
+
+    public void setDiaplayName(String diaplayName) {
+        this.diaplayName = diaplayName;
+    }
+
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     public Map<String,Object> toMap(){
         Map<String, Object> map=new HashMap<>();
-        if (userID!=null){
-            map.put("userid",userID);
+        if (username !=null){
+            map.put("username", username);
         }
-        if (placeID!=null){
-            map.put("placeid",placeID);
+        if (placeName!=null){
+            map.put("placeName",placeName);
         }
         if (photoUri!=null){
             map.put("photoUri",photoUri);
