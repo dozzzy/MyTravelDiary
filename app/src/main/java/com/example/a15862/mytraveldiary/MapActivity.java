@@ -121,13 +121,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         searchServices = new SearchServicesImp(this);
         findPlaceByName = new HashMap<>();
         super.onCreate(savedInstanceState);
-        Log.i("myMap", "oncreate");
         User testUser=new User();
         SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
         testUser.setDisplayName(load.getString("displayName", "DEFAULT"));
         testUser.setUsername(load.getString("username","DEFAULT"));
-        Log.i("myMaptzD",testUser.getDisplayName());
-        Log.i("myMaptzN",testUser.getUsername());
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);

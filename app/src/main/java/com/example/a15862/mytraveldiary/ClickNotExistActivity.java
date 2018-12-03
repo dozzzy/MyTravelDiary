@@ -1,7 +1,9 @@
 package com.example.a15862.mytraveldiary;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +15,9 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.a15862.mytraveldiary.DAO.CommentDAO;
 import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
+import com.example.a15862.mytraveldiary.Entity.Comment;
 import com.example.a15862.mytraveldiary.Entity.Place;
 
 public class ClickNotExistActivity extends Activity {
@@ -91,6 +95,8 @@ public class ClickNotExistActivity extends Activity {
     private void storeData(){
         String pname = edtPlaceName.getText().toString();
         String comment = edtComment.getText().toString();
+//        testUser.setDisplayName(load.getString("displayName", "DEFAULT"));
+//        testUser.setUsername(load.getString("username","DEFAULT"));
         Place p = new Place();
         p.setLatitude(lat);
         p.setLongitude(lon);
@@ -105,6 +111,10 @@ public class ClickNotExistActivity extends Activity {
         pd.addPlace(p);
         pd.updateData(p);
         currentPlace = p;
+        SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
+        Comment c = new Comment(load.getString("displayName", "123"),currentPlace.getPlaceName(),comment);
+        CommentDAO cd = new CommentDAO();
+        cd.addComment(c);
         Toast.makeText(this,"Successfully added!",Toast.LENGTH_SHORT);
     }
 }
