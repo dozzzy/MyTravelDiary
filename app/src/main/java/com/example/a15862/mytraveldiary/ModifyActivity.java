@@ -26,6 +26,10 @@ import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Retrofit.IOpenWeatherMap;
 import com.example.a15862.mytraveldiary.Retrofit.RetrofitClient;
 import com.example.a15862.mytraveldiary.WeatherModel.WeatherResult;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -40,7 +44,7 @@ import retrofit2.Retrofit;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
-public class AddDiaryActivity extends Activity {
+public class ModifyActivity extends Activity {
 
     private ImageButton btnCamera, btnGallery;
     private final int IMAGE_RESULT_CODE = 2;// 表示打开照相机
@@ -59,19 +63,21 @@ public class AddDiaryActivity extends Activity {
     private Button btnClear, btnSave;
 
     private String PHOTO_FILE_NAME = "temp_photo.jpg";
-    private Uri photoUri=null; // for photos
+    private Uri photoUri = null; // for photos
     private int photoCnt;
     private String timeStamp;
     private String cityLoc;
     private String diaryName;
     private Uri tempUri;
+    private Diary curDiary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_diary);
         Bundle info = getIntent().getExtras();
-        currentPlace = (Place)info.getSerializable("Place");
+        curDiary = (Diary) info.getSerializable("Diary");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         btnCamera = (ImageButton) findViewById(R.id.btnCamera);
         btnGallery = (ImageButton) findViewById(R.id.btnGallery);
         imgPhoto = (ImageView) findViewById(R.id.imgPhoto);
@@ -82,7 +88,6 @@ public class AddDiaryActivity extends Activity {
         edtDiary = (EditText) findViewById(R.id.edtDiary);
         btnClear = (Button) findViewById(R.id.btnClear);
         btnSave = (Button) findViewById(R.id.btnSave);
-
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -90,9 +95,9 @@ public class AddDiaryActivity extends Activity {
                 Intent intent = new Intent(
                         android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
-                File tempFile = new File(Environment.getExternalStorageDirectory(),PHOTO_FILE_NAME);
+                File tempFile = new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME);
                 Uri uri = Uri.fromFile(tempFile);
-                photoUri=uri;
+                photoUri = uri;
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 startActivityForResult(intent, IMAGE_RESULT_CODE);
 
@@ -111,37 +116,50 @@ public class AddDiaryActivity extends Activity {
         });
 
 
-        getWeatherInfo();
+        btnClear.setOnClickListener(new View.OnClickListener()
 
-        btnClear.setOnClickListener(new View.OnClickListener() {
+        {
             @Override
             public void onClick(View v) {
                 edtDiary.setText("");
             }
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 //saveDiary(diaryName);
-                Diary diary = new Diary("123","345");
-                if (photoUri!=null){
+                Diary diary = new Diary("123", "456");
+                if (photoUri != null) {
                     diary.setPhotoUri(photoUri.toString());
                 }
-                if (imgWeatherUri!=null){
+                if (imgWeatherUri != null) {
                     diary.setImgWeather(imgWeatherUri);
                 }
-                diary.setDiaplayName("place holder");
                 diary.setTxtDate(txtDate.getText().toString());
                 diary.setTxtCity(txtCity.getText().toString());
                 diary.setTxtTemperature(txtTemperature.getText().toString());
                 diary.setEdtDiary(edtDiary.getText().toString());
-                DiaryDAO diaryDAO=new DiaryDAO();
+                DiaryDAO diaryDAO = new DiaryDAO();
                 diaryDAO.uploadDiary(diary);
             }
         });
 
-
+        db.collection("Place").whereEqualTo("pid", curDiary.getPlaceID())
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot d : queryDocumentSnapshots) {
+                    currentPlace = d.toObject(Place.class);
+                    getWeatherInfo();
+                    txtDate.setText(curDiary.getTxtDate());
+                    txtCity.setText(curDiary.getTxtCity());
+                    edtDiary.setText(curDiary.getEdtDiary());
+                }
+            }
+        });
     }
 
 
@@ -164,7 +182,7 @@ public class AddDiaryActivity extends Activity {
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
                     imgPhoto.setImageURI(uri);
-                    photoUri=uri;
+                    photoUri = uri;
 
                 }
                 break;
@@ -197,7 +215,7 @@ public class AddDiaryActivity extends Activity {
                 Picasso.get().load(new StringBuilder("https://openweathermap.org/img/w/")
                         .append(response.body().getWeather().get(0).getIcon())
                         .append(".png").toString()).into(imgWeather);
-                imgWeatherUri=new StringBuilder("https://openweathermap.org/img/w/")
+                imgWeatherUri = new StringBuilder("https://openweathermap.org/img/w/")
                         .append(response.body().getWeather().get(0).getIcon())
                         .append(".png").toString();
 

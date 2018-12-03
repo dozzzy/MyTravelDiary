@@ -1,7 +1,11 @@
 package com.example.a15862.mytraveldiary.Entity;
 
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Diary implements Serializable{
@@ -18,19 +22,16 @@ public class Diary implements Serializable{
     public Diary(){
         time=System.currentTimeMillis();
     }
-    private String id;
+
+
     public Diary(String username, String placeID){
         this.username = username;
         this.placeID=placeID;
         time=System.currentTimeMillis();
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public long getTime() {
+        return time;
     }
 
     public String getUsername() {
@@ -105,9 +106,6 @@ public class Diary implements Serializable{
         this.diaplayName = diaplayName;
     }
 
-    public long getTime() {
-        return time;
-    }
 
     public void setTime(long time) {
         this.time = time;

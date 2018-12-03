@@ -78,7 +78,10 @@
             android:id="@+id/ratingBar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:numStars="5"
+            android:scaleX="0.7"
+            android:scaleY="0.7" />
 
     </LinearLayout>
 
