@@ -30,8 +30,8 @@ public class ClickExistActivity extends Activity {
         txtPlaceName = findViewById(R.id.txtPlaceName);
         ratingBar = findViewById(R.id.ratingBar);
         editText = findViewById(R.id.editText);
-        btnSave = findViewById(R.id.btnSave);
-        btnJump = findViewById(R.id.btnJump);
+        btnSave = findViewById(R.id.btnSaveReturn);
+        btnJump = findViewById(R.id.btnSaveJump);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -40,8 +40,8 @@ public class ClickExistActivity extends Activity {
         });
         Bundle info = getIntent().getExtras();
         currentPlace = (Place)info.getSerializable("Place");
-
         txtPlaceName.setText(currentPlace.getPlaceName());
+
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -51,12 +51,18 @@ public class ClickExistActivity extends Activity {
                 currentPlace.getComments().add(comment);
                 currentPlace.addScore(score);
                 pd.updateData(currentPlace);
+                Intent back = new Intent(ClickExistActivity.this,MapActivity.class);
+                startActivity(back);
             }
         });
 
         btnJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String comment = editText.getText().toString();
+                currentPlace.getComments().add(comment);
+                currentPlace.addScore(score);
+                pd.updateData(currentPlace);
                 Intent intent = new Intent(ClickExistActivity.this, AddDiaryActivity.class);
                 Bundle b = new Bundle();
                 b.putSerializable("Place", currentPlace);
