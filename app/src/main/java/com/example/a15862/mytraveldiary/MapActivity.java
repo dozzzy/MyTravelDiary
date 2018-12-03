@@ -7,18 +7,22 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -73,7 +77,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver, AdapterView.OnItemClickListener{
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver, NavigationView.OnNavigationItemSelectedListener {
 
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
@@ -107,12 +111,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String KEY_LOCATION = "location";
 
 
-
     // DrawerLayout and adapter
-    private DrawerLayout drawer_layout;
-    private ListView list_left_drawer;
-    private ArrayAdapter<String> adapter = null;
-
+//    private DrawerLayout drawer_layout;
+//    private ListView list_left_drawer;
+//    private ArrayAdapter<String> adapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,13 +123,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         searchServices = new SearchServicesImp(this);
         findPlaceByName = new HashMap<>();
         super.onCreate(savedInstanceState);
-        Log.i("myMap", "oncreate");
         User testUser=new User();
         SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
         testUser.setDisplayName(load.getString("displayName", "DEFAULT"));
         testUser.setUsername(load.getString("username","DEFAULT"));
-        Log.i("myMaptzD",testUser.getDisplayName());
-        Log.i("myMaptzN",testUser.getUsername());
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -151,26 +150,85 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
-        // DrawerLayout and adapter
-        drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        list_left_drawer = (ListView) findViewById(R.id.list_left_drawer);
+        // DrawerLayout
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        String[] left_menu = {"View Diary","Friends","Settings","Logout"};
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Place currentPlace = new Place();
+                currentPlace.setLatitude(mLastKnownLocation.getLatitude());
+                currentPlace.setLongitude(mLastKnownLocation.getLongitude());
+                Intent intent = new Intent(MapActivity.this, ClickNotExistActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable("Place",currentPlace);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
 
-        adapter = new ArrayAdapter<String>
-                (this,android.R.layout.simple_expandable_list_item_1,left_menu);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
-        list_left_drawer.setAdapter(adapter);
-        list_left_drawer.setOnItemClickListener(this);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(adapter.getItem(position) == "View Diary" ){
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_diary) {
             Intent intent = new Intent(MapActivity.this, ViewAllDiaryActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_friends) {
+
         }
-        drawer_layout.closeDrawer(list_left_drawer);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 
@@ -209,6 +267,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
+        uiSettings.setMyLocationButtonEnabled(true);
 
         // Create new marker when user pin on the map
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -259,8 +318,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 DialogFragment dialog = new ConfirmFragment();
                 Bundle b = new Bundle();
-                b.putDouble("Latitude",latLng.latitude);
-                b.putDouble("Longitude",latLng.longitude);
+                b.putDouble("Latitude", latLng.latitude);
+                b.putDouble("Longitude", latLng.longitude);
                 dialog.setArguments(b);
                 dialog.show(getSupportFragmentManager(), "ConfirmFragment");
             }
@@ -400,7 +459,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 String pid = cur.getString("place_id");
                 if (!existed.add(pid)) continue;
                 String placeName = cur.getString("name");
-                placeName = placeName.replaceAll("/","_");
+                placeName = placeName.replaceAll("/", "_");
                 JSONObject location = cur.getJSONObject("geometry").getJSONObject("location");
                 LatLng placeLoc = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
                 String vicinity = cur.getString("vicinity");
@@ -409,10 +468,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     JSONObject photos = cur.getJSONArray("photos").getJSONObject(0);
                     p.setPhotoPath(photos.getString("html_attributions"));
                 }
-                if(cur.has("types")){
+                if (cur.has("types")) {
                     JSONArray ja = cur.getJSONArray("types");
                     List<String> cat = new ArrayList<>();
-                    for(int j = 0;j<ja.length();j++){
+                    for (int j = 0; j < ja.length(); j++) {
                         cat.add(ja.getString(j));
                     }
                     p.setCatagoty(cat);
