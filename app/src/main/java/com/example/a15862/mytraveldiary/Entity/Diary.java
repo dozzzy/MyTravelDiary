@@ -12,7 +12,7 @@ public class Diary implements Serializable{
     private static final long serialVersionUID = -7634235178023352252L;
     private String username =null;
     private String diaplayName;
-    private String placeID=null;
+    private String placeName=null;
     private String photoUri=null;
     private String imgWeather=null;
     private String txtDate=null, txtCity=null, txtTemperature=null;
@@ -24,9 +24,9 @@ public class Diary implements Serializable{
     }
 
 
-    public Diary(String username, String placeID){
+    public Diary(String username, String placeName){
         this.username = username;
-        this.placeID=placeID;
+        this.placeName=placeName;
         time=System.currentTimeMillis();
     }
 
@@ -42,12 +42,12 @@ public class Diary implements Serializable{
         this.username = username;
     }
 
-    public String getPlaceID() {
-        return placeID;
+    public String getPlaceName() {
+        return placeName;
     }
 
-    public void setPlaceID(String placeID) {
-        this.placeID = placeID;
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
     }
 
     public String getPhotoUri() {
@@ -114,10 +114,10 @@ public class Diary implements Serializable{
     public Map<String,Object> toMap(){
         Map<String, Object> map=new HashMap<>();
         if (username !=null){
-            map.put("userid", username);
+            map.put("username", username);
         }
-        if (placeID!=null){
-            map.put("placeid",placeID);
+        if (placeName!=null){
+            map.put("placeName",placeName);
         }
         if (photoUri!=null){
             map.put("photoUri",photoUri);

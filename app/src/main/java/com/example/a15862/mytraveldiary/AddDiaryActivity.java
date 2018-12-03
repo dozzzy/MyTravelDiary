@@ -2,11 +2,14 @@ package com.example.a15862.mytraveldiary;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -124,14 +127,17 @@ public class AddDiaryActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //saveDiary(diaryName);
-                Diary diary = new Diary("123","345");
+                SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
+                String displayName=load.getString("displayName", "DEFAULT");
+                String username=load.getString("username","DEFAULT");
+                Diary diary = new Diary(username,currentPlace.getPlaceName());
                 if (photoUri!=null){
                     diary.setPhotoUri(photoUri.toString());
                 }
                 if (imgWeatherUri!=null){
                     diary.setImgWeather(imgWeatherUri);
                 }
-                diary.setDiaplayName("place holder");
+                diary.setDiaplayName(displayName);
                 diary.setTxtDate(txtDate.getText().toString());
                 diary.setTxtCity(txtCity.getText().toString());
                 diary.setTxtTemperature(txtTemperature.getText().toString());
