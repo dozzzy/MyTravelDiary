@@ -14,7 +14,7 @@ public class CommentDAO {
     public void addComment(Comment c){
         Map<String,Object> data = new HashMap<>();
         data.put("placeName",c.getPlaceName());
-        data.put("userName",c.getUsername());
+        data.put("username",c.getUsername());
         data.put("userComment",c.getUserComment());
         db.collection("Comment").document(c.getUsername()+"."+c.getTime()).set(data);
     }
