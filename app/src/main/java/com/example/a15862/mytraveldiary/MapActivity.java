@@ -165,12 +165,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Place currentPlace = new Place();
-                currentPlace.setLatitude(mLastKnownLocation.getLatitude());
-                currentPlace.setLongitude(mLastKnownLocation.getLongitude());
                 Intent intent = new Intent(MapActivity.this, ClickNotExistActivity.class);
                 Bundle b = new Bundle();
-                b.putSerializable("Place",currentPlace);
+                b.putDouble("Longitude",mLastKnownLocation.getLongitude());
+                b.putDouble("Latitude",mLastKnownLocation.getLatitude());
                 intent.putExtras(b);
                 startActivity(intent);
             }

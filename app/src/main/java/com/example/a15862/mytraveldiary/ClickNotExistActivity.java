@@ -104,6 +104,8 @@ public class ClickNotExistActivity extends Activity {
         p.getComments().add(comment);
         p.getCatagoty().add(cat);
         p.addScore(score);
+        Log.i("This",String.valueOf(p.getLatitude()));
+        Log.i("This",String.valueOf(p.getLongitude()));
         //this place is user_defined , generate unique pid for it
         String pid = String.valueOf(p.hashCode());
         p.setPid(pid);
@@ -115,6 +117,5 @@ public class ClickNotExistActivity extends Activity {
         Comment c = new Comment(load.getString("displayName", "123"),currentPlace.getPlaceName(),comment);
         CommentDAO cd = new CommentDAO();
         cd.addComment(c);
-        Toast.makeText(this,"Successfully added!",Toast.LENGTH_SHORT);
     }
 }
