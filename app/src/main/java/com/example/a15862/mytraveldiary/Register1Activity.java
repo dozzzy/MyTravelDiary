@@ -1,6 +1,8 @@
 package com.example.a15862.mytraveldiary;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +39,18 @@ public class Register1Activity extends AppCompatActivity {
                 u.setUsername(username);
                 UserDAO ud = new UserDAO();
                 ud.addBasicUser(u);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+
+                editor.putString("displayName", displayName);
+
+                editor.putString("username",username);
+
+                editor.commit();
+
+
                 Intent intent = new Intent(Register1Activity.this, LoginActivity.class);
                 startActivity(intent);
             }
