@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15862.mytraveldiary.Entity.User;
@@ -22,8 +23,8 @@ import com.google.firebase.storage.FirebaseStorage;
 public class LoginNewActivity extends AppCompatActivity {
     private EditText edtUserName;
     private EditText edtPassword;
-    private ImageButton btnPhoneLogin;
-    private ImageButton btnEmailLogin;
+    private TextView txtSignUpWithPassword;
+    private TextView txtSignInWithPhone;
     private Button btnLogin;
     private FirebaseFirestore db;
     private String TAG="LoginTT";
@@ -35,24 +36,26 @@ public class LoginNewActivity extends AppCompatActivity {
         db=FirebaseFirestore.getInstance();
         edtPassword=(EditText)findViewById(R.id.edtPassword);
         edtUserName=(EditText)findViewById(R.id.edtUserName);
-        btnEmailLogin=(ImageButton)findViewById(R.id.btnEmailLogin);
         btnLogin=(Button)findViewById(R.id.btnLogin);
-        btnPhoneLogin=(ImageButton)findViewById(R.id.btnPhoneLogin);
+        txtSignInWithPhone=(TextView) findViewById(R.id.txtSignInWithPhone);
+        txtSignUpWithPassword=(TextView) findViewById(R.id.txtSignUpWithPassword);
 
-        btnEmailLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),Register2Activity.class);
-                startActivity(intent);
-            }
-        });
-        btnPhoneLogin.setOnClickListener(new View.OnClickListener() {
+        txtSignInWithPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),Register3Activity.class);
                 startActivity(intent);
             }
         });
+
+        txtSignUpWithPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),Register1Activity.class);
+                startActivity(intent);
+            }
+        });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
