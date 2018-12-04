@@ -37,9 +37,11 @@ public class ViewAllDiaryActivity extends AppCompatActivity {
         cList.setHasFixedSize(true);
         cList.setLayoutManager(new LinearLayoutManager(this));
 
+        SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String username=load.getString("username","DEFAULT");
         db = FirebaseFirestore.getInstance();
         // we use snapshotListener here so if other users upload new comments, we can see the changes in our view.
-        db.collection("Diary").whereEqualTo("userID", "123").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("Diary").whereEqualTo("username", username).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
@@ -49,7 +51,7 @@ public class ViewAllDiaryActivity extends AppCompatActivity {
 
                 diaryList = new ArrayList<>();
                 for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                    if (doc.get("userID") != null) {
+                    if (doc.get("username") != null) {
                         diaryList.add(doc.toObject(Diary.class));
                     }
                 }
