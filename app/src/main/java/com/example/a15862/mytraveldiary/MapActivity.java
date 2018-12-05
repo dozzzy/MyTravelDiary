@@ -506,8 +506,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void draw() {
+        label1:
         for (Place p : nearbyPlaces) {
-            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(p.getLatitude(), p.getLongitude())).title(p.getPlaceName()));
+            List<String> cats = p.getCatagory();
+            for(String cat:cats){
+                for(String key:getKeyWords.keySet()){
+                    if(getKeyWords.get(key).contains(cat)){
+                        //here the key is one of the predefined catagories
+                        //"route" , "bus station","store","railway station","education","health","point_of_interest"
+                        Marker marker = mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                                .title(p.getPlaceName()));
+                                //.icon());
+                        //use the icon based on the key
+                        marker.showInfoWindow();
+                        continue label1;
+                    }
+                }
+            }
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                    .title(p.getPlaceName()));
             marker.showInfoWindow();
         }
     }
@@ -539,7 +558,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     for (int j = 0; j < ja.length(); j++) {
                         cat.add(ja.getString(j));
                     }
-                    p.setCatagoty(cat);
+                    p.setCatagory(cat);
                 }
                 nearbyPlaces.add(p);
                 findPlaceByName.put(p.getPlaceName(), p);
@@ -577,7 +596,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         label1:
         for(Marker m:marked.keySet()){
             Place p = marked.get(m);
-            List<String> cats = p.getCatagoty();
+            List<String> cats = p.getCatagory();
             for(String cat:cats){
                 if(validWord.contains(cat)) continue label1;
             }
