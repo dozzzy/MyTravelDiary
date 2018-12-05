@@ -37,8 +37,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.example.a15862.mytraveldiary.DAO.FollowshipDAO;
 import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
 import com.example.a15862.mytraveldiary.DAO.UserDAO;
+import com.example.a15862.mytraveldiary.Entity.Followship;
 import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Entity.User;
 import com.example.a15862.mytraveldiary.ServiceImps.SearchServicesImp;
@@ -273,6 +275,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        //TODO:delete
+        FollowshipDAO ud = new FollowshipDAO();
+        ud.follow("Jing","1");
+        ud.follow("Jing","2");
+        ud.follow("Jing","3");
+        ud.follow("Jing","4");
         mMap = googleMap;
 
 
