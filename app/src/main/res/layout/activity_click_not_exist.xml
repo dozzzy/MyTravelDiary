@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
+    android:layout_height="600dp"
     android:orientation="vertical"
     android:padding="@dimen/browser_actions_context_menu_min_padding"
-    android:weightSum="6"
+    android:weightSum="7"
     tools:context=".ClickNotExistActivity">
 
     <LinearLayout
@@ -15,7 +14,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="4">
 
         <TextView
             android:id="@+id/txtPlaceName"
@@ -23,14 +22,14 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:text="Place name"
-            android:textSize="18sp" />
+            android:gravity="top|left"
+            android:text="Place name" />
 
         <EditText
             android:id="@+id/edtPlaceName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Name" />
@@ -41,21 +40,21 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="4">
 
         <TextView
             android:id="@+id/txtCategory"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Category"
-            android:textSize="18sp" />
+            android:gravity="top|left"
+            android:text="Category" />
 
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:entries="@array/placeCategory" />
     </LinearLayout>
 
@@ -64,47 +63,55 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="4">
 
         <TextView
             android:id="@+id/txtRating"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Your rating"
-            android:textSize="18sp" />
+            android:gravity="top|left"
+            android:text="Your rating" />
 
-        <RatingBar
-            android:id="@+id/ratingBar"
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:numStars="5"
-            android:scaleX="0.7"
-            android:scaleY="0.7" />
+            android:layout_weight="3">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:fitsSystemWindows="true"
+                android:foregroundGravity="left"
+                android:numStars="5"
+                android:scaleX="0.5"
+                android:scaleY="0.5" />
+        </FrameLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="4">
 
         <TextView
             android:id="@+id/txtComment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Your comment"
-            android:textSize="18sp" />
+            android:gravity="top|left"
+            android:text="Your comment" />
 
         <EditText
             android:id="@+id/edtComment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:ems="10"
             android:inputType="textMultiLine" />
     </LinearLayout>
@@ -114,20 +121,22 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="2">
 
         <Button
             android:id="@+id/btnSaveReturn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_gravity="center"
+            android:layout_weight="1"
             android:text="Save and Return" />
 
         <Button
             android:id="@+id/btnSaveJump"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_gravity="center"
+            android:layout_weight="1"
             android:text="Save and Write Diary" />
     </LinearLayout>
 
