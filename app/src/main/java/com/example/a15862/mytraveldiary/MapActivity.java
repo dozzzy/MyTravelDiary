@@ -72,6 +72,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -79,7 +80,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver, NavigationView.OnNavigationItemSelectedListener {
-
+    private final Map<String,Set<String>> getKeyWords = new HashMap<>();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
     private final int radius = 50;
@@ -88,6 +89,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private List<Place> nearbyPlaces;
     private Set<String> existed;
     private Map<String, Place> findPlaceByName;
+    private Map<Marker,Place> marked = new HashMap<>();
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -274,9 +276,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        UserDAO ud = new UserDAO();
+        ud.est();
 
         mMap = googleMap;
-
+        getKeyWords.put("route",new HashSet<String>(Arrays.asList(new String[]{"route"})));
+        getKeyWords.put("bus station",new HashSet<String>(Arrays.asList(new String[]{"bus_station"})));
+        getKeyWords.put("store",new HashSet<String>(Arrays.asList(new String[]{"store"})));
+        getKeyWords.put("railway station",new HashSet<String>(Arrays.asList(new String[]{"transit_station"})));
+        getKeyWords.put("education",new HashSet<String>(Arrays.asList(new String[]{"school","university"})));
+        getKeyWords.put("health",new HashSet<String>(Arrays.asList(new String[]{"health","doctor","gym"})));
+        getKeyWords.put("point_of_interest",new HashSet<String>(Arrays.asList(new String[]{"point_of_interest"})));
 
         // Prompt the user for permission.
         getLocationPermission();
@@ -467,6 +477,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         for (Place p : nearbyPlaces) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(p.getLatitude(), p.getLongitude())).title(p.getPlaceName()));
             marker.showInfoWindow();
+            marked.put(marker,p);
         }
     }
 
@@ -520,5 +531,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         s = s * EARTH_RADIUS;
         s = Math.round(s * 10000) / 10000;
         return s;
+    }
+
+
+
+    public void undoFilter(){
+        for(Marker m : marked.keySet()){
+            m.setVisible(true);
+        }
+    }
+
+    public void doFilter(String keyWords){
+        Set<String> validWord = getKeyWords.get(keyWords);
+        label1:
+        for(Marker m:marked.keySet()){
+            Place p = marked.get(m);
+            List<String> cats = p.getCatagoty();
+            for(String cat:cats){
+                if(validWord.contains(cat)) continue label1;
+            }
+            m.setVisible(false);
+        }
     }
 }
