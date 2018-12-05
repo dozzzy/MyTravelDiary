@@ -64,6 +64,8 @@ public class ClickExistActivity extends Activity {
         Bundle info = getIntent().getExtras();
         currentPlace = (Place) info.getSerializable("Place");
         txtPlaceName.setText(currentPlace.getPlaceName());
+        float rating = currentPlace.getTotalScore()/currentPlace.getScoreCount();
+        ratingBar.setRating(rating);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {

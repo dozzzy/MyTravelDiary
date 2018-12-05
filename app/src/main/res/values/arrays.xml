@@ -4,6 +4,7 @@
         <item>Restaurant</item>
         <item>Museum </item>
         <item>Cinema</item>
+        <item>Natural</item>
     </string-array>
     <string-array name="CRUD">
         <item>View and Modify</item>

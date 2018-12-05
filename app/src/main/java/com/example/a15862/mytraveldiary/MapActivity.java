@@ -43,10 +43,15 @@ import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Entity.User;
 import com.example.a15862.mytraveldiary.ServiceImps.SearchServicesImp;
 import com.example.a15862.mytraveldiary.Services.SearchServices;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -112,10 +117,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private TextView txtUsername;
     private TextView txtDisplayName;
-    // DrawerLayout and adapter
-//    private DrawerLayout drawer_layout;
-//    private ListView list_left_drawer;
-//    private ArrayAdapter<String> adapter = null;
+
+
+    int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,22 +161,32 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
-        // DrawerLayout
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        // Floating buttons
+        final com.getbase.floatingactionbutton.FloatingActionButton actionA = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_a);
+        actionA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MapActivity.this, ClickNotExistActivity.class);
                 Bundle b = new Bundle();
-                b.putDouble("Longitude",mLastKnownLocation.getLongitude());
-                b.putDouble("Latitude",mLastKnownLocation.getLatitude());
+                b.putDouble("Longitude", mLastKnownLocation.getLongitude());
+                b.putDouble("Latitude", mLastKnownLocation.getLatitude());
                 intent.putExtras(b);
                 startActivity(intent);
             }
         });
+        final com.getbase.floatingactionbutton.FloatingActionButton actionB = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_b);
+        actionB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude()), NEARBY_ZOOM));
+            }
+        });
+
+
+        // DrawerLayout
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -180,8 +194,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
+
+
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
         String displayName=load.getString("displayName", "DEFAULT");
@@ -193,7 +211,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         txtDisplayName=(TextView)headerView.findViewById(R.id.txtDisplayName);
         txtUsername.setText(username);
         txtDisplayName.setText(displayName);
-
 
 
 
@@ -226,10 +243,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+//        noinspection SimplifiableIfStatement
+        if (id == R.id.search) {
+            try {
+                Intent intent =
+                        new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                                .build(this);
+                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+            } catch (GooglePlayServicesRepairableException e) {
+                // TODO: Handle the error.
+            } catch (GooglePlayServicesNotAvailableException e) {
+                // TODO: Handle the error.
+            }
+        }
+        if (id == R.id.add_friends) {
+            Intent intent = new Intent(MapActivity.this, AddFriendsActivity.class);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -244,7 +274,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Intent intent = new Intent(MapActivity.this, ViewAllDiaryActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_friends) {
-
+            Intent intent = new Intent(MapActivity.this, ViewAllFriendsActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -287,8 +318,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         UiSettings uiSettings = mMap.getUiSettings();
-        uiSettings.setZoomControlsEnabled(true);
-        uiSettings.setMyLocationButtonEnabled(true);
+//        uiSettings.setZoomControlsEnabled(true);
+//        uiSettings.setMyLocationButtonEnabled(true);
+
 
         // Create new marker when user pin on the map
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -518,5 +550,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         s = s * EARTH_RADIUS;
         s = Math.round(s * 10000) / 10000;
         return s;
+    }
+
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+//                Place place = PlaceAutocomplete.getPlace(this, data);
+//                Log.i(TAG, "Place: " + place.getName());
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+//                Status status = PlaceAutocomplete.getStatus(this, data);
+//                // TODO: Handle the error.
+//                Log.i(TAG, status.getStatusMessage());
+
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
     }
 }
