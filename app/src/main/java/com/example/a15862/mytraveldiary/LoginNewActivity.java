@@ -62,32 +62,31 @@ public class LoginNewActivity extends AppCompatActivity {
                 String username=edtUserName.getText().toString();
                 String password=edtPassword.getText().toString();
                 Log.e(TAG,"btnlogin click");
+
                 db.collection("User").whereEqualTo("username",username).whereEqualTo("password",password)
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    if (queryDocumentSnapshots.isEmpty()){
-                        Toast.makeText(getApplicationContext(),"username or password wrong", Toast.LENGTH_SHORT);
-                }else {
-                        for(DocumentSnapshot d:queryDocumentSnapshots){
-                            User user=d.toObject(User.class);
-                            SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (queryDocumentSnapshots.isEmpty()){
+                            Toast.makeText(getApplicationContext(),"username or password wrong", Toast.LENGTH_SHORT);
+                    }else {
+                            for(DocumentSnapshot d:queryDocumentSnapshots){
+                                User user=d.toObject(User.class);
+                                SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
-                            SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+                                SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
 
-                            editor.putString("displayName", user.getDisplayName());
+                                editor.putString("displayName", user.getDisplayName());
 
-                            editor.putString("username",user.getUsername());
+                                editor.putString("username",user.getUsername());
 
-                            editor.commit();
-
-
-                            Intent i = new Intent(getApplicationContext(), MapActivity.class);
-                            startActivity(i);
+                                editor.commit();
+                                Intent i = new Intent(getApplicationContext(), MapActivity.class);
+                                startActivity(i);
+                            }
                         }
                     }
-                }
-        });
+                });
             }
         });
     }
