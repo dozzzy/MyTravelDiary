@@ -37,6 +37,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.example.a15862.mytraveldiary.DAO.FollowshipDAO;
 import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
 import com.example.a15862.mytraveldiary.DAO.UserDAO;
 import com.example.a15862.mytraveldiary.Entity.Place;
@@ -304,6 +305,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
 
 

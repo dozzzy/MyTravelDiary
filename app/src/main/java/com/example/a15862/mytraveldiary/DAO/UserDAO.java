@@ -3,13 +3,19 @@ package com.example.a15862.mytraveldiary.DAO;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.a15862.mytraveldiary.Entity.User;
+import com.example.a15862.mytraveldiary.LoginActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserDAO {
@@ -21,12 +27,10 @@ public class UserDAO {
     }
 
     public void addBasicUser(User user){
-        Log.i("Jing","oncall");
         Map<String,Object> m = new HashMap<>();
         m.put("username",user.getUsername());
         m.put("password",user.getPassword());
         m.put("displayName",user.getDisplayName());
-        Log.i("Jing","Dao");
         db.collection("User").document(user.getUsername()).set(m);
     }
 
@@ -46,5 +50,9 @@ public class UserDAO {
         loadUser.setUsername(load.getString("username","DEFAULT"));
         return loadUser;
     }
+
+
+
+
 
 }
