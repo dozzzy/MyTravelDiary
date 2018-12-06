@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.a15862.mytraveldiary.Entity.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Set;
@@ -40,6 +42,7 @@ public class MyCustomAdapterForFriends extends RecyclerView.Adapter<MyCustomAdap
         holder.itemView.setTag(position);
         holder.txtDisplayName.setText(friend.getDisplayName());
         holder.txtUsername.setText(friend.getUsername());
+        Picasso.get().load(friend.getAvatar()).into(holder.imgAvatar);
     }
 
     @Override
@@ -50,6 +53,7 @@ public class MyCustomAdapterForFriends extends RecyclerView.Adapter<MyCustomAdap
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtDisplayName;
         private TextView txtUsername;
+        private ImageView imgAvatar;
         private CardView cardView;
 
         public ViewHolder(View itemView) {
@@ -57,7 +61,7 @@ public class MyCustomAdapterForFriends extends RecyclerView.Adapter<MyCustomAdap
             cardView=(CardView)itemView.findViewById(R.id.card_view);
             txtDisplayName=(TextView)itemView.findViewById(R.id.txtDisplayName);
             txtUsername = (TextView) itemView.findViewById(R.id.txtUsername);
-
+            imgAvatar=(ImageView)itemView.findViewById(R.id.imgAvatar);
         }
     }
 
