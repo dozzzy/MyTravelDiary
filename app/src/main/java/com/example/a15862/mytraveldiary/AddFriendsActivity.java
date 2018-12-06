@@ -29,7 +29,7 @@ import java.util.Set;
 public class AddFriendsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private EditText edtSearch;
-    private ImageButton btnSearchFriends;
+    private Button btnSearchFriends;
     private RecyclerView searchFriendsList;
     private List<User> friendList;
     private MyCustomAdapterForFriends mAdapter;
@@ -40,7 +40,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_friends);
         db=FirebaseFirestore.getInstance();
         edtSearch=(EditText)findViewById(R.id.edtSearch);
-        btnSearchFriends=(ImageButton)findViewById(R.id.btnSearchFriends);
+        btnSearchFriends=(Button)findViewById(R.id.btnSearchFriends);
         searchFriendsList=(RecyclerView)findViewById(R.id.searchFriendsList);
         searchWord="haohui";
         friendList=new ArrayList<>();

@@ -26,7 +26,11 @@
 
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".MapActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".AddDiaryActivity"
@@ -44,7 +48,11 @@
         <activity android:name=".Register2Activity" />
         <activity android:name=".Register3Activity" />
         <activity android:name=".LoginNewActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
 
         </activity>
         <activity android:name=".ModifyActivity" />
@@ -53,11 +61,11 @@
             android:label="Add new friends" />
 
         <activity android:name=".ViewAllFriendsActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
 
         <activity

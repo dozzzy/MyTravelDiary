@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.stephentuso.welcome.WelcomeHelper;
 
 public class LoginNewActivity extends AppCompatActivity {
     private EditText edtUserName;
@@ -28,6 +29,8 @@ public class LoginNewActivity extends AppCompatActivity {
     private Button btnLogin;
     private FirebaseFirestore db;
     private String TAG = "LoginTT";
+
+    WelcomeHelper welcomeScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,11 @@ public class LoginNewActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnSignWithPhone = (Button) findViewById(R.id.btnSignWithPhone);
         txtSignUpWithPassword = (TextView) findViewById(R.id.txtSignUpWithPassword);
+
+
+        welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
+        welcomeScreen.forceShow();
+
 
         btnSignWithPhone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,5 +99,11 @@ public class LoginNewActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        welcomeScreen.onSaveInstanceState(outState);
     }
 }

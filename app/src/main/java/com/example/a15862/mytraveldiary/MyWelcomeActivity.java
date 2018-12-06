@@ -19,16 +19,16 @@ public class MyWelcomeActivity extends WelcomeActivity {
     @Override
     protected WelcomeConfiguration configuration() {
         return new WelcomeConfiguration.Builder(this)
-                .defaultBackgroundColor(R.color.background)
-                .page(new TitlePage(R.drawable.logo,
+                .defaultBackgroundColor(R.color.colorPrimary)
+                .page(new TitlePage(R.drawable.kitty_001,
                         "Title")
                 )
-                .page(new BasicPage(R.drawable.logo,
+                .page(new BasicPage(R.drawable.kitty_001,
                         "Header",
                         "More text.")
 //                        .background(R.color.red_background)
                 )
-                .page(new BasicPage(R.drawable.logo,
+                .page(new BasicPage(R.drawable.kitty_001,
                         "Lorem ipsum",
                         "dolor sit amet.")
                 )
