@@ -25,13 +25,6 @@
             android:value="AIzaSyDjCrdGmiesceyoZTwl--AVr_KRkFYhXMs" />
 
         <activity android:name=".LoginActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".MapActivity">
             <intent-filter>
@@ -57,19 +50,16 @@
         <activity android:name=".Register3Activity" />
         <activity android:name=".LoginNewActivity">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".ModifyActivity" />
         <activity
             android:name=".AddFriendsActivity"
             android:label="Add new friends"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".ViewAllFriendsActivity"></activity>
+        <activity android:name=".ViewAllFriendsActivity" />
+        <activity android:name=".MyWelcomeActivity"
+            android:theme="@style/WelcomeScreenTheme"></activity>
     </application>
 
 </manifest>
