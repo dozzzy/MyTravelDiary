@@ -21,7 +21,6 @@ public class PlaceDAO {
     private FirebaseFirestore db;
     public PlaceDAO(){
         db = FirebaseFirestore.getInstance();
-
     }
 
     public void addPlace(Place p){
