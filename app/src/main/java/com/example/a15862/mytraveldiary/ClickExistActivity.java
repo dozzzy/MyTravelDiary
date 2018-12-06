@@ -91,7 +91,7 @@ public class ClickExistActivity extends Activity {
         txtTotalComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewCommentsActivity.this, AddDiaryActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ViewCommentsActivity.class);
                 startActivity(intent);
             }
         });
