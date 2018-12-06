@@ -1,7 +1,10 @@
 package com.example.a15862.mytraveldiary.DAO;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.a15862.mytraveldiary.LoginActivity;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,14 +28,22 @@ public class FollowshipDAO {
         db.collection("Followship").document(curUser).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                newF = (ArrayList)documentSnapshot.get("followed");
+                newF = (ArrayList)documentSnapshot.getData().get("followed");
+                Map<String,Object> data = new HashMap<>();
+                if(!newF.contains(target)) newF.add(target);
+                data.put("followed",newF);
+                db.collection("Followship").document(curUser).set(data);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                newF = new ArrayList<>();
+                Map<String,Object> data = new HashMap<>();
+                newF.add(target);
+                db.collection("Followship").document(curUser).set(data);
             }
         });
-        if(newF == null) newF = new ArrayList<>();
-        Map<String,Object> data = new HashMap<>();
-        if(!newF.contains(target)) newF.add(target);
-        data.put("followed",newF);
-        db.collection("Followship").document(curUser).set(data);
+
     }
 
 }

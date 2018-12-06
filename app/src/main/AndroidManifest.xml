@@ -44,18 +44,22 @@
         <activity android:name=".Register2Activity" />
         <activity android:name=".Register3Activity" />
         <activity android:name=".LoginNewActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity android:name=".ModifyActivity" />
         <activity
             android:name=".AddFriendsActivity"
             android:label="Add new friends" />
-        <activity android:name=".ViewAllFriendsActivity" />
+
+        <activity android:name=".ViewAllFriendsActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".MyWelcomeActivity"
             android:theme="@style/WelcomeScreenTheme"></activity>
