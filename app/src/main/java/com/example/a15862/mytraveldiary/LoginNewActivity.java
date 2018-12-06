@@ -24,26 +24,26 @@ public class LoginNewActivity extends AppCompatActivity {
     private EditText edtUserName;
     private EditText edtPassword;
     private TextView txtSignUpWithPassword;
-    private TextView txtSignInWithPhone;
+    private Button btnSignWithPhone;
     private Button btnLogin;
     private FirebaseFirestore db;
-    private String TAG="LoginTT";
+    private String TAG = "LoginTT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_new);
-        db=FirebaseFirestore.getInstance();
-        edtPassword=(EditText)findViewById(R.id.edtPassword);
-        edtUserName=(EditText)findViewById(R.id.edtUserName);
-        btnLogin=(Button)findViewById(R.id.btnLogin);
-        txtSignInWithPhone=(TextView) findViewById(R.id.txtSignInWithPhone);
-        txtSignUpWithPassword=(TextView) findViewById(R.id.txtSignUpWithPassword);
+        db = FirebaseFirestore.getInstance();
+        edtPassword = (EditText) findViewById(R.id.edtPassword);
+        edtUserName = (EditText) findViewById(R.id.edtUserName);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnSignWithPhone = (Button) findViewById(R.id.btnSignWithPhone);
+        txtSignUpWithPassword = (TextView) findViewById(R.id.txtSignUpWithPassword);
 
-        txtSignInWithPhone.setOnClickListener(new View.OnClickListener() {
+        btnSignWithPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),Register3Activity.class);
+                Intent intent = new Intent(getApplicationContext(), Register3Activity.class);
                 startActivity(intent);
             }
         });
@@ -51,37 +51,36 @@ public class LoginNewActivity extends AppCompatActivity {
         txtSignUpWithPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),Register1Activity.class);
+                Intent intent = new Intent(getApplicationContext(), Register1Activity.class);
                 startActivity(intent);
             }
         });
 
 
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username=edtUserName.getText().toString();
-                String password=edtPassword.getText().toString();
-                Log.e(TAG,"btnlogin click");
+                String username = edtUserName.getText().toString();
+                String password = edtPassword.getText().toString();
+                Log.e(TAG, "btnlogin click");
 
-                db.collection("User").whereEqualTo("username",username).whereEqualTo("password",password)
-                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                db.collection("User").whereEqualTo("username", username).whereEqualTo("password", password)
+                        .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (queryDocumentSnapshots.isEmpty()){
-                            Toast.makeText(getApplicationContext(),"username or password wrong", Toast.LENGTH_SHORT);
-                    }else {
-                            for(DocumentSnapshot d:queryDocumentSnapshots){
-                                User user=d.toObject(User.class);
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "username or password wrong", Toast.LENGTH_SHORT);
+                        } else {
+                            for (DocumentSnapshot d : queryDocumentSnapshots) {
+                                User user = d.toObject(User.class);
                                 SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
 
                                 editor.putString("displayName", user.getDisplayName());
 
-                                editor.putString("username",user.getUsername());
-                                editor.putString("avatar",user.getAvatar());
+                                editor.putString("username", user.getUsername());
+                                editor.putString("avatar", user.getAvatar());
 //                                Log.i("avatar",user.getAvatar());
                                 editor.commit();
                                 Intent i = new Intent(getApplicationContext(), MapActivity.class);

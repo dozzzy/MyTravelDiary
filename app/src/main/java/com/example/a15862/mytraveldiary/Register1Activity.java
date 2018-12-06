@@ -36,7 +36,7 @@ public class Register1Activity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         btnRegister = findViewById(R.id.btnRegister);
         imgAvatar=findViewById(R.id.imgAvater);
-        btnAvatar=findViewById(R.id.btnAvatar);
+//        btnAvatar=findViewById(R.id.btnAvatar);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,15 +59,15 @@ public class Register1Activity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        btnAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, PICK);
-            }
-        });
+//        btnAvatar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(
+//                        Intent.ACTION_PICK,
+//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(intent, PICK);
+//            }
+//        });
 
 
     }
