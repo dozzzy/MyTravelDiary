@@ -517,43 +517,43 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                     .title(p.getPlaceName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.route)));
                         }
-                        if(key == "food") {
+                        else if(key == "food") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.food)));
                         }
-                        if(key == "store") {
+                        else if(key == "store") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.store)));
                         }
-                        if(key == "education") {
+                        else if(key == "education") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.education)));
                         }
-                        if(key == "bus station") {
+                        else if(key == "bus station") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.bus)));
                         }
-                        if(key == "railway station") {
+                        else if(key == "railway station") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.railway)));
                         }
-                        if(key == "health") {
+                        else if(key == "health") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.health)));
                         }
-                        if(key == "point_of_interest") {
+                        else if(key == "point_of_interest") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
