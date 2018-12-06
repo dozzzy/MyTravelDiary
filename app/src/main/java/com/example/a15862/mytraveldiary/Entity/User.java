@@ -13,9 +13,11 @@ public class User {
     private String phone;
     private String email;
     private String displayName;
-    private String avatar;
+    private int scoreCountUser = 0;
+    private float totalScoreUser = 0;
     private List<String> following;
     private int like=0;
+    private String avatar;
     //    private List<Diary> userDiary;
     public User(){}
     public User(String username,String password, String userid, String phone,String email, List<String> following,String photouri){

@@ -24,7 +24,6 @@ public class DiaryDAO {
     private Diary uploadDiary;
     public DiaryDAO() {
         db = FirebaseFirestore.getInstance();
-
         mStorageRef=FirebaseStorage.getInstance().getReference();
     }
 

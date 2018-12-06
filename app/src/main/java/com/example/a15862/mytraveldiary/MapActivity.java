@@ -134,15 +134,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         searchServices = new SearchServicesImp(this);
         findPlaceByName = new HashMap<>();
         super.onCreate(savedInstanceState);
-
-
-
-
-
-
-
-
-
+        User testUser=new User();
 
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
@@ -515,7 +507,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.clear();
         label1:
         for (Place p : nearbyPlaces) {
-            List<String> cats = p.getCatagory();
+            List<String> cats = p.getcategory();
             for(String cat:cats){
                 for(String key:getKeyWords.keySet()){
                     if(getKeyWords.get(key).contains(cat)){
@@ -611,7 +603,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     for (int j = 0; j < ja.length(); j++) {
                         cat.add(ja.getString(j));
                     }
-                    p.setCatagory(cat);
+                    p.setcategory(cat);
                 }
                 nearbyPlaces.add(p);
                 findPlaceByName.put(p.getPlaceName(), p);
@@ -666,7 +658,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         label1:
         for(Marker m:marked.keySet()){
             Place p = marked.get(m);
-            List<String> cats = p.getCatagory();
+            List<String> cats = p.getcategory();
             for(String cat:cats){
                 if(validWord.contains(cat)) continue label1;
             }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.a15862.mytraveldiary.DAO.FollowshipDAO;
@@ -22,7 +24,8 @@ public class ViewAllFriendsActivity extends AppCompatActivity {
     List<User> friends = new ArrayList<>();
     List<String> friendName = null;
     FirebaseFirestore db;
-
+    RecyclerView listFriends;
+    MyCustomAdapterForFriends mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,10 @@ public class ViewAllFriendsActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         String displayName = load.getString("displayName", "DEFAULT");
+        listFriends=(RecyclerView)findViewById(R.id.listFriends);
+
+        listFriends.setHasFixedSize(true);
+        listFriends.setLayoutManager(new LinearLayoutManager(this));
         db.collection("Followship").document(displayName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -39,9 +46,12 @@ public class ViewAllFriendsActivity extends AppCompatActivity {
                     db.collection("User").whereEqualTo("username", name).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            Log.i("Jing","get user info");
                             for (QueryDocumentSnapshot qs : queryDocumentSnapshots) {
                                 friends.add(qs.toObject(User.class));
                             }
+                            mAdapter = new MyCustomAdapterForFriends(ViewAllFriendsActivity.this, friends);
+                            listFriends.setAdapter(mAdapter);
                             for(User u:friends) Log.i("Jing",u.getDisplayName());
                         }
                     });
