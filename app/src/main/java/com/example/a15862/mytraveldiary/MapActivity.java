@@ -262,9 +262,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 .build(this);
                 startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
             } catch (GooglePlayServicesRepairableException e) {
-                // TODO: Handle the error.
+                Log.i("gooe", e.getMessage());
             } catch (GooglePlayServicesNotAvailableException e) {
-                // TODO: Handle the error.
+                Log.i("gooe", e.getMessage());
             }
             return true;
         }
