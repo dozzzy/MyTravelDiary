@@ -41,20 +41,6 @@ public class LoginNewActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
 
-        db.collection("Place").document("1-99 St Marys Ct").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Place currentPlace=documentSnapshot.toObject(Place.class);
-                PlaceDAO pd=new PlaceDAO();
-                pd.updateData(currentPlace);
-            }
-        });
-
-
-
-
-
-
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         edtUserName = (EditText) findViewById(R.id.edtUserName);
         btnLogin = (Button) findViewById(R.id.btnLogin);

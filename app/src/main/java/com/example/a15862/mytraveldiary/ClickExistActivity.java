@@ -73,16 +73,16 @@ public class ClickExistActivity extends Activity {
 //        });
 
         //TODO: move to ViewCommentsActivity
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (DocumentSnapshot d : queryDocumentSnapshots) {
-                    Comment c = d.toObject(Comment.class);
-                    commentArray.add(c);
-                }
-            }
-        });
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//            @Override
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                for (DocumentSnapshot d : queryDocumentSnapshots) {
+//                    Comment c = d.toObject(Comment.class);
+//                    commentArray.add(c);
+//                }
+//            }
+//        });
 
 
         Bundle info = getIntent().getExtras();
@@ -98,9 +98,8 @@ public class ClickExistActivity extends Activity {
         float rating = currentPlace.getTotalScore()/currentPlace.getScoreCount();
         ratingBar.setRating(rating);
         //TODO:
-        int totalComments = commentArray.size();
         //int totalComments = currentPlace.getTotalComments;
-        txtTotalComments.setText(totalComments);
+        txtTotalComments.setText(currentPlace.getTotalComment());
         txtTotalComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +147,5 @@ public class ClickExistActivity extends Activity {
         CommentDAO cd = new CommentDAO();
         cd.addComment(c,0);
     }
-
-
 
 }
