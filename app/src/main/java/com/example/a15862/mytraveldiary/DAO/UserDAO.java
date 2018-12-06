@@ -44,6 +44,7 @@ public class UserDAO {
         m.put("username",user.getUsername());
         m.put("password",user.getPassword());
         m.put("displayName",user.getDisplayName());
+        m.put("avater",user.getAvatar());
         db.collection("User").document(user.getUsername()).set(m);
     }
 

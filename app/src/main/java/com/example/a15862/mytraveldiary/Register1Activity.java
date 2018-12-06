@@ -47,9 +47,9 @@ public class Register1Activity extends AppCompatActivity {
                 u.setDisplayName(displayName);
                 u.setPassword(psw);
                 u.setUsername(username);
+                u.setAvatar("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03");
                 UserDAO ud = new UserDAO();
-                //ud.addBasicUser(u);
-                ud.uploadUser(u);
+                ud.addBasicUser(u);
                 SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
                 editor.putString("displayName", displayName);
