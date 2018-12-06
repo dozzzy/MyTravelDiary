@@ -12,6 +12,8 @@ import com.example.a15862.mytraveldiary.LoginActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +54,17 @@ public class UserDAO {
     }
 
 
+    public void est(){
+        db.collection("User").whereArrayContains("username","178").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                Log.i("Jing","in");
+                for(QueryDocumentSnapshot q:queryDocumentSnapshots){
+                    Log.i("Jing",q.get("displayName").toString());
+                }
+            }
+        });
+    }
 
 
 
