@@ -102,7 +102,7 @@ public class ClickNotExistActivity extends Activity {
         p.setLatitude(lat);
         p.setLongitude(lon);
         p.setPlaceName(pname);
-        p.getcategory().add(cat);
+        p.getCategory().add(cat);
         p.addScore(score);
         Log.i("This",String.valueOf(p.getLatitude()));
         Log.i("This",String.valueOf(p.getLongitude()));
