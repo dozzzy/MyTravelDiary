@@ -12,6 +12,7 @@ public class User {
     private String email;
     private String displayName;
     private List<String> following;
+    private int like=0;
     //    private List<Diary> userDiary;
     public User(){}
     public User(String username,String password, String userid, String phone,String email, List<String> following){
@@ -79,6 +80,13 @@ public class User {
         this.displayName = displayName;
     }
 
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
+    }
 
     public Map<String,Object> toMap(){
         Map<String, Object> map=new HashMap<>();

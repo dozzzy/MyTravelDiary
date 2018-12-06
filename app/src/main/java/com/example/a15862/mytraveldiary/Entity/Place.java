@@ -17,7 +17,6 @@ public class Place implements Serializable{
     private int scoreCount = 0;
     private float totalScore = 0;
     private String placeName;
-    private List<String> comments;
     private String vicinity;
     private String photoPath;
     private List<String> catagory;
@@ -78,14 +77,6 @@ public class Place implements Serializable{
         this.longitude = longitude;
     }
 
-    public List<String> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<String> comments) {
-        this.comments = comments;
-    }
-
     public String getVicinity() {
         return vicinity;
     }
@@ -119,13 +110,11 @@ public class Place implements Serializable{
         this.latitude = location.latitude;
         placeName = name;
         vicinity = address;
-        comments = new ArrayList<>();
         catagory = new ArrayList<>();
         this.pid = pid;
     }
 
     public Place(){
-        comments = new ArrayList<>();
         catagory = new ArrayList<>();
     };
 

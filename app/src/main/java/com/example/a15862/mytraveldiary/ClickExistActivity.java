@@ -23,6 +23,7 @@ import com.example.a15862.mytraveldiary.Entity.Place;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -40,10 +41,12 @@ public class ClickExistActivity extends Activity {
     private float score;
     private MyCustomAdapterForComment mAdapter;
     private Button btnJump;
+    List<Comment> comments = new ArrayList<>();
     private List<Comment> commentArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         pd = new PlaceDAO();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_exist);
@@ -77,6 +80,7 @@ public class ClickExistActivity extends Activity {
                 }
                 mAdapter = new MyCustomAdapterForComment(ClickExistActivity.this, commentArray);
                 commentList.setAdapter(mAdapter);
+
             }
         });
         //TODO: add comment into view
@@ -85,8 +89,6 @@ public class ClickExistActivity extends Activity {
             @Override
             public void onClick(View v) {
                 storeComment();
-                String comment = editText.getText().toString();
-                currentPlace.getComments().add(comment);
                 currentPlace.addScore(score);
                 pd.updateData(currentPlace);
                 Intent back = new Intent(ClickExistActivity.this, MapActivity.class);
@@ -98,8 +100,6 @@ public class ClickExistActivity extends Activity {
             @Override
             public void onClick(View v) {
                 storeComment();
-                String comment = editText.getText().toString();
-                currentPlace.getComments().add(comment);
                 currentPlace.addScore(score);
                 pd.updateData(currentPlace);
                 Intent intent = new Intent(ClickExistActivity.this, AddDiaryActivity.class);
@@ -113,10 +113,10 @@ public class ClickExistActivity extends Activity {
 
     private void storeComment() {
         String comment = editText.getText().toString();
-        Log.i("Jing", comment);
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         Comment c = new Comment(load.getString("displayName", "123"), currentPlace.getPlaceName(), comment);
         CommentDAO cd = new CommentDAO();
-        cd.addComment(c);
+        cd.addComment(c,0);
     }
+
 }
