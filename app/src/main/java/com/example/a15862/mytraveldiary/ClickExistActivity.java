@@ -44,6 +44,9 @@ public class ClickExistActivity extends Activity {
     List<Comment> comments = new ArrayList<>();
     private List<Comment> commentArray = new ArrayList<>();
 
+    private TextView txtTotalComments;
+    private TextView txtCategory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -51,25 +54,49 @@ public class ClickExistActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_exist);
         txtPlaceName = findViewById(R.id.txtPlaceName);
+        txtCategory = findViewById(R.id.txtCategory);
         ratingBar = findViewById(R.id.ratingBar);
-        editText = findViewById(R.id.editText);
-        btnSave = findViewById(R.id.btnSaveReturn);
-        btnJump = findViewById(R.id.btnSaveJump);
-        commentList = findViewById(R.id.commentList);
-        commentList.setHasFixedSize(true);
-        commentList.setLayoutManager(new LinearLayoutManager(this));
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                score = rating;
-            }
-        });
+        txtTotalComments = findViewById(R.id.txtTotalComments);
+
+        //TODO: Move to ViewCommentsActivity
+//        editText = findViewById(R.id.editText);
+//        btnSave = findViewById(R.id.btnSaveReturn);
+//        btnJump = findViewById(R.id.btnSaveJump);
+//        commentList = findViewById(R.id.commentList);
+//        commentList.setHasFixedSize(true);
+//        commentList.setLayoutManager(new LinearLayoutManager(this));
+//        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//            @Override
+//            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+//                score = rating;
+//            }
+//        });
+
         Bundle info = getIntent().getExtras();
         currentPlace = (Place) info.getSerializable("Place");
         txtPlaceName.setText(currentPlace.getPlaceName());
+        List<String> categorys = currentPlace.getCatagoty();
+        String cats = "";
+        for (int i = 0; i < categorys.size(); i ++){
+            cats = new StringBuilder(cats)
+                    .append(categorys.get(i)).append(" ").toString();
+        };
+        txtCategory.setText(cats);
         float rating = currentPlace.getTotalScore()/currentPlace.getScoreCount();
         ratingBar.setRating(rating);
+        //TODO:
+        int totalComments = 0;
+        //int totalComments = currentPlace.getTotalComments;
+        txtTotalComments.setText(totalComments);
+        txtTotalComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewCommentsActivity.this, AddDiaryActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        //TODO: move to ViewCommentsActivity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -83,7 +110,7 @@ public class ClickExistActivity extends Activity {
 
             }
         });
-        //TODO: add comment into view
+
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
