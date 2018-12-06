@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.a15862.mytraveldiary.DAO.DiaryDAO;
+import com.example.a15862.mytraveldiary.DAO.FollowshipDAO;
 import com.example.a15862.mytraveldiary.Entity.Diary;
 
 
@@ -22,7 +23,8 @@ import com.example.a15862.mytraveldiary.Entity.Diary;
  */
 public class ViewAndAddFriendsFragment extends DialogFragment {
 
-
+    private String myUsername;
+    private String targetUsername;
     public ViewAndAddFriendsFragment() {
         // Required empty public constructor
     }
@@ -32,16 +34,20 @@ public class ViewAndAddFriendsFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        myUsername = getArguments().getString("myUsername");
+        targetUsername = getArguments().getString("targetUsername");
         return inflater.inflate(R.layout.fragment_view_and_add_friends, container, false);
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(final Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Would you like follow this user?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // FIRE ZE MISSILES!
+                        FollowshipDAO fDAO=new FollowshipDAO();
+                        fDAO.follow(myUsername,targetUsername);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

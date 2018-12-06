@@ -73,7 +73,15 @@ public class AddFriendsActivity extends AppCompatActivity {
                         mAdapter.setOnItemClickListener(new MyCustomAdapterForFriends.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
+                                SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
+                                String username=load.getString("username","DEFAULT");
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("myUsername",username);
+                                bundle.putString("targetUsername",friendList.get(position).getUsername());
+                                friendList.remove(position);
                                 ViewAndAddFriendsFragment viewAndAddFriendsFragment = new ViewAndAddFriendsFragment();
+                                viewAndAddFriendsFragment.setArguments(bundle);
                                 viewAndAddFriendsFragment.show(getSupportFragmentManager(), "AddFriends");
                             }
                         });
