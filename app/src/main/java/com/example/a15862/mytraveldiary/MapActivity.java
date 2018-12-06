@@ -72,6 +72,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -123,7 +124,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView txtUsername;
     private TextView txtDisplayName;
 
-
+    private ImageView imgAvater;
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     @Override
@@ -209,13 +210,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
         String displayName=load.getString("displayName", "DEFAULT");
         String username=load.getString("username","DEFAULT");
-
+        String avatar=load.getString("avatar","DEFAULT");
         View headerView = navigationView.getHeaderView(0);
 
         txtUsername=(TextView)headerView.findViewById(R.id.txtUsername);
         txtDisplayName=(TextView)headerView.findViewById(R.id.txtDisplayName);
+        imgAvater=(ImageView)headerView.findViewById(R.id.imgAvater);
         txtUsername.setText(username);
         txtDisplayName.setText(displayName);
+        Log.i("avatar",avatar);
+        if (!avatar.equals("DEFAULT")){
+            Picasso.get().load(avatar).into(imgAvater);
+        }
 
 
 
@@ -506,6 +512,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void draw() {
+        mMap.clear();
         label1:
         for (Place p : nearbyPlaces) {
             List<String> cats = p.getCatagory();
@@ -522,43 +529,43 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                     .title(p.getPlaceName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.route)));
                         }
-                        if(key == "food") {
+                        else if(key == "food") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.food)));
                         }
-                        if(key == "store") {
+                        else if(key == "store") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.store)));
                         }
-                        if(key == "education") {
+                        else if(key == "education") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.education)));
                         }
-                        if(key == "bus station") {
+                        else if(key == "bus station") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.bus)));
                         }
-                        if(key == "railway station") {
+                        else if(key == "railway station") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.railway)));
                         }
-                        if(key == "health") {
+                        else if(key == "health") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.health)));
                         }
-                        if(key == "point_of_interest") {
+                        else if(key == "point_of_interest") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())

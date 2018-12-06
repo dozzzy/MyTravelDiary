@@ -38,20 +38,15 @@ public class ViewAndAddFriendsFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//        Bundle b = getArguments();
-//        curDiary = (Diary)b.getSerializable("Diary");
-        builder.setItems(R.array.ViewAdd, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(which==0){
-//                            Intent i = new Intent(getActivity(),ModifyActivity.class);
-//                            Bundle b = new Bundle();
-//                            b.putSerializable("Diary",curDiary);
-//                            i.putExtras(b);
-//                            startActivity(i);
-                        }
-                        else if(which==1){
-
-                        }
+        builder.setMessage("Would you like follow this user?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // FIRE ZE MISSILES!
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
                     }
                 });
         return builder.create();
