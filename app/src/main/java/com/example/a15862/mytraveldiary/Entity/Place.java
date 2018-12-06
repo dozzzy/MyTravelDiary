@@ -19,7 +19,7 @@ public class Place implements Serializable{
     private String placeName;
     private String vicinity;
     private String photoPath;
-    private List<String> catagory;
+    private List<String> category;
 
     public int getScoreCount() {
         return scoreCount;
@@ -102,12 +102,12 @@ public class Place implements Serializable{
     }
 
 
-    public List<String> getCatagoty() {
-        return catagoty;
+    public List<String> getcategory() {
+        return category;
     }
 
-    public void setCatagory(List<String> catagory) {
-        this.catagory = catagory;
+    public void setcategory(List<String> category) {
+        this.category = category;
     }
 
     public Place(LatLng location, String name, String address, String pid){
@@ -115,12 +115,12 @@ public class Place implements Serializable{
         this.latitude = location.latitude;
         placeName = name;
         vicinity = address;
-        catagory = new ArrayList<>();
+        category = new ArrayList<>();
         this.pid = pid;
     }
 
     public Place(){
-        catagory = new ArrayList<>();
+        category = new ArrayList<>();
     };
 
 

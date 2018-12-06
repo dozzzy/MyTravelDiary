@@ -73,8 +73,8 @@ public class ClickNotExistActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
-                String[] catagory = getResources().getStringArray(R.array.placeCategory);
-                cat = catagory[pos];
+                String[] category = getResources().getStringArray(R.array.placeCategory);
+                cat = category[pos];
             }
 
             @Override
@@ -102,7 +102,7 @@ public class ClickNotExistActivity extends Activity {
         p.setLatitude(lat);
         p.setLongitude(lon);
         p.setPlaceName(pname);
-        p.getCatagory().add(cat);
+        p.getcategory().add(cat);
         p.addScore(score);
         Log.i("This",String.valueOf(p.getLatitude()));
         Log.i("This",String.valueOf(p.getLongitude()));

@@ -75,7 +75,7 @@ public class ClickExistActivity extends Activity {
         Bundle info = getIntent().getExtras();
         currentPlace = (Place) info.getSerializable("Place");
         txtPlaceName.setText(currentPlace.getPlaceName());
-        List<String> categorys = currentPlace.getCatagoty();
+        List<String> categorys = currentPlace.getcategory();
         String cats = "";
         for (int i = 0; i < categorys.size(); i ++){
             cats = new StringBuilder(cats)
