@@ -29,7 +29,6 @@ public class PlaceDAO {
         data.put("latitude",p.getLatitude());
         data.put("longitude",p.getLongitude());
         data.put("pid",p.getPid());
-        data.put("comments",p.getComments());
         data.put("placeName",p.getPlaceName());
         data.put("photoPath",p.getPhotoPath());
         data.put("vicinity",p.getVicinity());
@@ -38,8 +37,7 @@ public class PlaceDAO {
     }
 
     public void updateData(Place p) {
-        CollectionReference cr = db.collection("Place");
-        cr.document(p.getPlaceName()).update("Comment",p.getComments());
+        CollectionReference cr = db.collection("Place");;
         cr.document(p.getPlaceName()).update("totalScore",p.getTotalScore());
         cr.document(p.getPlaceName()).update("scoreCount",p.getScoreCount());
     }

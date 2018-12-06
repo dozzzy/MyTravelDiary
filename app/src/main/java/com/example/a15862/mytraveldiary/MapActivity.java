@@ -37,9 +37,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.example.a15862.mytraveldiary.DAO.CommentDAO;
 import com.example.a15862.mytraveldiary.DAO.FollowshipDAO;
 import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
 import com.example.a15862.mytraveldiary.DAO.UserDAO;
+import com.example.a15862.mytraveldiary.Entity.Comment;
 import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Entity.User;
 import com.example.a15862.mytraveldiary.ServiceImps.SearchServicesImp;
@@ -309,9 +311,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        UserDAO ud = new UserDAO();
-        ud.est();
-
         mMap = googleMap;
         getKeyWords.put("route",new HashSet<String>(Arrays.asList(new String[]{"route"})));
         getKeyWords.put("bus station",new HashSet<String>(Arrays.asList(new String[]{"bus_station"})));
@@ -351,7 +350,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (DocumentSnapshot ds : queryDocumentSnapshots) {
                                 Place p = ds.toObject(Place.class);
-                                Log.i("Check", String.valueOf(p.getComments() == null));
                                 LatLng loc = new LatLng(p.getLatitude(), p.getLongitude());
                                 if (getDistance(loc.longitude, loc.latitude, point.longitude, point.latitude) <= radius) {
                                     if (existed.add(p.getPid())) {
@@ -596,6 +594,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 LatLng placeLoc = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
                 String vicinity = cur.getString("vicinity");
                 Place p = new Place(placeLoc, placeName, vicinity, pid);
+                searchServices.getComment(pid);
                 if (cur.has("photos")) {
                     JSONObject photos = cur.getJSONArray("photos").getJSONObject(0);
                     p.setPhotoPath(photos.getString("html_attributions"));
@@ -615,6 +614,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             draw();
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void receiveComment(JSONObject res) throws JSONException {
+        JSONObject total = res.getJSONObject("result");
+        JSONArray arr =total.getJSONArray("reviews");
+        String placeName = total.getString("name");
+        for(int i = 0;i<arr.length();i++){
+            JSONObject cur = arr.getJSONObject(i);
+            String userName = cur.getString("author_name");
+            String text = cur.getString("text");
+            Comment comment = new Comment(userName,placeName,text);
+            CommentDAO cd = new CommentDAO();
+            cd.addComment(comment,1);
         }
     }
 

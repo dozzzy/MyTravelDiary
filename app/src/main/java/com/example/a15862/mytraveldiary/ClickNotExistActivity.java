@@ -101,7 +101,6 @@ public class ClickNotExistActivity extends Activity {
         p.setLatitude(lat);
         p.setLongitude(lon);
         p.setPlaceName(pname);
-        p.getComments().add(comment);
         p.getCatagory().add(cat);
         p.addScore(score);
         Log.i("This",String.valueOf(p.getLatitude()));
@@ -116,6 +115,6 @@ public class ClickNotExistActivity extends Activity {
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         Comment c = new Comment(load.getString("displayName", "123"),currentPlace.getPlaceName(),comment);
         CommentDAO cd = new CommentDAO();
-        cd.addComment(c);
+        cd.addComment(c,0);
     }
 }
