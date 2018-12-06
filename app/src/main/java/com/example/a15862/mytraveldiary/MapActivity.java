@@ -72,6 +72,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -123,7 +124,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView txtUsername;
     private TextView txtDisplayName;
 
-
+    private ImageView imgAvater;
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     @Override
@@ -209,13 +210,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
         String displayName=load.getString("displayName", "DEFAULT");
         String username=load.getString("username","DEFAULT");
-
+        String avatar=load.getString("avatar","DEFAULT");
         View headerView = navigationView.getHeaderView(0);
 
         txtUsername=(TextView)headerView.findViewById(R.id.txtUsername);
         txtDisplayName=(TextView)headerView.findViewById(R.id.txtDisplayName);
+        imgAvater=(ImageView)headerView.findViewById(R.id.imgAvater);
         txtUsername.setText(username);
         txtDisplayName.setText(displayName);
+        Log.i("avatar",avatar);
+        if (!avatar.equals("DEFAULT")){
+            Picasso.get().load(avatar).into(imgAvater);
+        }
 
 
 
