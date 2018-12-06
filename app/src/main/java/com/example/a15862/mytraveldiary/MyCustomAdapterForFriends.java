@@ -42,7 +42,14 @@ public class MyCustomAdapterForFriends extends RecyclerView.Adapter<MyCustomAdap
         holder.itemView.setTag(position);
         holder.txtDisplayName.setText(friend.getDisplayName());
         holder.txtUsername.setText(friend.getUsername());
-        Picasso.get().load(friend.getAvatar()).into(holder.imgAvatar);
+        if (friend.getAvatar()!=null){
+            Picasso.get().load(friend.getAvatar()).into(holder.imgAvatar);
+        }else{
+            Picasso.get()
+                    .load("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03")
+                    .into(holder.imgAvatar);
+        }
+
     }
 
     @Override
