@@ -20,6 +20,7 @@ public class Place implements Serializable{
     private String vicinity;
     private String photoPath;
     private List<String> catagory;
+    private int totalComments=0;
 
     public int getScoreCount() {
         return scoreCount;

@@ -9,6 +9,7 @@ public class Comment {
     private String userComment;
     private int fromAPI;
     private long time;
+    private int like;
     public Comment(){
         time=System.currentTimeMillis();
     }

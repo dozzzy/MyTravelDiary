@@ -79,7 +79,6 @@ public class AddFriendsActivity extends AppCompatActivity {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("myUsername",username);
                                 bundle.putString("targetUsername",friendList.get(position).getUsername());
-                                friendList.remove(position);
                                 ViewAndAddFriendsFragment viewAndAddFriendsFragment = new ViewAndAddFriendsFragment();
                                 viewAndAddFriendsFragment.setArguments(bundle);
                                 viewAndAddFriendsFragment.show(getSupportFragmentManager(), "AddFriends");

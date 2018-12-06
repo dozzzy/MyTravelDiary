@@ -80,9 +80,9 @@ public class ClickExistActivity extends Activity {
                 }
                 mAdapter = new MyCustomAdapterForComment(ClickExistActivity.this, commentArray);
                 commentList.setAdapter(mAdapter);
-
             }
         });
+
         //TODO: add comment into view
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
