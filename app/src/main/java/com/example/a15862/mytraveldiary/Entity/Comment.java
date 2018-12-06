@@ -1,9 +1,12 @@
 package com.example.a15862.mytraveldiary.Entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class Comment {
+public class Comment  {
     private String placeName;
     private User user;
     private String username;

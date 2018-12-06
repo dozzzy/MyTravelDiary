@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
+import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Entity.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -34,6 +36,22 @@ public class LoginNewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_new);
         db = FirebaseFirestore.getInstance();
+
+
+        db.collection("Place").document("1-99 St Marys Ct").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Place currentPlace=documentSnapshot.toObject(Place.class);
+                PlaceDAO pd=new PlaceDAO();
+                pd.updateData(currentPlace);
+            }
+        });
+
+
+
+
+
+
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         edtUserName = (EditText) findViewById(R.id.edtUserName);
         btnLogin = (Button) findViewById(R.id.btnLogin);

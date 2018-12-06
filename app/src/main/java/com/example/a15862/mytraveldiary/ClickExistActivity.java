@@ -64,10 +64,23 @@ public class ClickExistActivity extends Activity {
 //            }
 //        });
 
+        //TODO: move to ViewCommentsActivity
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot d : queryDocumentSnapshots) {
+                    Comment c = d.toObject(Comment.class);
+                    commentArray.add(c);
+                }
+            }
+        });
+
+
         Bundle info = getIntent().getExtras();
         currentPlace = (Place) info.getSerializable("Place");
         txtPlaceName.setText(currentPlace.getPlaceName());
-        List<String> categorys = currentPlace.getcategory();
+        List<String> categorys = currentPlace.getCategory();
         String cats = "";
         for (int i = 0; i < categorys.size(); i++) {
             cats = new StringBuilder(cats)
@@ -78,7 +91,7 @@ public class ClickExistActivity extends Activity {
         float rating = currentPlace.getTotalScore() / currentPlace.getScoreCount();
         ratingBar.setRating(rating);
         //TODO:
-        int totalComments = 0;
+        int totalComments = commentArray.size();
         //int totalComments = currentPlace.getTotalComments;
         txtTotalComments.setText(totalComments);
         txtTotalComments.setOnClickListener(new View.OnClickListener() {
@@ -142,5 +155,7 @@ public class ClickExistActivity extends Activity {
 //        cd.addComment(c,0);
 //    }
     }
+
+
 
 }
