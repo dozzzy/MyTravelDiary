@@ -91,9 +91,8 @@ public class ClickExistActivity extends Activity {
         float rating = currentPlace.getTotalScore() / currentPlace.getScoreCount();
         ratingBar.setRating(rating);
         //TODO:
-        int totalComments = commentArray.size();
         //int totalComments = currentPlace.getTotalComments;
-        txtTotalComments.setText(totalComments);
+        txtTotalComments.setText(currentPlace.getTotalComment());
         txtTotalComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,7 +154,5 @@ public class ClickExistActivity extends Activity {
 //        cd.addComment(c,0);
 //    }
     }
-
-
 
 }
