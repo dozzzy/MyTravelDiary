@@ -24,8 +24,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDjCrdGmiesceyoZTwl--AVr_KRkFYhXMs" />
 
-        <activity android:name=".LoginActivity">
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
         <activity android:name=".MapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,10 +54,10 @@
         <activity android:name=".ModifyActivity" />
         <activity
             android:name=".AddFriendsActivity"
-            android:label="Add new friends"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+            android:label="Add new friends" />
         <activity android:name=".ViewAllFriendsActivity" />
-        <activity android:name=".MyWelcomeActivity"
+        <activity
+            android:name=".MyWelcomeActivity"
             android:theme="@style/WelcomeScreenTheme"></activity>
     </application>
 
