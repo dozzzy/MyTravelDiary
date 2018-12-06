@@ -512,6 +512,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void draw() {
+        mMap.clear();
         label1:
         for (Place p : nearbyPlaces) {
             List<String> cats = p.getCatagory();

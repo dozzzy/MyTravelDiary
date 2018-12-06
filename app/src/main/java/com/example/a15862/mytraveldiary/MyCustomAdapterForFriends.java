@@ -3,6 +3,7 @@ package com.example.a15862.mytraveldiary;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import com.example.a15862.mytraveldiary.Entity.User;
 import java.util.List;
 import java.util.Set;
 
-public class MyCustomAdapterForFriends extends RecyclerView.Adapter<MyCustomAdapterForFriends.ViewHolder>{
+public class MyCustomAdapterForFriends extends RecyclerView.Adapter<MyCustomAdapterForFriends.ViewHolder> implements View.OnClickListener{
 
     private List<User> friendList;
     private Context context;
@@ -29,12 +30,14 @@ public class MyCustomAdapterForFriends extends RecyclerView.Adapter<MyCustomAdap
     @Override
     public MyCustomAdapterForFriends.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.list_item_friend, parent, false);
+        view.setOnClickListener(this);
         return new MyCustomAdapterForFriends.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyCustomAdapterForFriends.ViewHolder holder, int position) {
         User friend= friendList.get(position);
+        holder.itemView.setTag(position);
         holder.txtDisplayName.setText(friend.getDisplayName());
         holder.txtUsername.setText(friend.getUsername());
     }
@@ -58,6 +61,24 @@ public class MyCustomAdapterForFriends extends RecyclerView.Adapter<MyCustomAdap
         }
     }
 
+    private MyCustomAdapterForFriends.OnItemClickListener myOnItemClickListener = null;
 
+    //define interface
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(MyCustomAdapterForFriends.OnItemClickListener listener) {
+        Log.e("haohui","lsi");
+        this.myOnItemClickListener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (myOnItemClickListener != null) {
+            Log.e("haohui","lsi");
+            myOnItemClickListener.onItemClick(v, (int) v.getTag());
+        }
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.example.a15862.mytraveldiary;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.a15862.mytraveldiary.Entity.Diary;
 import com.example.a15862.mytraveldiary.Entity.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -23,7 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AddFriendsActivity extends Activity {
+public class AddFriendsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private EditText edtSearch;
     private ImageButton btnSearchFriends;
@@ -66,6 +69,14 @@ public class AddFriendsActivity extends Activity {
                         }
                         mAdapter = new MyCustomAdapterForFriends(AddFriendsActivity.this, friendList);
                         searchFriendsList.setAdapter(mAdapter);
+
+                        mAdapter.setOnItemClickListener(new MyCustomAdapterForFriends.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                ViewAndAddFriendsFragment viewAndAddFriendsFragment = new ViewAndAddFriendsFragment();
+                                viewAndAddFriendsFragment.show(getSupportFragmentManager(), "AddFriends");
+                            }
+                        });
                     }
                 });
 
