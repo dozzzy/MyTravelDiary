@@ -77,6 +77,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -84,7 +85,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver, NavigationView.OnNavigationItemSelectedListener {
-
+    private final Map<String,Set<String>> getKeyWords = new HashMap<>();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
     private final int radius = 50;
@@ -93,6 +94,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private List<Place> nearbyPlaces;
     private Set<String> existed;
     private Map<String, Place> findPlaceByName;
+    private Map<Marker,Place> marked = new HashMap<>();
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -305,9 +307,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        UserDAO ud = new UserDAO();
+        ud.est();
 
         mMap = googleMap;
-
+        getKeyWords.put("route",new HashSet<String>(Arrays.asList(new String[]{"route"})));
+        getKeyWords.put("bus station",new HashSet<String>(Arrays.asList(new String[]{"bus_station"})));
+        getKeyWords.put("store",new HashSet<String>(Arrays.asList(new String[]{"store"})));
+        getKeyWords.put("railway station",new HashSet<String>(Arrays.asList(new String[]{"transit_station"})));
+        getKeyWords.put("education",new HashSet<String>(Arrays.asList(new String[]{"school","university"})));
+        getKeyWords.put("health",new HashSet<String>(Arrays.asList(new String[]{"health","doctor","gym"})));
+        getKeyWords.put("point_of_interest",new HashSet<String>(Arrays.asList(new String[]{"point_of_interest"})));
 
         // Prompt the user for permission.
         getLocationPermission();
@@ -496,8 +506,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void draw() {
+        label1:
         for (Place p : nearbyPlaces) {
-            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(p.getLatitude(), p.getLongitude())).title(p.getPlaceName()));
+            List<String> cats = p.getCatagory();
+            for(String cat:cats){
+                for(String key:getKeyWords.keySet()){
+                    if(getKeyWords.get(key).contains(cat)){
+                        //here the key is one of the predefined catagories
+                        //"route" , "bus station","store","railway station","education","health","point_of_interest"
+                        Marker marker = mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                                .title(p.getPlaceName()));
+                                //.icon());
+                        //use the icon based on the key
+                        marker.showInfoWindow();
+                        continue label1;
+                    }
+                }
+            }
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                    .title(p.getPlaceName()));
             marker.showInfoWindow();
         }
     }
@@ -529,7 +558,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     for (int j = 0; j < ja.length(); j++) {
                         cat.add(ja.getString(j));
                     }
-                    p.setCatagoty(cat);
+                    p.setCatagory(cat);
                 }
                 nearbyPlaces.add(p);
                 findPlaceByName.put(p.getPlaceName(), p);
@@ -552,6 +581,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         s = s * EARTH_RADIUS;
         s = Math.round(s * 10000) / 10000;
         return s;
+    }
+
+
+
+    public void undoFilter(){
+        for(Marker m : marked.keySet()){
+            m.setVisible(true);
+        }
+    }
+
+    public void doFilter(String keyWords){
+        Set<String> validWord = getKeyWords.get(keyWords);
+        label1:
+        for(Marker m:marked.keySet()){
+            Place p = marked.get(m);
+            List<String> cats = p.getCatagory();
+            for(String cat:cats){
+                if(validWord.contains(cat)) continue label1;
+            }
+            m.setVisible(false);
+        }
     }
 
 

@@ -34,4 +34,5 @@ public class FollowshipDAO {
         data.put("followed",newF);
         db.collection("Followship").document(curUser).set(data);
     }
+
 }
