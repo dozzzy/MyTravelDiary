@@ -135,9 +135,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         findPlaceByName = new HashMap<>();
         super.onCreate(savedInstanceState);
         User testUser=new User();
-        SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
-        testUser.setDisplayName(load.getString("displayName", "DEFAULT"));
-        testUser.setUsername(load.getString("username","DEFAULT"));
+
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -256,9 +254,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 .build(this);
                 startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
             } catch (GooglePlayServicesRepairableException e) {
-                // TODO: Handle the error.
+                Log.i("gooe", e.getMessage());
             } catch (GooglePlayServicesNotAvailableException e) {
-                // TODO: Handle the error.
+                Log.i("gooe", e.getMessage());
             }
             return true;
         }
