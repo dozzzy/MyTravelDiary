@@ -11,6 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/txtPlaceName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TextView" />
     </FrameLayout>
 
     <ScrollView
@@ -38,7 +43,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/edtAddComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"

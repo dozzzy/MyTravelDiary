@@ -34,15 +34,7 @@ public class ClickExistActivity extends Activity {
     private Place currentPlace;
     private TextView txtPlaceName;
     private RatingBar ratingBar;
-    private EditText editText;
-    private Button btnSave;
-    private RecyclerView commentList;
     PlaceDAO pd;
-    private float score;
-    private MyCustomAdapterForComment mAdapter;
-    private Button btnJump;
-    List<Comment> comments = new ArrayList<>();
-    private List<Comment> commentArray = new ArrayList<>();
 
     private TextView txtTotalComments;
     private TextView txtCategory;
@@ -91,59 +83,62 @@ public class ClickExistActivity extends Activity {
         txtTotalComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewCommentsActivity.this, AddDiaryActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //TODO: move to ViewCommentsActivity
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (DocumentSnapshot d : queryDocumentSnapshots) {
-                    Comment c = d.toObject(Comment.class);
-                    commentArray.add(c);
-                }
-                mAdapter = new MyCustomAdapterForComment(ClickExistActivity.this, commentArray);
-                commentList.setAdapter(mAdapter);
-
-            }
-        });
-
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                storeComment();
-                currentPlace.addScore(score);
-                pd.updateData(currentPlace);
-                Intent back = new Intent(ClickExistActivity.this, MapActivity.class);
-                startActivity(back);
-            }
-        });
-
-        btnJump.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                storeComment();
-                currentPlace.addScore(score);
-                pd.updateData(currentPlace);
-                Intent intent = new Intent(ClickExistActivity.this, AddDiaryActivity.class);
+                Intent intent = new Intent(ClickExistActivity.this, ViewCommentsActivity.class);
                 Bundle b = new Bundle();
                 b.putSerializable("Place", currentPlace);
                 intent.putExtras(b);
                 startActivity(intent);
             }
         });
-    }
 
-    private void storeComment() {
-        String comment = editText.getText().toString();
-        SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
-        Comment c = new Comment(load.getString("displayName", "123"), currentPlace.getPlaceName(), comment);
-        CommentDAO cd = new CommentDAO();
-        cd.addComment(c,0);
-    }
+//        //TODO: move to ViewCommentsActivity
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//            @Override
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                for (DocumentSnapshot d : queryDocumentSnapshots) {
+//                    Comment c = d.toObject(Comment.class);
+//                    commentArray.add(c);
+//                }
+//                mAdapter = new MyCustomAdapterForComment(ClickExistActivity.this, commentArray);
+//                commentList.setAdapter(mAdapter);
+//
+//            }
+//        });
+//
+//
+//        btnSave.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                storeComment();
+//                currentPlace.addScore(score);
+//                pd.updateData(currentPlace);
+//                Intent back = new Intent(ClickExistActivity.this, MapActivity.class);
+//                startActivity(back);
+//            }
+//        });
+//
+//        btnJump.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                storeComment();
+//                currentPlace.addScore(score);
+//                pd.updateData(currentPlace);
+//                Intent intent = new Intent(ClickExistActivity.this, AddDiaryActivity.class);
+//                Bundle b = new Bundle();
+//                b.putSerializable("Place", currentPlace);
+//                intent.putExtras(b);
+//                startActivity(intent);
+//            }
+//        });
+//    }
+//
+//    private void storeComment() {
+//        String comment = editText.getText().toString();
+//        SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
+//        Comment c = new Comment(load.getString("displayName", "123"), currentPlace.getPlaceName(), comment);
+//        CommentDAO cd = new CommentDAO();
+//        cd.addComment(c,0);
+//    }
 
 }
