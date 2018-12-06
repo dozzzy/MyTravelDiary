@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 public class User {
     private String username;
     private String password;
@@ -21,6 +23,12 @@ public class User {
         this.phone=phone;
         this.email=email;
         this.following=following;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        User comparedUser=(User)obj;
+        return username.equals(comparedUser.getUsername());
     }
 
     public String getUsername() {
