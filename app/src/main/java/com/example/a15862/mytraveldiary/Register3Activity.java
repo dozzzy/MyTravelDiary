@@ -250,9 +250,6 @@ public class Register3Activity extends AppCompatActivity implements
                             findUserInDB(currentUser);
                             if (detectUser!=null){
                                 Log.e(TAG,"old user");
-                                UserDAO userDAO=new UserDAO();
-                                userDAO.saveUserInApp(detectUser,getApplicationContext());
-
                                 SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器

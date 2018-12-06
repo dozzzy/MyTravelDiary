@@ -15,7 +15,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class ViewAllDiaryActivity extends AppCompatActivity {
     private List<Diary> diaryList;
     private FirebaseFirestore db;
     RecyclerView cList;
-    MyCustomAdapter mAdapter;
+    MyCustomAdapterForDiary mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +34,11 @@ public class ViewAllDiaryActivity extends AppCompatActivity {
         cList.setHasFixedSize(true);
         cList.setLayoutManager(new LinearLayoutManager(this));
 
+        SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String username=load.getString("username","DEFAULT");
         db = FirebaseFirestore.getInstance();
         // we use snapshotListener here so if other users upload new comments, we can see the changes in our view.
-        db.collection("Diary").whereEqualTo("userID", "123").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("Diary").whereEqualTo("username", username).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
@@ -47,13 +48,13 @@ public class ViewAllDiaryActivity extends AppCompatActivity {
 
                 diaryList = new ArrayList<>();
                 for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                    if (doc.get("userID") != null) {
+                    if (doc.get("username") != null) {
                         diaryList.add(doc.toObject(Diary.class));
                     }
                 }
-                mAdapter = new MyCustomAdapter(ViewAllDiaryActivity.this, diaryList);
+                mAdapter = new MyCustomAdapterForDiary(ViewAllDiaryActivity.this, diaryList);
                 cList.setAdapter(mAdapter);
-                mAdapter.setOnItemClickListener(new MyCustomAdapter.OnItemClickListener() {
+                mAdapter.setOnItemClickListener(new MyCustomAdapterForDiary.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         Diary diary=diaryList.get(position);

@@ -11,4 +11,6 @@ import java.io.IOException;
 
 public interface SearchServices {
     void searchLocation(LatLng location, double radius) throws Exception;
+
+    void getComment(String pid) throws Exception;
 }

@@ -2,6 +2,7 @@ package com.example.a15862.mytraveldiary.ServiceImps;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.example.a15862.mytraveldiary.Services.SearchServices;
 import com.example.a15862.mytraveldiary.placeInfoReceiver;
@@ -31,10 +32,22 @@ public class SearchServicesImp extends Handler implements SearchServices {
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?language=en&";
         url+="location="+location.latitude+","+location.longitude +"&radius="+radius;
         url+=key;
-        getJson(url);
+        getJson(url,0);
     }
 
-    public void getJson(final String strUrl) throws Exception {
+    @Override
+    public void getComment(String pid) throws Exception {
+        Log.i("Jing","getComment");
+        Log.i("Jing",pid);
+        //if the id is less than 25 , is a self-defined place , we don't have to search it
+        if(pid.length()<25) return;
+        String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid="+pid+"&fields=name,reviews"+key;
+        Log.i("Jing",url);
+        getJson(url,1);
+
+    }
+
+    public void getJson(final String strUrl,final int action_code) throws Exception {
         //create a sub-thread to handle the network IO task
         new Thread(){
             private HttpURLConnection connection;
@@ -60,6 +73,7 @@ public class SearchServicesImp extends Handler implements SearchServices {
                     Message msg = new Message();
                     msg.what = 1;
                     msg.obj = jsonObject;
+                    msg.arg1 = action_code;
                     //send message back to handler
                     sendMessage(msg);
                 }
@@ -79,8 +93,10 @@ public class SearchServicesImp extends Handler implements SearchServices {
         //When receive msg, means the IO operation is finished , ask main-UI to draw
         super.handleMessage(msg);
         try {
+            int actionCoode = msg.arg1;
             //Call the method in mainActivity to draw the marker
-            context.receive((JSONObject)msg.obj);
+            if(actionCoode == 0) context.receive((JSONObject)msg.obj);
+            else context.receiveComment((JSONObject)msg.obj);
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -37,16 +37,24 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.example.a15862.mytraveldiary.DAO.CommentDAO;
+import com.example.a15862.mytraveldiary.DAO.FollowshipDAO;
 import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
 import com.example.a15862.mytraveldiary.DAO.UserDAO;
+import com.example.a15862.mytraveldiary.Entity.Comment;
 import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Entity.User;
 import com.example.a15862.mytraveldiary.ServiceImps.SearchServicesImp;
 import com.example.a15862.mytraveldiary.Services.SearchServices;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -64,6 +72,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,6 +80,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -78,7 +88,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver, NavigationView.OnNavigationItemSelectedListener {
-
+    private final Map<String,Set<String>> getKeyWords = new HashMap<>();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
     private final int radius = 50;
@@ -87,6 +97,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private List<Place> nearbyPlaces;
     private Set<String> existed;
     private Map<String, Place> findPlaceByName;
+    private Map<Marker,Place> marked = new HashMap<>();
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -112,10 +123,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private TextView txtUsername;
     private TextView txtDisplayName;
-    // DrawerLayout and adapter
-//    private DrawerLayout drawer_layout;
-//    private ListView list_left_drawer;
-//    private ArrayAdapter<String> adapter = null;
+
+    private ImageView imgAvater;
+    int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,24 +161,32 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
-        // DrawerLayout
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        // Floating buttons
+        final com.getbase.floatingactionbutton.FloatingActionButton actionA = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_a);
+        actionA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Place currentPlace = new Place();
-                currentPlace.setLatitude(mLastKnownLocation.getLatitude());
-                currentPlace.setLongitude(mLastKnownLocation.getLongitude());
                 Intent intent = new Intent(MapActivity.this, ClickNotExistActivity.class);
                 Bundle b = new Bundle();
-                b.putSerializable("Place",currentPlace);
+                b.putDouble("Longitude", mLastKnownLocation.getLongitude());
+                b.putDouble("Latitude", mLastKnownLocation.getLatitude());
                 intent.putExtras(b);
                 startActivity(intent);
             }
         });
+        final com.getbase.floatingactionbutton.FloatingActionButton actionB = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_b);
+        actionB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude()), NEARBY_ZOOM));
+            }
+        });
+
+
+        // DrawerLayout
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -176,7 +194,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
+
+
+
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
+        String displayName=load.getString("displayName", "DEFAULT");
+        String username=load.getString("username","DEFAULT");
+        String avatar=load.getString("avatar","DEFAULT");
+        View headerView = navigationView.getHeaderView(0);
+
+        txtUsername=(TextView)headerView.findViewById(R.id.txtUsername);
+        txtDisplayName=(TextView)headerView.findViewById(R.id.txtDisplayName);
+        imgAvater=(ImageView)headerView.findViewById(R.id.imgAvater);
+        txtUsername.setText(username);
+        txtDisplayName.setText(displayName);
+        Log.i("avatar",avatar);
+        if (!avatar.equals("DEFAULT")){
+            Picasso.get().load(avatar).into(imgAvater);
+        }
+
+
+
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -206,10 +248,25 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+//        noinspection SimplifiableIfStatement
+        if (id == R.id.search) {
+            try {
+                Intent intent =
+                        new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                                .build(this);
+                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+            } catch (GooglePlayServicesRepairableException e) {
+                // TODO: Handle the error.
+            } catch (GooglePlayServicesNotAvailableException e) {
+                // TODO: Handle the error.
+            }
+            return true;
+        }
+        if (id == R.id.add_friends) {
+            Intent intent = new Intent(MapActivity.this, AddFriendsActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -224,7 +281,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Intent intent = new Intent(MapActivity.this, ViewAllDiaryActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_friends) {
-
+            Intent intent = new Intent(MapActivity.this, ViewAllFriendsActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -254,7 +312,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        getKeyWords.put("route",new HashSet<String>(Arrays.asList(new String[]{"route"})));
+        getKeyWords.put("bus station",new HashSet<String>(Arrays.asList(new String[]{"bus_station"})));
+        getKeyWords.put("store",new HashSet<String>(Arrays.asList(new String[]{"store"})));
+        getKeyWords.put("railway station",new HashSet<String>(Arrays.asList(new String[]{"transit_station"})));
+        getKeyWords.put("education",new HashSet<String>(Arrays.asList(new String[]{"school","university"})));
+        getKeyWords.put("health",new HashSet<String>(Arrays.asList(new String[]{"health","doctor","gym"})));
+        getKeyWords.put("point_of_interest",new HashSet<String>(Arrays.asList(new String[]{"point_of_interest"})));
 
         // Prompt the user for permission.
         getLocationPermission();
@@ -267,8 +331,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         UiSettings uiSettings = mMap.getUiSettings();
-        uiSettings.setZoomControlsEnabled(true);
-        uiSettings.setMyLocationButtonEnabled(true);
+//        uiSettings.setZoomControlsEnabled(true);
+//        uiSettings.setMyLocationButtonEnabled(true);
+
 
         // Create new marker when user pin on the map
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -285,7 +350,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (DocumentSnapshot ds : queryDocumentSnapshots) {
                                 Place p = ds.toObject(Place.class);
-                                Log.i("Check", String.valueOf(p.getComments() == null));
                                 LatLng loc = new LatLng(p.getLatitude(), p.getLongitude());
                                 if (getDistance(loc.longitude, loc.latitude, point.longitude, point.latitude) <= radius) {
                                     if (existed.add(p.getPid())) {
@@ -442,8 +506,73 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void draw() {
+        mMap.clear();
+        label1:
         for (Place p : nearbyPlaces) {
-            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(p.getLatitude(), p.getLongitude())).title(p.getPlaceName()));
+            List<String> cats = p.getCatagory();
+            for(String cat:cats){
+                for(String key:getKeyWords.keySet()){
+                    if(getKeyWords.get(key).contains(cat)){
+                        // here the key is one of the predefined catagories
+                        // route, food, store, education, bus station, railway station, health, point_of_interest
+
+                        Marker marker = null;
+                        if(key == "route") {
+                            marker = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                                    .title(p.getPlaceName())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.route)));
+                        }
+                        else if(key == "food") {
+                            marker = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                                    .title(p.getPlaceName())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.food)));
+                        }
+                        else if(key == "store") {
+                            marker = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                                    .title(p.getPlaceName())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.store)));
+                        }
+                        else if(key == "education") {
+                            marker = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                                    .title(p.getPlaceName())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.education)));
+                        }
+                        else if(key == "bus station") {
+                            marker = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                                    .title(p.getPlaceName())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bus)));
+                        }
+                        else if(key == "railway station") {
+                            marker = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                                    .title(p.getPlaceName())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.railway)));
+                        }
+                        else if(key == "health") {
+                            marker = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                                    .title(p.getPlaceName())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.health)));
+                        }
+                        else if(key == "point_of_interest") {
+                            marker = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                                    .title(p.getPlaceName())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.interest)));
+                        }
+                        marker.showInfoWindow();
+                        continue label1;
+                    }
+                }
+            }
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                    .title(p.getPlaceName()));
             marker.showInfoWindow();
         }
     }
@@ -465,6 +594,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 LatLng placeLoc = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
                 String vicinity = cur.getString("vicinity");
                 Place p = new Place(placeLoc, placeName, vicinity, pid);
+                searchServices.getComment(pid);
                 if (cur.has("photos")) {
                     JSONObject photos = cur.getJSONArray("photos").getJSONObject(0);
                     p.setPhotoPath(photos.getString("html_attributions"));
@@ -475,7 +605,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     for (int j = 0; j < ja.length(); j++) {
                         cat.add(ja.getString(j));
                     }
-                    p.setCatagoty(cat);
+                    p.setCatagory(cat);
                 }
                 nearbyPlaces.add(p);
                 findPlaceByName.put(p.getPlaceName(), p);
@@ -484,6 +614,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             draw();
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void receiveComment(JSONObject res) throws JSONException {
+        JSONObject total = res.getJSONObject("result");
+        JSONArray arr =total.getJSONArray("reviews");
+        String placeName = total.getString("name");
+        for(int i = 0;i<arr.length();i++){
+            JSONObject cur = arr.getJSONObject(i);
+            String userName = cur.getString("author_name");
+            String text = cur.getString("text");
+            Comment comment = new Comment(userName,placeName,text);
+            CommentDAO cd = new CommentDAO();
+            cd.addComment(comment,1);
         }
     }
 
@@ -498,5 +645,47 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         s = s * EARTH_RADIUS;
         s = Math.round(s * 10000) / 10000;
         return s;
+    }
+
+
+
+    public void undoFilter(){
+        for(Marker m : marked.keySet()){
+            m.setVisible(true);
+        }
+    }
+
+    public void doFilter(String keyWords){
+        Set<String> validWord = getKeyWords.get(keyWords);
+        label1:
+        for(Marker m:marked.keySet()){
+            Place p = marked.get(m);
+            List<String> cats = p.getCatagory();
+            for(String cat:cats){
+                if(validWord.contains(cat)) continue label1;
+            }
+            m.setVisible(false);
+        }
+    }
+
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+//                Place place = PlaceAutocomplete.getPlace(this, data);
+//                Log.i(TAG, "Place: " + place.getName());
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+//                Status status = PlaceAutocomplete.getStatus(this, data);
+//                // TODO: Handle the error.
+//                Log.i(TAG, status.getStatusMessage());
+
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
     }
 }

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 public class User {
     private String username;
     private String password;
@@ -14,15 +16,31 @@ public class User {
     private int scoreCountUser = 0;
     private float totalScoreUser = 0;
     private List<String> following;
+    private int like=0;
     //    private List<Diary> userDiary;
     public User(){}
-    public User(String username,String password, String userid, String phone,String email, List<String> following){
+    public User(String username,String password, String userid, String phone,String email, List<String> following,String photouri){
         this.username=username;
         this.password=password;
         this.userid=userid;
         this.phone=phone;
         this.email=email;
         this.following=following;
+        this.avatar=photouri;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        User comparedUser=(User)obj;
+        return username.equals(comparedUser.getUsername());
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getUsername() {
@@ -81,6 +99,13 @@ public class User {
         this.displayName = displayName;
     }
 
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
+    }
 
     public Map<String,Object> toMap(){
         Map<String, Object> map=new HashMap<>();

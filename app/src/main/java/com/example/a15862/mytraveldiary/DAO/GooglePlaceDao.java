@@ -22,11 +22,17 @@ public class GooglePlaceDao extends Handler{
     private JSONObject jsonRes = null;
 
     public JSONObject searchLocation(LatLng location, double radius) throws Exception {
-        System.out.println(key);
         //generate the query URL based on the input parameter
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?language=en&";
         url+="location="+location.latitude+","+location.longitude +"&radius="+radius;
         url+=key;
+        return getJson(url);
+    }
+
+    public JSONObject getComment(String placeId) throws Exception {
+        //if the id is less than 25 , is a self-defined place , we don't have to search it
+        if(placeId.length()<25) return null;
+        String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid="+placeId+"&fields=name,rating,formatted_phone_number"+key;
         return getJson(url);
     }
 
