@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Comment {
     private String placeName;
+    private User user;
     private String username;
     private String userComment;
     private int fromAPI;
@@ -13,7 +14,7 @@ public class Comment {
     public Comment(){
         time=System.currentTimeMillis();
     }
-    public Comment(String userID,String placeName,String userComment){
+    public Comment(String userID, String placeName, String userComment){
         this.placeName=placeName;
         this.username=userID;
         this.userComment=userComment;

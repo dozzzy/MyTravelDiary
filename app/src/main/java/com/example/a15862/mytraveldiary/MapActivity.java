@@ -134,7 +134,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         searchServices = new SearchServicesImp(this);
         findPlaceByName = new HashMap<>();
         super.onCreate(savedInstanceState);
-
+        User testUser=new User();
+        SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
+        testUser.setDisplayName(load.getString("displayName", "DEFAULT"));
+        testUser.setUsername(load.getString("username","DEFAULT"));
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -190,6 +193,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+
+
+
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -249,10 +257,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
             } catch (GooglePlayServicesRepairableException e) {
                 // TODO: Handle the error.
-                Log.e("error",e.getMessage());
             } catch (GooglePlayServicesNotAvailableException e) {
                 // TODO: Handle the error.
-                Log.e("error",e.getMessage());
             }
             return true;
         }
@@ -503,7 +509,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.clear();
         label1:
         for (Place p : nearbyPlaces) {
-            List<String> cats = p.getCatagory();
+            List<String> cats = p.getcategory();
             for(String cat:cats){
                 for(String key:getKeyWords.keySet()){
                     if(getKeyWords.get(key).contains(cat)){
@@ -599,7 +605,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     for (int j = 0; j < ja.length(); j++) {
                         cat.add(ja.getString(j));
                     }
-                    p.setCatagory(cat);
+                    p.setcategory(cat);
                 }
                 nearbyPlaces.add(p);
                 findPlaceByName.put(p.getPlaceName(), p);
@@ -654,7 +660,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         label1:
         for(Marker m:marked.keySet()){
             Place p = marked.get(m);
-            List<String> cats = p.getCatagory();
+            List<String> cats = p.getcategory();
             for(String cat:cats){
                 if(validWord.contains(cat)) continue label1;
             }
