@@ -69,12 +69,13 @@ public class ClickExistActivity extends Activity {
         txtPlaceName.setText(currentPlace.getPlaceName());
         List<String> categorys = currentPlace.getcategory();
         String cats = "";
-        for (int i = 0; i < categorys.size(); i ++){
+        for (int i = 0; i < categorys.size(); i++) {
             cats = new StringBuilder(cats)
                     .append(categorys.get(i)).append(" ").toString();
-        };
+        }
+        ;
         txtCategory.setText(cats);
-        float rating = currentPlace.getTotalScore()/currentPlace.getScoreCount();
+        float rating = currentPlace.getTotalScore() / currentPlace.getScoreCount();
         ratingBar.setRating(rating);
         //TODO:
         int totalComments = 0;
@@ -140,5 +141,6 @@ public class ClickExistActivity extends Activity {
 //        CommentDAO cd = new CommentDAO();
 //        cd.addComment(c,0);
 //    }
+    }
 
 }
