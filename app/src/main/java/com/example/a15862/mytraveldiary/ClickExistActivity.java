@@ -64,17 +64,17 @@ public class ClickExistActivity extends Activity {
 //            }
 //        });
 
-        //TODO: move to ViewCommentsActivity
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (DocumentSnapshot d : queryDocumentSnapshots) {
-                    Comment c = d.toObject(Comment.class);
-                    commentArray.add(c);
-                }
-            }
-        });
+//        //TODO: move to ViewCommentsActivity
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//            @Override
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                for (DocumentSnapshot d : queryDocumentSnapshots) {
+//                    Comment c = d.toObject(Comment.class);
+//                    commentArray.add(c);
+//                }
+//            }
+//        });
 
 
         Bundle info = getIntent().getExtras();
