@@ -72,30 +72,6 @@ public class ClickExistActivity extends Activity {
 //            }
 //        });
 
-        Bundle info = getIntent().getExtras();
-        currentPlace = (Place) info.getSerializable("Place");
-        txtPlaceName.setText(currentPlace.getPlaceName());
-        List<String> categorys = currentPlace.getcategory();
-        String cats = "";
-        for (int i = 0; i < categorys.size(); i ++){
-            cats = new StringBuilder(cats)
-                    .append(categorys.get(i)).append(" ").toString();
-        };
-        txtCategory.setText(cats);
-        float rating = currentPlace.getTotalScore()/currentPlace.getScoreCount();
-        ratingBar.setRating(rating);
-        //TODO:
-        int totalComments = 0;
-        //int totalComments = currentPlace.getTotalComments;
-        txtTotalComments.setText(totalComments);
-        txtTotalComments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ViewCommentsActivity.class);
-                startActivity(intent);
-            }
-        });
-
         //TODO: move to ViewCommentsActivity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -105,10 +81,36 @@ public class ClickExistActivity extends Activity {
                     Comment c = d.toObject(Comment.class);
                     commentArray.add(c);
                 }
-                mAdapter = new MyCustomAdapterForComment(ClickExistActivity.this, commentArray);
-                commentList.setAdapter(mAdapter);
             }
         });
+
+
+        Bundle info = getIntent().getExtras();
+        currentPlace = (Place) info.getSerializable("Place");
+        txtPlaceName.setText(currentPlace.getPlaceName());
+        List<String> categorys = currentPlace.getCategory();
+        String cats = "";
+        for (int i = 0; i < categorys.size(); i ++){
+            cats = new StringBuilder(cats)
+                    .append(categorys.get(i)).append(" ").toString();
+        };
+        txtCategory.setText(cats);
+        float rating = currentPlace.getTotalScore()/currentPlace.getScoreCount();
+        ratingBar.setRating(rating);
+        //TODO:
+        int totalComments = commentArray.size();
+        //int totalComments = currentPlace.getTotalComments;
+        txtTotalComments.setText(totalComments);
+        txtTotalComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ViewCommentsActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
+
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +118,9 @@ public class ClickExistActivity extends Activity {
             public void onClick(View v) {
                 storeComment();
                 currentPlace.addScore(score);
+                currentPlace.setTotalComment(currentPlace.getTotalComment()+1);
                 pd.updateData(currentPlace);
+
                 Intent back = new Intent(ClickExistActivity.this, MapActivity.class);
                 startActivity(back);
             }
@@ -144,5 +148,7 @@ public class ClickExistActivity extends Activity {
         CommentDAO cd = new CommentDAO();
         cd.addComment(c,0);
     }
+
+
 
 }

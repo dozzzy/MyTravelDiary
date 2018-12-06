@@ -32,7 +32,7 @@ public class PlaceDAO {
         data.put("placeName",p.getPlaceName());
         data.put("photoPath",p.getPhotoPath());
         data.put("vicinity",p.getVicinity());
-        data.put("category",p.getcategory());
+        data.put("category",p.getCategory());
         db.collection("Place").document(p.getPlaceName()).set(data);
     }
 
@@ -40,6 +40,7 @@ public class PlaceDAO {
         CollectionReference cr = db.collection("Place");;
         cr.document(p.getPlaceName()).update("totalScore",p.getTotalScore());
         cr.document(p.getPlaceName()).update("scoreCount",p.getScoreCount());
+        cr.document(p.getPlaceName()).update("totalComment",p.getTotalComment()+1);
     }
 
 
