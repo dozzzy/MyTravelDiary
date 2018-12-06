@@ -5,28 +5,46 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.example.a15862.mytraveldiary.Entity.Comment;
+import com.example.a15862.mytraveldiary.Entity.Place;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewCommentsActivity extends AppCompatActivity {
 
-    private EditText editText;
+    private TextView txtPlaceName;
+    private EditText edtAddComment;
     private Button btnSave;
-    private RecyclerView commentList;
-
-    private float score;
-    private MyCustomAdapterForComment mAdapter;
     private Button btnJump;
-    List<Comment> comments = new ArrayList<>();
-    private List<Comment> commentArray = new ArrayList<>();
+
+    private MyCustomAdapterForComment mAdapter;
+    private RecyclerView commentList;
+    private List<Comment> comments = new ArrayList<>();
+
+    private Place currentPlace;
+    private RatingBar customRating;
+    private float score;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_comments);
+
+        txtPlaceName = findViewById(R.id.txtPlaceName);
+        customRating = findViewById(R.id.ratingBarCustom);
+
+
+        Bundle info = getIntent().getExtras();
+        currentPlace = (Place) info.getSerializable("Place");
+        txtPlaceName.setText(currentPlace.getPlaceName());
+
+
     }
 
 
