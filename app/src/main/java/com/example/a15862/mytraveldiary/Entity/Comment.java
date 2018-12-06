@@ -7,6 +7,7 @@ public class Comment {
     private String placeName;
     private String username;
     private String userComment;
+    private int fromAPI;
     private long time;
     public Comment(){
         time=System.currentTimeMillis();
@@ -16,6 +17,14 @@ public class Comment {
         this.username=userID;
         this.userComment=userComment;
         time=System.currentTimeMillis();
+    }
+
+    public int getFromAPI() {
+        return fromAPI;
+    }
+
+    public void setFromAPI(int fromAPI) {
+        this.fromAPI = fromAPI;
     }
 
     public long getTime() {

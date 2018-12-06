@@ -98,14 +98,13 @@ public class UserDAO {
 
 
 
-    public void est(){
-        db.collection("User").whereArrayContains("username","178").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+    public void updateLike(final String username){
+        db.collection("User").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                Log.i("Jing","in");
-                for(QueryDocumentSnapshot q:queryDocumentSnapshots){
-                    Log.i("Jing",q.get("displayName").toString());
-                }
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User u = documentSnapshot.toObject(User.class);
+                u.setLike(u.getLike()+1);
+                db.collection("User").document(username).set(u);
             }
         });
     }

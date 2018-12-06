@@ -11,11 +11,12 @@ public class CommentDAO {
     public CommentDAO(){
         db = FirebaseFirestore.getInstance();
     }
-    public void addComment(Comment c){
+    public void addComment(Comment c,int fromAPI){
         Map<String,Object> data = new HashMap<>();
         data.put("placeName",c.getPlaceName());
         data.put("username",c.getUsername());
         data.put("userComment",c.getUserComment());
+        data.put("fromAPI",fromAPI);
         db.collection("Comment").document(c.getUsername()+"."+c.getTime()).set(data);
     }
 }
