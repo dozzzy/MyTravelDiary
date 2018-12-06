@@ -84,7 +84,6 @@ public class ClickExistActivity extends Activity {
             }
         });
         //TODO: add comment into view
-
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

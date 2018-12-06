@@ -135,15 +135,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         findPlaceByName = new HashMap<>();
         super.onCreate(savedInstanceState);
 
-
-
-
-
-
-
-
-
-
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -199,11 +190,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-
-
-
-
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -263,8 +249,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
             } catch (GooglePlayServicesRepairableException e) {
                 // TODO: Handle the error.
+                Log.e("error",e.getMessage());
             } catch (GooglePlayServicesNotAvailableException e) {
                 // TODO: Handle the error.
+                Log.e("error",e.getMessage());
             }
             return true;
         }

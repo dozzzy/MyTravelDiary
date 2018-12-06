@@ -82,7 +82,7 @@ public class LoginNewActivity extends AppCompatActivity {
 
                                 editor.putString("username",user.getUsername());
                                 editor.putString("avatar",user.getAvatar());
-                                Log.i("avatar",user.getAvatar());
+                                //Log.i("avatar",user.getAvatar());
                                 editor.commit();
                                 Intent i = new Intent(getApplicationContext(), MapActivity.class);
                                 startActivity(i);
