@@ -256,10 +256,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             } catch (GooglePlayServicesNotAvailableException e) {
                 // TODO: Handle the error.
             }
+            return true;
         }
         if (id == R.id.add_friends) {
             Intent intent = new Intent(MapActivity.this, AddFriendsActivity.class);
             startActivity(intent);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -14,18 +14,16 @@ import android.widget.TextView;
 import com.example.a15862.mytraveldiary.Entity.Diary;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
-public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.ViewHolder> implements View.OnClickListener{
+public class MyCustomAdapterForDiary extends RecyclerView.Adapter<MyCustomAdapterForDiary.ViewHolder> implements View.OnClickListener{
 
     private List<Diary> upload;
     private Context context;
     private LayoutInflater mInflater;
 
 
-    public MyCustomAdapter(Context aContext, List<Diary> aupload) {
+    public MyCustomAdapterForDiary(Context aContext, List<Diary> aupload) {
         Log.e("3rd","mycustonAdapter constructor");
         context = aContext;  //saving the context we'll need it again.
         upload = aupload;

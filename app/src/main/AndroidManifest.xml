@@ -69,7 +69,9 @@
             android:name=".AddFriendsActivity"
             android:label="Add new friends"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".ViewAllFriendsActivity"></activity>
+        <activity android:name=".ViewAllFriendsActivity" />
+        <activity android:name=".MyWelcomeActivity"
+            android:theme="@style/WelcomeScreenTheme"></activity>
     </application>
 
 </manifest>

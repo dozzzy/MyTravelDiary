@@ -1,9 +1,7 @@
 package com.example.a15862.mytraveldiary;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -27,7 +24,7 @@ public class ViewAllDiaryActivity extends AppCompatActivity {
     private List<Diary> diaryList;
     private FirebaseFirestore db;
     RecyclerView cList;
-    MyCustomAdapter mAdapter;
+    MyCustomAdapterForDiary mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +52,9 @@ public class ViewAllDiaryActivity extends AppCompatActivity {
                         diaryList.add(doc.toObject(Diary.class));
                     }
                 }
-                mAdapter = new MyCustomAdapter(ViewAllDiaryActivity.this, diaryList);
+                mAdapter = new MyCustomAdapterForDiary(ViewAllDiaryActivity.this, diaryList);
                 cList.setAdapter(mAdapter);
-                mAdapter.setOnItemClickListener(new MyCustomAdapter.OnItemClickListener() {
+                mAdapter.setOnItemClickListener(new MyCustomAdapterForDiary.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         Diary diary=diaryList.get(position);
