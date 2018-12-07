@@ -32,6 +32,8 @@ public class PlaceDAO {
         data.put("photoPath",p.getPhotoPath());
         data.put("vicinity",p.getVicinity());
         data.put("category",p.getCategory());
+        data.put("scoreCount",p.getScoreCount());
+        data.put("totalScore",p.getTotalScore());
         db.collection("Place").document(p.getPlaceName()).set(data);
     }
 

@@ -25,7 +25,13 @@
             android:value="AIzaSyDjCrdGmiesceyoZTwl--AVr_KRkFYhXMs" />
 
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".MapActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".AddDiaryActivity"
             android:label="Add new Diary" />
@@ -54,11 +60,7 @@
             android:theme="@style/WelcomeScreenTheme" />
         <activity android:name=".ViewCommentsActivity" />
         <activity android:name=".MomentsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
