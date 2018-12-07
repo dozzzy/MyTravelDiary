@@ -75,7 +75,6 @@ public class LoginNewActivity extends AppCompatActivity {
                 String username = edtUserName.getText().toString();
                 String password = edtPassword.getText().toString();
                 Log.e(TAG, "btnlogin click");
-
                 db.collection("User").whereEqualTo("username", username).whereEqualTo("password", password)
                         .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

@@ -75,7 +75,6 @@ public class AddFriendsActivity extends AppCompatActivity {
                             public void onItemClick(View view, int position) {
                                 SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
                                 String username=load.getString("username","DEFAULT");
-
                                 Bundle bundle = new Bundle();
                                 bundle.putString("myUsername",username);
                                 bundle.putString("targetUsername",friendList.get(position).getUsername());

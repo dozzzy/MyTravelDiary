@@ -324,7 +324,7 @@ public class Register3Activity extends AppCompatActivity implements
                 if (!validatePhoneNumber()) {
                     return;
                 }
-                startPhoneNumberVerification(edtPhone.getText().toString());
+                startPhoneNumberVerification("+1"+edtPhone.getText().toString());
                 break;
             case R.id.btnVerify:
                 String code = edtVerify.getText().toString();

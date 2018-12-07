@@ -46,6 +46,12 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
         Comment currentCom = upload.get(position);
         holder.txtDisplayName.setText(currentCom.getUsername());
         holder.txtComment.setText(currentCom.getUserComment());
+        holder.thumbUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setEnabled(false);
+            }
+        });
         // TODO:
         //holder.txtUserRates.setText(currentCom.getUser.getUserRates());
         //holder.txtLikesCount.setText(currentCom.getLikesCount());
@@ -76,23 +82,7 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
             txtLikesCount = (TextView) itemView.findViewById(R.id.txtLikesCount);
             numLikes = Integer.parseInt(txtLikesCount.getText().toString());
             thumbUp = (ImageButton) itemView.findViewById(R.id.img_up);
-            thumbUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    if (thumbUp.getImageAlpha() == 255) {
-                        numLikes++;
-                        txtLikesCount.setText(numLikes);
-                        //thumbUp.setImageResource(R.drawable.thumbDown);
-                        thumbUp.setImageAlpha(150);
-                    } else if (thumbUp.getImageAlpha() == 150) {
-                        numLikes--;
-                        txtLikesCount.setText(numLikes);
-                        //thumbUp.setImageResource(R.drawable.thumbDown);
-                        thumbUp.setImageAlpha(255);
-                    }
 
-                }
-            });
 
             //TODO: update database
         }
