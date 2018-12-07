@@ -19,7 +19,7 @@ public class MomentsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_moments);
+//        setContentView(R.layout.activity_moments);
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         String displayName=load.getString("displayName", "DEFAULT");
         String username=load.getString("username","DEFAULT");
