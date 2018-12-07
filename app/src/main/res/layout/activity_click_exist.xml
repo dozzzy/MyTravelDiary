@@ -54,7 +54,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|left"
             android:layout_weight="1"
+            android:isIndicator="true"
             android:numStars="5"
+            android:rating="2.5"
             android:scaleX="0.7"
             android:scaleY="0.7"
             android:stepSize="0.1" />
