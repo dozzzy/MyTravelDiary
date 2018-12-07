@@ -101,7 +101,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
-
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
@@ -282,6 +281,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             startActivity(intent);
         } else if (id == R.id.nav_friends) {
             Intent intent = new Intent(MapActivity.this, ViewAllFriendsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_logout) {
+            SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+            editor.putString("displayName", "DEFAULT");
+            editor.putString("username", "DEFAULT");
+            editor.putString("avatar","DEFAULT");
+            editor.commit();
+
+            Intent intent = new Intent(MapActivity.this, LoginNewActivity.class);
             startActivity(intent);
         }
 

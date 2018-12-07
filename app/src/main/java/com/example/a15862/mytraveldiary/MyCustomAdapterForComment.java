@@ -16,6 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.a15862.mytraveldiary.Entity.Comment;
+import com.example.a15862.mytraveldiary.Entity.User;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import java.io.File;
@@ -26,12 +30,14 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
     private List<Comment> upload;
     private Context context;
     private LayoutInflater mInflater;
+    private FirebaseFirestore db;
 
 
     public MyCustomAdapterForComment(Context aContext, List<Comment> aupload) {
         context = aContext;  //saving the context we'll need it again.
         upload = aupload;
         mInflater = LayoutInflater.from(context);
+        db=FirebaseFirestore.getInstance();
     }
 
 
@@ -42,10 +48,31 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Comment currentCom = upload.get(position);
         holder.txtDisplayName.setText(currentCom.getUsername());
         holder.txtComment.setText(currentCom.getUserComment());
+        holder.txtLikesCount.setText(currentCom.getLike());
+        holder.thumbUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setEnabled(false);
+                Comment clickedComment=upload.get(holder.getAdapterPosition());
+                clickedComment.setLike(clickedComment.getLike()+1);
+                Log.i("qwer",clickedComment.getUserComment());
+                db.collection("Comment")
+                        .document(clickedComment.getUsername()+"."+String.valueOf(clickedComment.getTime()))
+                        .set(clickedComment);
+                db.collection("User").document(clickedComment.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        User likedUser =documentSnapshot.toObject(User.class);
+                        likedUser.setLike(likedUser.getLike()+1);
+                        db.collection("User").document(likedUser.getUsername()).set(likedUser);
+                    }
+                });
+            }
+        });
         // TODO:
         //holder.txtUserRates.setText(currentCom.getUser.getUserRates());
         //holder.txtLikesCount.setText(currentCom.getLikesCount());
@@ -65,7 +92,8 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
         private TextView txtLikesCount;
         private CardView cardView;
         private ImageButton thumbUp;
-        private int numLikes = 0;
+
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -74,25 +102,8 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
             txtComment = (TextView) itemView.findViewById(R.id.txtComment);
             txtUserRates = (TextView) itemView.findViewById(R.id.txtUserRates);
             txtLikesCount = (TextView) itemView.findViewById(R.id.txtLikesCount);
-            numLikes = Integer.parseInt(txtLikesCount.getText().toString());
             thumbUp = (ImageButton) itemView.findViewById(R.id.img_up);
-            thumbUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    if (thumbUp.getImageAlpha() == 255) {
-                        numLikes++;
-                        txtLikesCount.setText(numLikes);
-                        //thumbUp.setImageResource(R.drawable.thumbDown);
-                        thumbUp.setImageAlpha(150);
-                    } else if (thumbUp.getImageAlpha() == 150) {
-                        numLikes--;
-                        txtLikesCount.setText(numLikes);
-                        //thumbUp.setImageResource(R.drawable.thumbDown);
-                        thumbUp.setImageAlpha(255);
-                    }
 
-                }
-            });
 
             //TODO: update database
         }

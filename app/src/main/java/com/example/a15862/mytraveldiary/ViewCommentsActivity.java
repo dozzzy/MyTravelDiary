@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,13 +49,14 @@ public class ViewCommentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_comments);
-
+        Log.e("qwer","comment on create");
         txtPlaceName = findViewById(R.id.txtPlaceName);
         customRating = findViewById(R.id.ratingBarCustom);
         edtAddComment = findViewById(R.id.edtAddComment);
         btnSave = findViewById(R.id.btnSaveReturn);
         btnJump = findViewById(R.id.btnSaveJump);
         commentList = findViewById(R.id.commentList);
+
         commentList.setHasFixedSize(true);
         commentList.setLayoutManager(new LinearLayoutManager(this));
         customRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -69,14 +71,16 @@ public class ViewCommentsActivity extends AppCompatActivity {
         //txtPlaceName.setText(info.getString("Place"));
         txtPlaceName.setText(currentPlace.getPlaceName());
 
-
+        Log.e("qwer","get currentPlace");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (DocumentSnapshot d : queryDocumentSnapshots) {
-                    Comment c = d.toObject(Comment.class);
-                    commentArray.add(c);
+                if (!queryDocumentSnapshots.isEmpty()){
+                    for (DocumentSnapshot d : queryDocumentSnapshots) {
+                        Comment c = d.toObject(Comment.class);
+                        commentArray.add(c);
+                    }
                 }
                 Collections.sort(commentArray, new Comparator<Comment>() {
                     @Override
@@ -85,8 +89,8 @@ public class ViewCommentsActivity extends AppCompatActivity {
                     }
                 });
                 mAdapter = new MyCustomAdapterForComment(ViewCommentsActivity.this, commentArray);
+                Log.e("qwer","set adapter");
                 commentList.setAdapter(mAdapter);
-
             }
         });
     
@@ -97,6 +101,7 @@ public class ViewCommentsActivity extends AppCompatActivity {
                 storeComment();
                 currentPlace.addScore(score);
                 pd.updateData(currentPlace);
+                Log.e("qwer","sent comment");
                 Intent back = new Intent(ViewCommentsActivity.this, MapActivity.class);
                 startActivity(back);
             }
@@ -122,6 +127,7 @@ public class ViewCommentsActivity extends AppCompatActivity {
         String comment = edtAddComment.getText().toString();
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         Comment c = new Comment(load.getString("displayName", "123"), currentPlace.getPlaceName(), comment);
+        Log.e("qwer","storeComment");
         CommentDAO cd = new CommentDAO();
         cd.addComment(c,0);
     }

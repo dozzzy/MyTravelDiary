@@ -40,22 +40,25 @@ public class ViewAllFriendsActivity extends AppCompatActivity {
         db.collection("Followship").document(displayName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                friendName = (ArrayList) documentSnapshot.getData().get("followed");
-                for (String name : friendName) {
-                    Log.i("Jing", name);
-                    db.collection("User").whereEqualTo("username", name).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            Log.i("Jing","get user info");
-                            for (QueryDocumentSnapshot qs : queryDocumentSnapshots) {
-                                friends.add(qs.toObject(User.class));
+                if (documentSnapshot.exists()){
+                    friendName = (ArrayList) documentSnapshot.getData().get("followed");
+                    for (String name : friendName) {
+                        Log.i("Jing", name);
+                        db.collection("User").whereEqualTo("username", name).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                Log.i("Jing","get user info");
+                                for (QueryDocumentSnapshot qs : queryDocumentSnapshots) {
+                                    friends.add(qs.toObject(User.class));
+                                }
+                                mAdapter = new MyCustomAdapterForFriends(ViewAllFriendsActivity.this, friends);
+                                listFriends.setAdapter(mAdapter);
+                                for(User u:friends) Log.i("Jing",u.getDisplayName());
                             }
-                            mAdapter = new MyCustomAdapterForFriends(ViewAllFriendsActivity.this, friends);
-                            listFriends.setAdapter(mAdapter);
-                            for(User u:friends) Log.i("Jing",u.getDisplayName());
-                        }
-                    });
+                        });
+                    }
                 }
+
             }
         });
 //        for(String name : friendName){
