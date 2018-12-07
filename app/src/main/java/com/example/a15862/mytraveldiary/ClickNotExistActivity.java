@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,29 +46,13 @@ public class ClickNotExistActivity extends Activity {
         final Bundle b = getIntent().getExtras();
         lat = b.getDouble("Latitude");
         lon = b.getDouble("Longitude");
+
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 score = rating;
             }
         });
-
-
-
-        btnJump.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                storeData();
-                Intent intent = new Intent(ClickNotExistActivity.this, AddDiaryActivity.class);
-                Log.e("qwer", "currentPlace" + currentPlace.getLatitude());
-                Bundle b = new Bundle();
-                b.putSerializable("Place",currentPlace);
-                intent.putExtras(b);
-                startActivity(intent);
-            }
-        });
-
-
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -83,16 +68,33 @@ public class ClickNotExistActivity extends Activity {
             }
 
         });
-        Log.i("Jing","3");
+
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 storeData();
                 Intent back = new Intent(ClickNotExistActivity.this,MapActivity.class);
                 startActivity(back);
+//                AskWriteDiaryFragment askWriteDiaryFragment = new AskWriteDiaryFragment();
+//                askWriteDiaryFragment.show(getSupportFragmentManager(), "ConfirmFragment");
             }
         });
+
+        btnJump.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                storeData();
+                Intent intent = new Intent(ClickNotExistActivity.this, AddDiaryActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable("Place",currentPlace);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+
     }
+
     private void storeData(){
         String pname = edtPlaceName.getText().toString();
         String comment = edtComment.getText().toString();

@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewDebug;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -55,16 +56,18 @@ public class ClickExistActivity extends Activity {
         currentPlace = (Place) info.getSerializable("Place");
         txtPlaceName.setText(currentPlace.getPlaceName());
         List<String> categorys = currentPlace.getCategory();
-        String cats = "";
-        for (int i = 0; i < categorys.size(); i++) {
-            cats = new StringBuilder(cats)
-                    .append(categorys.get(i)).append(" ").toString();
-        }
-        ;
-        txtCategory.setText(cats);
+//        String cats = "";
+//        for (int i = 0; i < categorys.size(); i++) {
+//            cats = new StringBuilder(cats)
+//                    .append(categorys.get(i)).append(" ").toString();
+//        }
+        txtCategory.setText(categorys.get(0));
         float rating = currentPlace.getTotalScore() / currentPlace.getScoreCount();
-        ratingBar.setRating(rating);
-        //TODO:
+        Log.i("qwer", Float.toString(rating));
+        if(rating != 0) {
+            ratingBar.setRating(rating);
+        }
+
         //int totalComments = currentPlace.getTotalComments;
         Log.i("qwer",String.valueOf(currentPlace.getTotalComment()));
         txtTotalComments.setText(new StringBuilder("Comments: ").append(currentPlace.getTotalComment()).toString());
