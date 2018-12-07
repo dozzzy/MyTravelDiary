@@ -67,7 +67,7 @@ public class ClickExistActivity extends Activity {
         //TODO:
         //int totalComments = currentPlace.getTotalComments;
         Log.i("qwer",String.valueOf(currentPlace.getTotalComment()));
-        txtTotalComments.setText(String.valueOf(currentPlace.getTotalComment()));
+        txtTotalComments.setText(new StringBuilder("Comments: ").append(currentPlace.getTotalComment()).toString());
         txtTotalComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
