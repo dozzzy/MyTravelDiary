@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,7 +46,7 @@ public class ViewCommentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_comments);
-
+        Log.e("qwer","comment on create");
         txtPlaceName = findViewById(R.id.txtPlaceName);
         customRating = findViewById(R.id.ratingBarCustom);
         edtAddComment = findViewById(R.id.edtAddComment);
@@ -76,6 +77,7 @@ public class ViewCommentsActivity extends AppCompatActivity {
                     commentArray.add(c);
                 }
                 mAdapter = new MyCustomAdapterForComment(ViewCommentsActivity.this, commentArray);
+                Log.e("qwer","set adapter");
                 commentList.setAdapter(mAdapter);
 
             }
@@ -88,6 +90,7 @@ public class ViewCommentsActivity extends AppCompatActivity {
                 storeComment();
                 currentPlace.addScore(score);
                 pd.updateData(currentPlace);
+                Log.e("qwer","sent comment");
                 Intent back = new Intent(ViewCommentsActivity.this, MapActivity.class);
                 startActivity(back);
             }
