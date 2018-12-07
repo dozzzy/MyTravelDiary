@@ -53,6 +53,7 @@ public class ViewCommentsActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSaveReturn);
         btnJump = findViewById(R.id.btnSaveJump);
         commentList = findViewById(R.id.commentList);
+
         commentList.setHasFixedSize(true);
         commentList.setLayoutManager(new LinearLayoutManager(this));
         customRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -67,19 +68,20 @@ public class ViewCommentsActivity extends AppCompatActivity {
         //txtPlaceName.setText(info.getString("Place"));
         txtPlaceName.setText(currentPlace.getPlaceName());
 
-
+        Log.e("qwer","get currentPlace");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (DocumentSnapshot d : queryDocumentSnapshots) {
-                    Comment c = d.toObject(Comment.class);
-                    commentArray.add(c);
+                if (!queryDocumentSnapshots.isEmpty()){
+                    for (DocumentSnapshot d : queryDocumentSnapshots) {
+                        Comment c = d.toObject(Comment.class);
+                        commentArray.add(c);
+                    }
                 }
                 mAdapter = new MyCustomAdapterForComment(ViewCommentsActivity.this, commentArray);
                 Log.e("qwer","set adapter");
                 commentList.setAdapter(mAdapter);
-
             }
         });
 
@@ -116,6 +118,7 @@ public class ViewCommentsActivity extends AppCompatActivity {
         String comment = edtAddComment.getText().toString();
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         Comment c = new Comment(load.getString("displayName", "123"), currentPlace.getPlaceName(), comment);
+        Log.e("qwer","storeComment");
         CommentDAO cd = new CommentDAO();
         cd.addComment(c,0);
     }

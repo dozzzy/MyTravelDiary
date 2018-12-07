@@ -26,6 +26,7 @@ public class MyCustomAdapterForFriends extends RecyclerView.Adapter<MyCustomAdap
         context = aContext;  //saving the context we'll need it again.
         friendList = aupload;
         mInflater=LayoutInflater.from(context);
+        Log.e("qwer","constructor");
     }
 
 
