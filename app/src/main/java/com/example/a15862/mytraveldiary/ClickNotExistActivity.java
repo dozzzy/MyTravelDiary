@@ -115,6 +115,7 @@ public class ClickNotExistActivity extends Activity {
         currentPlace = p;
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         Comment c = new Comment(load.getString("displayName", "123"),currentPlace.getPlaceName(),comment);
+
         CommentDAO cd = new CommentDAO();
         cd.addComment(c,0);
     }
