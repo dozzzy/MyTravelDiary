@@ -616,6 +616,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                     p.setCategory(cat);
                 }
+                if(cur.has("rating")){
+                    p.addScore((float)cur.getDouble("rating"));
+                }
                 nearbyPlaces.add(p);
                 findPlaceByName.put(p.getPlaceName(), p);
                 placeDAO.addPlace(p);
@@ -631,6 +634,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void receiveComment(JSONObject res) throws JSONException {
         JSONObject total = res.getJSONObject("result");
+        if(!total.has("reviews")) return;
         JSONArray arr =total.getJSONArray("reviews");
         String placeName = total.getString("name");
         for(int i = 0;i<arr.length();i++){

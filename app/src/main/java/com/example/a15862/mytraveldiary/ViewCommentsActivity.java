@@ -19,11 +19,14 @@ import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
 import com.example.a15862.mytraveldiary.Entity.Comment;
 import com.example.a15862.mytraveldiary.Entity.Place;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ViewCommentsActivity extends AppCompatActivity {
@@ -79,12 +82,18 @@ public class ViewCommentsActivity extends AppCompatActivity {
                         commentArray.add(c);
                     }
                 }
+                Collections.sort(commentArray, new Comparator<Comment>() {
+                    @Override
+                    public int compare(Comment o1, Comment o2) {
+                        return o2.getLike() - o1.getLike();
+                    }
+                });
                 mAdapter = new MyCustomAdapterForComment(ViewCommentsActivity.this, commentArray);
                 Log.e("qwer","set adapter");
                 commentList.setAdapter(mAdapter);
             }
         });
-
+    
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override

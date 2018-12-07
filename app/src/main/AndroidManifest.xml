@@ -24,11 +24,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDjCrdGmiesceyoZTwl--AVr_KRkFYhXMs" />
 
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".MapActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".AddDiaryActivity"
@@ -46,11 +48,7 @@
         <activity android:name=".Register2Activity" />
         <activity android:name=".Register3Activity" />
         <activity android:name=".LoginNewActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ModifyActivity" />
         <activity
@@ -59,8 +57,11 @@
         <activity android:name=".ViewAllFriendsActivity" />
         <activity
             android:name=".MyWelcomeActivity"
-            android:theme="@style/WelcomeScreenTheme"></activity>
+            android:theme="@style/WelcomeScreenTheme" />
         <activity android:name=".ViewCommentsActivity" />
+        <activity android:name=".MomentsActivity">
+
+        </activity>
     </application>
 
 </manifest>

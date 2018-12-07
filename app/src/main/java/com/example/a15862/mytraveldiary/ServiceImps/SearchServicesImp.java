@@ -27,9 +27,10 @@ public class SearchServicesImp extends Handler implements SearchServices {
     }
     @Override
     public void searchLocation(LatLng location, double radius) throws Exception {
-        System.out.println(key);
+
         //generate the query URL based on the input parameter
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?language=en&";
+
         url+="location="+location.latitude+","+location.longitude +"&radius="+radius;
         url+=key;
         getJson(url,0);
@@ -37,8 +38,6 @@ public class SearchServicesImp extends Handler implements SearchServices {
 
     @Override
     public void getComment(String pid) throws Exception {
-        Log.i("Jing","getComment");
-        Log.i("Jing",pid);
         //if the id is less than 25 , is a self-defined place , we don't have to search it
         if(pid.length()<25) return;
         String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid="+pid+"&fields=name,reviews"+key;
