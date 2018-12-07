@@ -62,8 +62,9 @@ public class ViewCommentsActivity extends AppCompatActivity {
         });
 
         Bundle info = getIntent().getExtras();
-        //currentPlace = (Place) info.getSerializable("Place");
-        txtPlaceName.setText(info.getString("Place"));
+        currentPlace = (Place) info.getSerializable("Place");
+        //txtPlaceName.setText(info.getString("Place"));
+        txtPlaceName.setText(currentPlace.getPlaceName());
 
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

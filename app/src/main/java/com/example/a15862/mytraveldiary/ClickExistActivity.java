@@ -74,7 +74,8 @@ public class ClickExistActivity extends Activity {
                 Log.i("qwer", "view comments clicked");
                 Intent intent = new Intent(ClickExistActivity.this, ViewCommentsActivity.class);
                 Bundle b = new Bundle();
-                b.putString("Place", currentPlace.getPlaceName());
+                //b.putString("Place", currentPlace.getPlaceName());
+                b.putSerializable("Place",currentPlace);
                 intent.putExtras(b);
                 startActivity(intent);
             }
