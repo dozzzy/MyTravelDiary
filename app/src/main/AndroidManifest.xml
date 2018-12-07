@@ -64,6 +64,7 @@
         <activity
             android:name=".MyWelcomeActivity"
             android:theme="@style/WelcomeScreenTheme"></activity>
+        <activity android:name=".ViewCommentsActivity" />
     </application>
 
 </manifest>

@@ -13,7 +13,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a15862.mytraveldiary.DAO.CommentDAO;
 import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
+import com.example.a15862.mytraveldiary.Entity.Comment;
 import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Entity.User;
 import com.google.android.gms.tasks.OnSuccessListener;

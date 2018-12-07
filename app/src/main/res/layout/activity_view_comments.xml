@@ -5,18 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="9"
     tools:context=".ViewCommentsActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
+        <TextView
+            android:id="@+id/txtPlaceName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="PlaceName" />
     </FrameLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="4"
         android:paddingBottom="@dimen/fui_auth_method_button_margin">
 
         <LinearLayout
@@ -34,14 +41,50 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="match_parent"
+        <RatingBar
+            android:id="@+id/ratingBarCustom"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:numStars="5"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:stepSize="0.1" />
+
+        <EditText
+            android:id="@+id/edtAddComment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:ems="10"
             android:inputType="textMultiLine" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btnSaveReturn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Save and Return" />
+
+        <Button
+            android:id="@+id/btnSaveJump"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Save and Write Diary" />
     </LinearLayout>
 </LinearLayout>
