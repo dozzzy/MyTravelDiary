@@ -24,6 +24,18 @@ public class Comment  {
         time=System.currentTimeMillis();
     }
 
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
+    }
+
+    public void addLike(){
+        like++;
+    }
+
     public int getFromAPI() {
         return fromAPI;
     }
@@ -62,6 +74,10 @@ public class Comment  {
 
     public void setUserComment(String userComment) {
         this.userComment = userComment;
+    }
+
+    public void setTime(){
+        time = time=System.currentTimeMillis();
     }
 
 }
