@@ -85,9 +85,20 @@ public class ModifyActivity extends Activity {
         txtTemperature = (TextView) findViewById(R.id.txtTemperature);
         txtDate = (TextView) findViewById(R.id.txtDate);
         imgWeather = (ImageView) findViewById(R.id.imgWeather);
+
         edtDiary = (EditText) findViewById(R.id.edtDiary);
         btnClear = (Button) findViewById(R.id.btnClear);
         btnSave = (Button) findViewById(R.id.btnSave);
+
+
+        Picasso.get().load(curDiary.getImgWeather()).into(imgWeather);
+        txtDate.setText(curDiary.getTxtDate());
+        txtTemperature.setText(curDiary.getTxtTemperature());
+        txtCity.setText(curDiary.getTxtCity());
+        edtDiary.setText(curDiary.getEdtDiary());
+        Picasso.get().load(curDiary.getPhotoUri()).into(imgPhoto);
+
+
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
