@@ -42,38 +42,37 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
 
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyCustomAdapterForComment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.list_item_comment, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         Comment currentCom = upload.get(position);
         holder.txtDisplayName.setText(currentCom.getUsername());
         holder.txtComment.setText(currentCom.getUserComment());
-        holder.txtLikesCount.setText(currentCom.getLike());
-        holder.thumbUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setEnabled(false);
-                Comment clickedComment=upload.get(holder.getAdapterPosition());
-                clickedComment.setLike(clickedComment.getLike()+1);
-                Log.i("qwer",clickedComment.getUserComment());
-                db.collection("Comment")
-                        .document(clickedComment.getUsername()+"."+String.valueOf(clickedComment.getTime()))
-                        .set(clickedComment);
-                db.collection("User").document(clickedComment.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        User likedUser =documentSnapshot.toObject(User.class);
-                        likedUser.setLike(likedUser.getLike()+1);
-                        db.collection("User").document(likedUser.getUsername()).set(likedUser);
-                    }
-                });
-            }
-        });
-        // TODO:
+        holder.txtLikesCount.setText(String.valueOf(currentCom.getLike()));
+//        holder.thumbUp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                v.setEnabled(false);
+//                Comment clickedComment=upload.get(holder.getAdapterPosition());
+//                clickedComment.setLike(clickedComment.getLike()+1);
+//                Log.i("qwer",clickedComment.getUserComment());
+//                db.collection("Comment")
+//                        .document(clickedComment.getUsername()+"."+String.valueOf(clickedComment.getTime()))
+//                        .set(clickedComment);
+//                db.collection("User").document(clickedComment.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                        User likedUser =documentSnapshot.toObject(User.class);
+//                        likedUser.setLike(likedUser.getLike()+1);
+//                        db.collection("User").document(likedUser.getUsername()).set(likedUser);
+//                    }
+//                });
+//            }
+//        });
         //holder.txtUserRates.setText(currentCom.getUser.getUserRates());
         //holder.txtLikesCount.setText(currentCom.getLikesCount());
 

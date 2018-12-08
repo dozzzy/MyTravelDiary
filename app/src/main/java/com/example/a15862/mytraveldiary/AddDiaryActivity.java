@@ -69,6 +69,8 @@ public class AddDiaryActivity extends Activity {
     private String diaryName;
     private Uri tempUri;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
