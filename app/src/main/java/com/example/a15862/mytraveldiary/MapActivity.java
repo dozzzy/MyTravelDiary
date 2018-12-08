@@ -210,7 +210,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         txtUsername.setText(username);
         txtDisplayName.setText(displayName);
         Log.i("avatar",avatar);
-        if (!avatar.equals(null)){
+        if (!avatar.equals(null) && !avatar.equals("DEFAULT")){
             Picasso.get().load(avatar).into(imgAvater);
         }else{
             Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03").into(imgAvater);
@@ -281,6 +281,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             startActivity(intent);
         } else if (id == R.id.nav_friends) {
             Intent intent = new Intent(MapActivity.this, ViewAllFriendsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_moments) {
+            Intent intent = new Intent(MapActivity.this, MomentsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -606,8 +609,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 searchServices.getComment(pid);
                 if (cur.has("photos")) {
                     JSONObject photos = cur.getJSONArray("photos").getJSONObject(0);
-                    p.setPhotoPath(photos.getString("html_attributions"));
+                    p.setPhotoPath(photos.getString("photo_reference"));
                 }
+
                 if (cur.has("types")) {
                     JSONArray ja = cur.getJSONArray("types");
                     List<String> cat = new ArrayList<>();

@@ -28,18 +28,11 @@ public class FollowshipDAO {
         db.collection("Followship").document(curUser).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                newF = (ArrayList)documentSnapshot.getData().get("followed");
+                if(documentSnapshot.getData()!=null) newF = (ArrayList)documentSnapshot.getData().get("followed");
+                else newF = new ArrayList<>();
                 Map<String,Object> data = new HashMap<>();
                 if(!newF.contains(target)) newF.add(target);
                 data.put("followed",newF);
-                db.collection("Followship").document(curUser).set(data);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                newF = new ArrayList<>();
-                Map<String,Object> data = new HashMap<>();
-                newF.add(target);
                 db.collection("Followship").document(curUser).set(data);
             }
         });

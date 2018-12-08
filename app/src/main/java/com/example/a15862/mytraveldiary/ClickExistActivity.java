@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewDebug;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +39,12 @@ public class ClickExistActivity extends Activity {
     private TextView txtPlaceName;
     private RatingBar ratingBar;
     PlaceDAO pd;
+    String key = "&key=AIzaSyC1qPnWqt7G0areqx3sDhdElU04b0HTr6A";
+    String url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
 
     private TextView txtTotalComments;
     private TextView txtCategory;
+    private ImageView imgPlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +56,7 @@ public class ClickExistActivity extends Activity {
         txtCategory = findViewById(R.id.txtCategory);
         ratingBar = findViewById(R.id.ratingBar);
         txtTotalComments = findViewById(R.id.txtTotalComments);
-
+        imgPlace = findViewById(R.id.imgPlace);
         Bundle info = getIntent().getExtras();
         currentPlace = (Place) info.getSerializable("Place");
         txtPlaceName.setText(currentPlace.getPlaceName());
@@ -69,6 +74,10 @@ public class ClickExistActivity extends Activity {
         }
 
         //int totalComments = currentPlace.getTotalComments;
+        if(currentPlace.getPhotoPath()!=null){
+            String path = url+currentPlace.getPhotoPath()+key;
+            Picasso.get().load(path).into(imgPlace);
+        }
         Log.i("qwer",String.valueOf(currentPlace.getTotalComment()));
         txtTotalComments.setText(new StringBuilder("Comments: ").append(currentPlace.getTotalComment()).toString());
         txtTotalComments.setOnClickListener(new View.OnClickListener() {
