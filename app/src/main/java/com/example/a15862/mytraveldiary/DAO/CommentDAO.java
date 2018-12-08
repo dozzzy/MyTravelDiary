@@ -25,6 +25,7 @@ public class CommentDAO {
         data.put("fromAPI",fromAPI);
         data.put("time",c.getTime());
         data.put("like",c.getLike());
+
         db.collection("Comment").document(c.getUsername()+"."+c.getTime()).set(data);
     }
 

@@ -41,7 +41,7 @@ public class PlaceDAO {
         CollectionReference cr = db.collection("Place");;
         cr.document(p.getPlaceName()).update("totalScore",p.getTotalScore());
         cr.document(p.getPlaceName()).update("scoreCount",p.getScoreCount());
-        cr.document(p.getPlaceName()).update("totalComment",p.getTotalComment()+1);
+        cr.document(p.getPlaceName()).update("totalComment",p.getTotalComment());
     }
 
 

@@ -30,14 +30,14 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
     private List<Comment> upload;
     private Context context;
     private LayoutInflater mInflater;
-    private FirebaseFirestore db;
+    private AdapterCallback adapter;
 
 
-    public MyCustomAdapterForComment(Context aContext, List<Comment> aupload) {
+    public MyCustomAdapterForComment(Context aContext, List<Comment> aupload,AdapterCallback adapterCallback) {
         context = aContext;  //saving the context we'll need it again.
         upload = aupload;
+        adapter=adapterCallback;
         mInflater = LayoutInflater.from(context);
-        db=FirebaseFirestore.getInstance();
     }
 
 
@@ -49,32 +49,20 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Comment currentCom = upload.get(position);
+        final Comment currentCom = upload.get(position);
         holder.txtDisplayName.setText(currentCom.getUsername());
         holder.txtComment.setText(currentCom.getUserComment());
         holder.txtLikesCount.setText(String.valueOf(currentCom.getLike()));
-//        holder.thumbUp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                v.setEnabled(false);
-//                Comment clickedComment=upload.get(holder.getAdapterPosition());
-//                clickedComment.setLike(clickedComment.getLike()+1);
-//                Log.i("qwer",clickedComment.getUserComment());
-//                db.collection("Comment")
-//                        .document(clickedComment.getUsername()+"."+String.valueOf(clickedComment.getTime()))
-//                        .set(clickedComment);
-//                db.collection("User").document(clickedComment.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                        User likedUser =documentSnapshot.toObject(User.class);
-//                        likedUser.setLike(likedUser.getLike()+1);
-//                        db.collection("User").document(likedUser.getUsername()).set(likedUser);
-//                    }
-//                });
-//            }
-//        });
+        holder.thumbUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setEnabled(false);
+                adapter.onItemClick(currentCom);
+            }
+        });
+
         //holder.txtUserRates.setText(currentCom.getUser.getUserRates());
-        //holder.txtLikesCount.setText(currentCom.getLikesCount());
+        holder.txtLikesCount.setText(String.valueOf(currentCom.getLike()));
 
     }
 
@@ -107,6 +95,10 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
             //TODO: update database
         }
     }
+
+
+
+
 }
 
 
