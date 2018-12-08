@@ -15,4 +15,18 @@
     <color name="pink_pressed">#ec407a</color>
     <color name="blue_semi_transparent">#805677fc</color>
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
+
+    <color name="moduler">#f6e9e9</color>
+    <color name="black">#000000</color>
+    <color name="separateLine">#e1e4e9</color>
+    <color name="titlePart">#f7f8ee</color>
+    <color name="floating">#77e5cc</color>
+    <color name="yellow">#FECC0C</color>
+    <color name="red">#FF0000</color>
+    <color name="blue">#40CAEE</color>
+    <color name="yellow_light">#FFCC00</color>
+
+    <color name="check_color">#20B2AA</color>
+    <color name="color_c0c0c0">#c0c0c0</color>
+    <color name="color_f6">#f6f6f6</color>
 </resources>
