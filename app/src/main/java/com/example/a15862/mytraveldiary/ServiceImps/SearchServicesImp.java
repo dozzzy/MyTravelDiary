@@ -33,6 +33,7 @@ public class SearchServicesImp extends Handler implements SearchServices {
 
         url+="location="+location.latitude+","+location.longitude +"&radius="+radius;
         url+=key;
+        Log.i("Jing",url);
         getJson(url,0);
     }
 
@@ -45,6 +46,14 @@ public class SearchServicesImp extends Handler implements SearchServices {
         getJson(url,1);
 
     }
+
+//    @Override
+//    public void getPhoto(String photoId) throws Exception {
+//        String url = "https://maps.googleapis.com/maps/api/place/photo?&photoreference="+photoId;
+//        url += key;
+//        Log.i("Jing",url);
+//        getJson(url,2);
+//    }
 
     public void getJson(final String strUrl,final int action_code) throws Exception {
         //create a sub-thread to handle the network IO task
@@ -95,6 +104,9 @@ public class SearchServicesImp extends Handler implements SearchServices {
             int actionCoode = msg.arg1;
             //Call the method in mainActivity to draw the marker
             if(actionCoode == 0) context.receive((JSONObject)msg.obj);
+//            else if(actionCoode == 2){
+//                //context.getPhoto((JSONObject)msg.obj);
+//            }
             else context.receiveComment((JSONObject)msg.obj);
 
         } catch (JSONException e) {

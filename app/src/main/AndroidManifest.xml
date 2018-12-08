@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
@@ -50,9 +49,7 @@
         <activity android:name=".Register1Activity" />
         <activity android:name=".Register2Activity" />
         <activity android:name=".Register3Activity" />
-        <activity android:name=".LoginNewActivity">
-
-        </activity>
+        <activity android:name=".LoginNewActivity"></activity>
         <activity android:name=".ModifyActivity" />
         <activity
             android:name=".AddFriendsActivity"
@@ -62,19 +59,11 @@
             android:name=".MyWelcomeActivity"
             android:theme="@style/WelcomeScreenTheme" />
         <activity android:name=".ViewCommentsActivity" />
-        <activity android:name=".MomentsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
+        <activity android:name=".MomentsActivity"></activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
     </application>
 
 </manifest>
