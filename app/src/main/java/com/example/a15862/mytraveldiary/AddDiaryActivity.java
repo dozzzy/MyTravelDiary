@@ -76,7 +76,7 @@ public class AddDiaryActivity extends Activity {
     private Button btnClear, btnSave;
 
     private String PHOTO_FILE_NAME = "temp_photo.jpg";
-    private Uri photoUri = null; // for photos
+    private String photoUri = null; // for photos
     private int photoCnt;
     private String timeStamp;
     private String cityLoc;
@@ -145,7 +145,7 @@ public class AddDiaryActivity extends Activity {
                 String username = load.getString("username", "DEFAULT");
                 Diary diary = new Diary(username, currentPlace.getPlaceName());
                 if (photoUri != null) {
-                    diary.setPhotoUri(photoUri.toString());
+                    diary.setPhotoUri(photoUri);
                 }
                 if (imgWeatherUri != null) {
                     diary.setImgWeather(imgWeatherUri);
@@ -211,6 +211,7 @@ public class AddDiaryActivity extends Activity {
                     selectList = PictureSelector.obtainMultipleResult(data);
                     for (LocalMedia media : selectList) {
                         Log.i("imageupdate", media.getPath());
+                        photoUri = media.getPath();
                     }
                     adapter.setList(selectList);
                     adapter.notifyDataSetChanged();
