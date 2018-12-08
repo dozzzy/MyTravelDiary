@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4D348"
+    android:background="#D1F9CD"
     android:orientation="vertical"
     tools:context=".LoginNewActivity">
 
@@ -123,7 +123,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/shape"
-        android:drawableLeft="@drawable/fui_ic_phone_white_24dp"
+        android:drawableLeft="@drawable/ic_local_phone_black_24dp"
         android:paddingLeft="20dp"
         android:text="Sign in with phone number"
         android:textAllCaps="false" />

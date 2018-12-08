@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
     android:orientation="vertical"
     tools:context=".AddDiaryActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="20dp"
         android:layout_weight="3"
-        android:orientation="horizontal"
-        android:padding="2dp">
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imgWeather"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:layout_marginBottom="30dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/kitty_001"
             tools:srcCompat="@tools:sample/avatars[2]" />
@@ -33,22 +33,22 @@
 
             <TextView
                 android:id="@+id/txtTemperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
                 android:layout_weight="1"
                 android:text="25 C " />
 
             <TextView
                 android:id="@+id/txtDate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="10dp"
                 android:layout_weight="1"
                 android:text="2018.11.29" />
 
             <TextView
                 android:id="@+id/txtCity"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="10dp"
                 android:layout_weight="1"
                 android:text="China" />
         </LinearLayout>
@@ -64,68 +64,33 @@
             android:id="@+id/edtDiary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/order_edt_note_bg"
             android:ems="10"
+            android:gravity="top"
             android:hint="Your Diary"
-            android:inputType="textMultiLine" />
-
-        <ImageButton
-            android:id="@+id/btnGallery"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="right|top"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="4dp"
-            android:background="@null"
-            android:scaleType="fitXY"
-            android:src="@android:drawable/ic_menu_gallery" />
-
-        <ImageButton
-            android:id="@+id/btnCamera"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="right|bottom"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="4dp"
-            android:background="@null"
-            android:scaleType="fitXY"
-            android:src="@drawable/btn_camera_black" />
+            android:inputType="textMultiLine"
+            android:padding="5dp" />
 
 
     </FrameLayout>
 
-    <HorizontalScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imgPhoto"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:src="@drawable/kitty_001"/>
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                tools:srcCompat="@tools:sample/backgrounds/scenic[14]" />
-
-        </LinearLayout>
-    </HorizontalScrollView>
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:overScrollMode="never" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/buttonLayout"
@@ -147,8 +112,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
+            android:background="@drawable/shape"
             android:text="Cancel"
-            android:theme="@style/Base.V7.Theme.AppCompat.Light.Dialog"/>
+            android:textAllCaps="false"
+            android:theme="@style/Base.V7.Theme.AppCompat.Light.Dialog" />
 
         <Button
             android:id="@+id/btnSave"
@@ -157,8 +124,10 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
+            android:background="@drawable/shape"
             android:text="Save"
-            android:theme="@style/Base.V7.Theme.AppCompat.Light.Dialog"/>
+            android:textAllCaps="false"
+            android:theme="@style/Base.V7.Theme.AppCompat.Light.Dialog" />
 
     </LinearLayout>
 

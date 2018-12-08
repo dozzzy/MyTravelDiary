@@ -78,8 +78,6 @@ public class ModifyActivity extends Activity {
         Bundle info = getIntent().getExtras();
         curDiary = (Diary) info.getSerializable("Diary");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        btnCamera = (ImageButton) findViewById(R.id.btnCamera);
-        btnGallery = (ImageButton) findViewById(R.id.btnGallery);
         imgPhoto = (ImageView) findViewById(R.id.imgPhoto);
         txtCity = (TextView) findViewById(R.id.txtCity);
         txtTemperature = (TextView) findViewById(R.id.txtTemperature);

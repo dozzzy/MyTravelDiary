@@ -36,7 +36,7 @@ public class MyCustomAdapterForDiary extends RecyclerView.Adapter<MyCustomAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.e("3rd","onCreateViewHolder");
-        View view = mInflater.inflate(R.layout.list_item, parent, false);
+        View view = mInflater.inflate(R.layout.list_item_diary, parent, false);
         view.setOnClickListener(this);
         return new ViewHolder(view);
     }
