@@ -609,8 +609,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 searchServices.getComment(pid);
                 if (cur.has("photos")) {
                     JSONObject photos = cur.getJSONArray("photos").getJSONObject(0);
-                    p.setPhotoPath(photos.getString("html_attributions"));
+                    p.setPhotoPath(photos.getString("photo_reference"));
                 }
+
                 if (cur.has("types")) {
                     JSONArray ja = cur.getJSONArray("types");
                     List<String> cat = new ArrayList<>();
