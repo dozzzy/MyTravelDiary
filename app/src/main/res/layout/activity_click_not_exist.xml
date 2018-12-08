@@ -16,23 +16,16 @@
         android:orientation="horizontal"
         android:weightSum="4">
 
-        <TextView
-            android:id="@+id/txtPlaceName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="top|left"
-            android:text="Place name" />
-
         <EditText
             android:id="@+id/edtPlaceName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
             android:layout_weight="3"
+            android:background="@drawable/order_edt_note_bg"
             android:ems="10"
+            android:hint="Place name"
             android:inputType="textPersonName"
-            android:hint="Name" />
+            android:paddingLeft="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -42,17 +35,9 @@
         android:orientation="horizontal"
         android:weightSum="4">
 
-        <TextView
-            android:id="@+id/txtCategory"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="top|left"
-            android:text="Category" />
-
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:entries="@array/placeCategory" />
@@ -67,20 +52,20 @@
 
         <TextView
             android:id="@+id/txtRating"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="top|left"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
             android:text="Your rating" />
 
         <FrameLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="3">
 
             <RatingBar
                 android:id="@+id/ratingBar"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:fitsSystemWindows="true"
@@ -95,27 +80,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:orientation="horizontal"
         android:weightSum="4">
 
-        <TextView
-            android:id="@+id/txtComment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="top|left"
-            android:text="Your comment" />
-
         <EditText
             android:id="@+id/edtComment"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
+            android:background="@drawable/order_edt_note_bg"
             android:ems="10"
             android:gravity="top"
             android:hint="Your comment"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:padding="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -130,16 +109,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:text="Save and Return" />
+            android:background="@drawable/shape"
+            android:text="Save and Return"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btnSaveJump"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:text="Save and Write Diary" />
+            android:background="@drawable/shape"
+            android:text="Save and Write Diary"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </LinearLayout>
