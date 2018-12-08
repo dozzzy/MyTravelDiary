@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.a15862.mytraveldiary.Entity.Diary;
+import com.example.a15862.mytraveldiary.Entity.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -19,7 +20,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MomentsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
@@ -35,12 +38,11 @@ public class MomentsActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         db.collection("Followship").document("Jing").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+            public void onSuccess(final DocumentSnapshot documentSnapshot) {
                 friends = (ArrayList)documentSnapshot.getData().get("followed");
                 count = friends.size();
 
                 for(String cur:friends){
-                    Log.i("Jing",cur);
                     db.collection("Diary").whereEqualTo("username",cur).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -50,7 +52,6 @@ public class MomentsActivity extends AppCompatActivity {
                                 diarys.add(d);
                             }
                             if(count == 0){
-                                Log.i("Diary","____");
                                 Collections.sort(diarys, new Comparator<Diary>() {
                                     @Override
                                     public int compare(Diary o1, Diary o2) {
@@ -61,11 +62,30 @@ public class MomentsActivity extends AppCompatActivity {
                                         else return -1;
                                     }
                                 });
+                                final Map<String,User> getUser = new HashMap<>();
+                                count = diarys.size();
                                 //TODO:The diarys stored all recent diary of friends , sorted by time
-                                for(Diary c:diarys){
-                                    Log.i("Diary",c.getEdtDiary());
-                                    Log.i("Diary",String.valueOf(c.getTime()));
+                                for(Diary d:diarys){
+                                    db.collection("User").whereEqualTo("username",d.getUsername()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                            for(QueryDocumentSnapshot t :queryDocumentSnapshots){
+                                                User u = t.toObject(User.class);
+                                                getUser.put(u.getUsername(),u);
+                                                count--;
+                                            }
+                                            if(count == 0){
+                                                for(Diary d:diarys){
+                                                    String name =d.getDiaplayName();
+                                                    User u = getUser.get(name);
+                                                    //d is the diary , appear by time
+                                                    //u is the writer 
+                                                }
+                                            }
+                                        }
+                                    });
                                 }
+
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
