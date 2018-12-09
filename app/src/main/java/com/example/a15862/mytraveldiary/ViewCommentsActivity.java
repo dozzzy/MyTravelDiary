@@ -39,7 +39,7 @@ public class ViewCommentsActivity extends AppCompatActivity {
     private MyCustomAdapterForComment mAdapter;
     private RecyclerView commentList;
     private List<Comment> commentArray = new ArrayList<>();
-    PlaceDAO pd;
+    PlaceDAO pd = new PlaceDAO();
     private Place currentPlace;
     private RatingBar customRating;
     private float score;

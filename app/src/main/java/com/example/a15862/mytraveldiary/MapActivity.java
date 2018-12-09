@@ -97,6 +97,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private List<Place> nearbyPlaces;
     private Set<String> existed;
     private Map<String, Place> findPlaceByName;
+    private LatLng choosedPoint = null;
     private Map<Marker,Place> marked = new HashMap<>();
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
@@ -249,17 +250,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 //        noinspection SimplifiableIfStatement
         if (id == R.id.search) {//TODO: filter
-//            try {
-//                Intent intent =
-//                        new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-//                                .build(this);
-//                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-//            } catch (GooglePlayServicesRepairableException e) {
-//                Log.i("gooe", e.getMessage());
-//            } catch (GooglePlayServicesNotAvailableException e) {
-//                Log.i("gooe", e.getMessage());
-//            }
-//            return true;
+
         }
         if (id == R.id.add_friends) {
             Intent intent = new Intent(MapActivity.this, AddFriendsActivity.class);
@@ -351,6 +342,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(final LatLng point) {
+
+                choosedPoint = point;
                 mMap.clear();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
                 Log.i("Info", String.valueOf(point.latitude) + "," + String.valueOf(point.longitude));
@@ -578,6 +571,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.interest)));
                         }
                         marker.showInfoWindow();
+                        marked.put(marker,p);
                         continue label1;
                     }
                 }
@@ -585,8 +579,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                     .title(p.getPlaceName()));
+            marked.put(marker,p);
             marker.showInfoWindow();
         }
+        //TODO:CALL THIS
+        //searchServices.searchByName(choosedPoint,"GSU",radius);
     }
 
     @Override
@@ -705,4 +702,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         }
     }
+
+
+    @Override
+    public void receiveKeySearch(JSONObject res) throws JSONException {
+        try {
+            Set<String> validId = new HashSet<>();
+            JSONArray array = res.getJSONArray("predictions");
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject cur = array.getJSONObject(i);
+                String pid = cur.getString("place_id");
+                Log.i("Jing",pid);
+                validId.add(pid);
+            }
+            for(Marker m:marked.keySet()){
+                Place p = marked.get(m);
+                if(validId.contains(p.getPid())) continue;
+                Log.i("Hide",p.getPlaceName());
+                m.setVisible(false);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
