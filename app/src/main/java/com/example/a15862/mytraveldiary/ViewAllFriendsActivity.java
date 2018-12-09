@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.example.a15862.mytraveldiary.DAO.FollowshipDAO;
 import com.example.a15862.mytraveldiary.DAO.UserDAO;
@@ -26,13 +27,14 @@ public class ViewAllFriendsActivity extends AppCompatActivity {
     FirebaseFirestore db;
     RecyclerView listFriends;
     MyCustomAdapterForFriends mAdapter;
+    String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_friends);
         db = FirebaseFirestore.getInstance();
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String username = load.getString("username", "DEFAULT");
+        username = load.getString("username", "DEFAULT");
         listFriends=(RecyclerView)findViewById(R.id.listFriends);
 
         listFriends.setHasFixedSize(true);
@@ -53,6 +55,17 @@ public class ViewAllFriendsActivity extends AppCompatActivity {
                                 }
                                 mAdapter = new MyCustomAdapterForFriends(ViewAllFriendsActivity.this, friends);
                                 listFriends.setAdapter(mAdapter);
+                                mAdapter.setOnItemClickListener(new MyCustomAdapterForFriends.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+                                        DeleteFriendFragment deleteFriendFragment = new DeleteFriendFragment();
+                                        Bundle b = new Bundle();
+                                        b.putString("username",username);
+                                        b.putString("target",friends.get(position).getUsername());
+                                        deleteFriendFragment.setArguments(b);
+                                        deleteFriendFragment.show(getSupportFragmentManager(), "deleteFriend");
+                                    }
+                                });
                                 for(User u:friends) Log.i("Jing",u.getDisplayName());
                             }
                         });
