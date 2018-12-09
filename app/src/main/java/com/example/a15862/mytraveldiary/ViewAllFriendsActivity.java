@@ -32,12 +32,12 @@ public class ViewAllFriendsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_all_friends);
         db = FirebaseFirestore.getInstance();
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String displayName = load.getString("displayName", "DEFAULT");
+        String username = load.getString("username", "DEFAULT");
         listFriends=(RecyclerView)findViewById(R.id.listFriends);
 
         listFriends.setHasFixedSize(true);
         listFriends.setLayoutManager(new LinearLayoutManager(this));
-        db.collection("Followship").document(displayName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        db.collection("Followship").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()){
