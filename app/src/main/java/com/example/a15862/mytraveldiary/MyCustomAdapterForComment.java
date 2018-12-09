@@ -20,62 +20,63 @@ import com.example.a15862.mytraveldiary.Entity.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 
 import java.io.File;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdapterForComment.ViewHolder> {
 
-    private List<Comment> upload;
+    public List<Comment> upload;
+    public List<User> userList;
     private Context context;
     private LayoutInflater mInflater;
-    private FirebaseFirestore db;
+    private AdapterCallback adapter;
 
 
-    public MyCustomAdapterForComment(Context aContext, List<Comment> aupload) {
+    public MyCustomAdapterForComment(Context aContext,List<User> users, List<Comment> aupload,AdapterCallback adapterCallback) {
         context = aContext;  //saving the context we'll need it again.
         upload = aupload;
+        userList=users;
+        adapter=adapterCallback;
         mInflater = LayoutInflater.from(context);
-        db=FirebaseFirestore.getInstance();
+        Log.e("qwer","adapter start");
+        Log.e("qwer",String.valueOf(users.size()));
+      //  Log.e("qwer",String.valueOf(upload.size()));
     }
 
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyCustomAdapterForComment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.list_item_comment, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view,adapter);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         Comment currentCom = upload.get(position);
+        User currentUser=userList.get(position);
         holder.txtDisplayName.setText(currentCom.getUsername());
         holder.txtComment.setText(currentCom.getUserComment());
-        holder.txtLikesCount.setText(currentCom.getLike());
-        holder.thumbUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setEnabled(false);
-                Comment clickedComment=upload.get(holder.getAdapterPosition());
-                clickedComment.setLike(clickedComment.getLike()+1);
-                Log.i("qwer",clickedComment.getUserComment());
-                db.collection("Comment")
-                        .document(clickedComment.getUsername()+"."+String.valueOf(clickedComment.getTime()))
-                        .set(clickedComment);
-                db.collection("User").document(clickedComment.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        User likedUser =documentSnapshot.toObject(User.class);
-                        likedUser.setLike(likedUser.getLike()+1);
-                        db.collection("User").document(likedUser.getUsername()).set(likedUser);
-                    }
-                });
+        holder.txtLikesCount.setText(String.valueOf(currentCom.getLike()));
+        Log.e("qwer",currentUser.getUsername());
+        if (currentUser.getUsername().equals("fromApi")){
+            Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/hdr_logo.jpg?alt=media&token=cc03d9ee-7ae2-40e6-a6be-67d2a311f802")
+                    .into(holder.imgUserPhoto);
+            holder.txtUserRates.setText("not our user");
+        }else{
+            holder.txtUserRates.setText(String.valueOf(currentUser.getLike()));
+            if (currentUser.getAvatar()==null){
+                Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03")
+                        .into(holder.imgUserPhoto);
+            }else{
+                Picasso.get().load(currentUser.getAvatar()).into(holder.imgUserPhoto);
             }
-        });
-        // TODO:
-        //holder.txtUserRates.setText(currentCom.getUser.getUserRates());
-        //holder.txtLikesCount.setText(currentCom.getLikesCount());
+        }
+
 
     }
 
@@ -85,29 +86,56 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
         return upload.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView txtDisplayName;
         private TextView txtComment;
         private TextView txtUserRates;
         private TextView txtLikesCount;
         private CardView cardView;
         private ImageButton thumbUp;
+        private ImageView imgUserPhoto;
+        private AdapterCallback adapter;
 
-
-
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView,AdapterCallback adapterCallback) {
             super(itemView);
+            adapter=adapterCallback;
             cardView = (CardView) itemView.findViewById(R.id.card_view);
             txtDisplayName = (TextView) itemView.findViewById(R.id.txtDisplayName);
             txtComment = (TextView) itemView.findViewById(R.id.txtComment);
             txtUserRates = (TextView) itemView.findViewById(R.id.txtUserRates);
             txtLikesCount = (TextView) itemView.findViewById(R.id.txtLikesCount);
+            imgUserPhoto=(ImageView)itemView.findViewById(R.id.imgUserPhoto);
             thumbUp = (ImageButton) itemView.findViewById(R.id.img_up);
 
-
+            thumbUp.setTag(itemView);
+            thumbUp.setOnClickListener(this);
             //TODO: update database
         }
+
+        @Override
+        public void onClick(View v) {
+            Log.e("qwer","change clicked");
+            v.setEnabled(false);
+            View temp=(View)v.getTag();
+            TextView tempUserRates=(TextView)temp.findViewById(R.id.txtUserRates);
+            TextView tempLikesCout=(TextView)temp.findViewById(R.id.txtLikesCount);
+            int likeCount = Integer.parseInt(tempLikesCout.getText().toString()) + 1;
+            tempLikesCout.setText(String.valueOf(likeCount));
+            Pattern pattern = Pattern.compile("[0-9]*");
+            Matcher isNum = pattern.matcher(tempUserRates.getText().toString());
+            if (isNum.matches()){
+                int userRate = Integer.parseInt(tempUserRates.getText().toString()) + 1;
+                tempUserRates.setText(String.valueOf(userRate));
+                userList.get(getAdapterPosition()).setLike(userRate);
+            }
+            upload.get(getAdapterPosition()).setLike(likeCount);
+            adapter.onItemClick(upload.get(getAdapterPosition()));
+        }
     }
+
+
+
+
 }
 
 

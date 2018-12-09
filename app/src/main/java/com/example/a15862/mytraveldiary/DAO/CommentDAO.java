@@ -3,7 +3,9 @@ package com.example.a15862.mytraveldiary.DAO;
 import android.util.Log;
 
 import com.example.a15862.mytraveldiary.Entity.Comment;
+import com.example.a15862.mytraveldiary.Entity.Place;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -25,6 +27,19 @@ public class CommentDAO {
         data.put("fromAPI",fromAPI);
         data.put("time",c.getTime());
         data.put("like",c.getLike());
+        data.put("displayName",c.getDisplayName());
+        data.put("time",c.getTime());
+        db.collection("Place").document(c.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if(documentSnapshot.getData()!=null){
+                        Place p=documentSnapshot.toObject(Place.class);
+                        p.setTotalComment(p.getTotalComment()+1);
+                        PlaceDAO pdb=new PlaceDAO();
+                        pdb.updateData(p);
+                    }
+            }
+        });
         db.collection("Comment").document(c.getUsername()+"."+c.getTime()).set(data);
     }
 

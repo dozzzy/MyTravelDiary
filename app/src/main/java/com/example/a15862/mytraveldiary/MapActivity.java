@@ -211,7 +211,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         txtUsername.setText(username);
         txtDisplayName.setText(displayName);
         Log.i("avatar",avatar);
-        if (!avatar.equals(null) && !avatar.equals("DEFAULT")){
+        if (!avatar.equals(null) && !avatar.equals("DEFAULT") && !(avatar==null)){
             Picasso.get().load(avatar).into(imgAvater);
         }else{
             Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03").into(imgAvater);

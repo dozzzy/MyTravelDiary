@@ -257,6 +257,7 @@ public class Register3Activity extends AppCompatActivity implements
                                 editor.putString("displayName", detectUser.getDisplayName());
 
                                 editor.putString("username",detectUser.getUsername());
+                                editor.putString("avatar",detectUser.getAvatar());
 
                                 editor.commit();
 
@@ -268,15 +269,11 @@ public class Register3Activity extends AppCompatActivity implements
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-
                                         SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
-
                                         editor.putString("displayName", currentUser.getDisplayName());
-
                                         editor.putString("username",currentUser.getUsername());
-
+                                        editor.putString("avatar",currentUser.getAvatar());
                                         editor.commit();
-
                                         Log.e(TAG,"after save");
                                         Intent i = new Intent(getApplicationContext(), MapActivity.class);
                                         startActivity(i);
