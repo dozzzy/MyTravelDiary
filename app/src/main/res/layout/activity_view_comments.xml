@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="9"
+    android:weightSum="10"
     tools:context=".ViewCommentsActivity">
 
     <FrameLayout
@@ -17,24 +17,27 @@
             android:id="@+id/txtPlaceName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="PlaceName" />
+            android:padding="10dp"
+            android:text="PlaceName"
+            android:textSize="30sp" />
     </FrameLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="5"
         android:paddingBottom="@dimen/fui_auth_method_button_margin">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/commentList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:isScrollContainer="true" />
         </LinearLayout>
     </ScrollView>
@@ -60,8 +63,11 @@
             android:id="@+id/edtAddComment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:background="@drawable/order_edt_note_bg"
             android:ems="10"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:padding="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -76,7 +82,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:layout_weight="1"
+            android:textAllCaps="false"
+            android:background="@drawable/shape"
             android:text="Save and Return" />
 
         <Button
@@ -84,7 +93,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:layout_weight="1"
+            android:textAllCaps="false"
+            android:background="@drawable/shape"
             android:text="Save and Write Diary" />
     </LinearLayout>
 </LinearLayout>

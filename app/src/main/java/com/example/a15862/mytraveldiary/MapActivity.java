@@ -343,42 +343,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //        uiSettings.setMyLocationButtonEnabled(true);
 
 
-//
-//        LatLng point = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
-//        choosedPoint = point;
-//        mMap.clear();
-//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
-//        Log.i("Info", String.valueOf(point.latitude) + "," + String.valueOf(point.longitude));
-//        // Use YelpAPI with parameters.
-//        try {
-//            FirebaseFirestore db = FirebaseFirestore.getInstance();
-//            db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                @Override
-//                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                    for (DocumentSnapshot ds : queryDocumentSnapshots) {
-//                        Place p = ds.toObject(Place.class);
-//                        LatLng loc = new LatLng(p.getLatitude(), p.getLongitude());
-//                        if (getDistance(loc.longitude, loc.latitude, choosedPoint.longitude, choosedPoint.latitude) <= radius) {
-//                            if (existed.add(p.getPid())) {
-//                                nearbyPlaces.add(p);
-//                                findPlaceByName.put(p.getPlaceName(), p);
-//                            }
-//                        }
-//                    }
-//                    try {
-//                        searchServices.searchLocation(choosedPoint, radius);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//        } catch (Exception e) {
-//            Log.e("Exception: %s", e.getMessage());
-//        }
-
-
-
-
 
 
 
@@ -476,6 +440,43 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             mLastKnownLocation = task.getResult();
                             LatLng latLng = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
+
+
+
+                            mMap.clear();
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), NEARBY_ZOOM));
+                            Log.i("Info", String.valueOf(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()).latitude) + "," + String.valueOf(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()).longitude));
+                            // Use YelpAPI with parameters.
+                            try {
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        for (DocumentSnapshot ds : queryDocumentSnapshots) {
+                                            Place p = ds.toObject(Place.class);
+                                            LatLng loc = new LatLng(p.getLatitude(), p.getLongitude());
+                                            if (getDistance(loc.longitude, loc.latitude, new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()).longitude, new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()).latitude) <= radius) {
+                                                if (existed.add(p.getPid())) {
+                                                    nearbyPlaces.add(p);
+                                                    findPlaceByName.put(p.getPlaceName(), p);
+                                                }
+                                            }
+                                        }
+                                        try {
+                                            searchServices.searchLocation(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), radius);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            } catch (Exception e) {
+                                Log.e("Exception: %s", e.getMessage());
+                            }
+
+
+
+
+
                         } else {
                             Log.d("", "Current location is null. Using defaults.");
                             Log.e("", "Exception: %s", task.getException());

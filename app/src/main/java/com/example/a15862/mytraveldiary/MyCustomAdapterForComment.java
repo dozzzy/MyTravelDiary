@@ -62,7 +62,7 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
         holder.txtDisplayName.setText(currentCom.getUsername());
         holder.txtComment.setText(currentCom.getUserComment());
         holder.txtLikesCount.setText(String.valueOf(currentCom.getLike()));
-        Log.e("qwer",currentUser.getUsername());
+        Log.e("qwer",currentCom.getUserComment());
         if (currentUser.getUsername().equals("fromApi")){
             Picasso.get().load("http://www.zimphysio.org.zw/wp-content/uploads/2018/01/default-avatar-2.jpg")
                     .into(holder.imgUserPhoto);

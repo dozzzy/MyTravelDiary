@@ -8,8 +8,8 @@
     <!-- A CardView that contains a TextView -->
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
         android:layout_gravity="center"
         android:padding="2dp"
         card_view:cardCornerRadius="20dp">
@@ -20,22 +20,23 @@
             android:orientation="horizontal"
             android:weightSum="5">
 
-            <RelativeLayout
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:layout_weight="1">
+            <ImageView
+                android:id="@+id/imgUserPhoto"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                tools:srcCompat="@tools:sample/avatars[0]" />
 
-                <ImageView
-                    android:id="@+id/imgUserPhoto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:srcCompat="@tools:sample/avatars[0]" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/txtDisplayName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="user name" />
 
                 <TextView
@@ -44,44 +45,31 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/txtDisplayName"
                     android:text="his/her rating" />
-            </RelativeLayout>
-
-            <FrameLayout
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:layout_weight="4">
 
                 <TextView
                     android:id="@+id/txtComment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="278dp"
+                    android:layout_height="200dp"
                     android:clickable="false"
                     android:text="comment" />
 
-                <RelativeLayout
+                <ImageButton
+                    android:id="@+id/img_up"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/thumb_up" />
+
+                <TextView
+                    android:id="@+id/txtLikesCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right|top">
-
-                    <ImageButton
-                        android:id="@+id/img_up"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@null"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/logo" />
-
-                    <TextView
-                        android:id="@+id/txtLikesCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/img_up"
-                        android:text="1234" />
-                </RelativeLayout>
-
-            </FrameLayout>
+                    android:layout_below="@id/img_up"
+                    android:text="1234" />
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
