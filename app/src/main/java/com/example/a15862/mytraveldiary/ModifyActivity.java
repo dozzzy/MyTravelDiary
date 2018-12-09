@@ -1,6 +1,7 @@
 package com.example.a15862.mytraveldiary;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,6 +9,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,10 +32,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -49,6 +55,7 @@ public class ModifyActivity extends Activity {
     private ImageButton btnCamera, btnGallery;
     private final int IMAGE_RESULT_CODE = 2;// 表示打开照相机
     private final int PICK = 1;// 选择图片库
+    private final int SPEECH_TO_TEXT = 3;
     public static final int SAVE = 9997;
     private Place currentPlace;
     private ImageView imgWeather, imgPhoto;
@@ -61,6 +68,7 @@ public class ModifyActivity extends Activity {
     private CompositeDisposable compositeDisposable;
     private IOpenWeatherMap mService;
     private Button btnClear, btnSave;
+    private Button btnSpeech2Text;
 
     private String PHOTO_FILE_NAME = "temp_photo.jpg";
     private Uri photoUri = null; // for photos
@@ -87,6 +95,7 @@ public class ModifyActivity extends Activity {
         edtDiary = (EditText) findViewById(R.id.edtDiary);
         btnClear = (Button) findViewById(R.id.btnClear);
         btnSave = (Button) findViewById(R.id.btnSave);
+        btnSpeech2Text = (Button) findViewById(R.id.btnSpeech2Text);
 
 
         Picasso.get().load(curDiary.getImgWeather()).into(imgWeather);
@@ -156,6 +165,50 @@ public class ModifyActivity extends Activity {
             }
         });
 
+        btnSpeech2Text.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "speech2text clicked ", Toast.LENGTH_LONG).show();
+
+                // We first check if mic is available
+                if (!Helper.isMicAvailable(getApplicationContext())) {
+                    Toast.makeText(getApplicationContext(), "Please make sure that your mic is available ", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // Not all device support the SpeechRecognizer Class.
+                // We can either use SpeechRecognizer.isRecognitionAvailable(getContext()) to check if the service is available
+                // or use the try-catch block
+                // We use try-catch here
+                try {
+                    Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                    // Specify language model
+                    i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                    i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-us");
+                    i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak Now Please...");
+                    startActivityForResult(i, SPEECH_TO_TEXT);
+                } catch (ActivityNotFoundException e) {
+                    // catch package exception, which can be fixed by downloading the google app.
+                    // But we shall let the user decide whether to install the google app
+                    // So we redirect.
+                    Toast.makeText(getApplicationContext(), "Google app required for using this feature. Redirecting now... " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    String appPackageName = "com.google.android.googlequicksearchbox";
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException e1) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Device not supported... " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+
+
+            }
+        });
+
         db.collection("Place").whereEqualTo("placeName", curDiary.getPlaceName())
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -198,6 +251,20 @@ public class ModifyActivity extends Activity {
 //        }
 //
 //    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case SPEECH_TO_TEXT:
+                    ArrayList<String> strData = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);   //This is our data, in this case the intent will contain a String.
+                    edtDiary.setText(strData.get(0));  //the first item contains the text.
+                    break;
+            }
+        }
+    }
 
     /**
      * get the weather information
