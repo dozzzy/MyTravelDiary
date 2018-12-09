@@ -19,6 +19,7 @@ import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
 import com.example.a15862.mytraveldiary.Entity.Comment;
 import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Entity.User;
+import com.example.a15862.mytraveldiary.Entity.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -42,7 +43,7 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
     private RecyclerView commentList;
     public List<Comment> commentArray = new ArrayList<>();
     public List<User> userArray=new ArrayList<>();
-    PlaceDAO pd;
+    PlaceDAO pd=new PlaceDAO();
     private Place currentPlace;
     private RatingBar customRating;
     private float score;
@@ -59,7 +60,7 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
         btnSave = findViewById(R.id.btnSaveReturn);
         btnJump = findViewById(R.id.btnSaveJump);
         commentList = findViewById(R.id.commentList);
-        pd=new PlaceDAO();
+
         commentList.setHasFixedSize(true);
         commentList.setLayoutManager(new LinearLayoutManager(this));
         customRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -176,9 +177,5 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
         CommentDAO cd = new CommentDAO();
         cd.addComment(c,0);
     }
-
-
-
-
 
 }

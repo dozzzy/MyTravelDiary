@@ -8,4 +8,6 @@ public interface placeInfoReceiver {
     void receive(JSONObject res) throws JSONException;
 
     void receiveComment(JSONObject res) throws JSONException;
+
+    void receiveKeySearch(JSONObject res) throws JSONException;
 }
