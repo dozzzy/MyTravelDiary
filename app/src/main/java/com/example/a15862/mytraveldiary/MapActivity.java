@@ -248,18 +248,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         int id = item.getItemId();
 
 //        noinspection SimplifiableIfStatement
-        if (id == R.id.search) {
-            try {
-                Intent intent =
-                        new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                                .build(this);
-                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-            } catch (GooglePlayServicesRepairableException e) {
-                Log.i("gooe", e.getMessage());
-            } catch (GooglePlayServicesNotAvailableException e) {
-                Log.i("gooe", e.getMessage());
-            }
-            return true;
+        if (id == R.id.search) {//TODO: filter
+//            try {
+//                Intent intent =
+//                        new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+//                                .build(this);
+//                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+//            } catch (GooglePlayServicesRepairableException e) {
+//                Log.i("gooe", e.getMessage());
+//            } catch (GooglePlayServicesNotAvailableException e) {
+//                Log.i("gooe", e.getMessage());
+//            }
+//            return true;
         }
         if (id == R.id.add_friends) {
             Intent intent = new Intent(MapActivity.this, AddFriendsActivity.class);
