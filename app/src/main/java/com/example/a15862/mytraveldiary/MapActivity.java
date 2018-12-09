@@ -323,6 +323,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getKeyWords.put("health",new HashSet<String>(Arrays.asList(new String[]{"health","doctor","gym"})));
         getKeyWords.put("point_of_interest",new HashSet<String>(Arrays.asList(new String[]{"point_of_interest"})));
 
+
         // Prompt the user for permission.
         getLocationPermission();
 
@@ -336,6 +337,45 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         UiSettings uiSettings = mMap.getUiSettings();
 //        uiSettings.setZoomControlsEnabled(true);
 //        uiSettings.setMyLocationButtonEnabled(true);
+
+
+//
+//        LatLng point = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+//        choosedPoint = point;
+//        mMap.clear();
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, NEARBY_ZOOM));
+//        Log.i("Info", String.valueOf(point.latitude) + "," + String.valueOf(point.longitude));
+//        // Use YelpAPI with parameters.
+//        try {
+//            FirebaseFirestore db = FirebaseFirestore.getInstance();
+//            db.collection("Place").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                @Override
+//                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                    for (DocumentSnapshot ds : queryDocumentSnapshots) {
+//                        Place p = ds.toObject(Place.class);
+//                        LatLng loc = new LatLng(p.getLatitude(), p.getLongitude());
+//                        if (getDistance(loc.longitude, loc.latitude, choosedPoint.longitude, choosedPoint.latitude) <= radius) {
+//                            if (existed.add(p.getPid())) {
+//                                nearbyPlaces.add(p);
+//                                findPlaceByName.put(p.getPlaceName(), p);
+//                            }
+//                        }
+//                    }
+//                    try {
+//                        searchServices.searchLocation(choosedPoint, radius);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//        } catch (Exception e) {
+//            Log.e("Exception: %s", e.getMessage());
+//        }
+
+
+
+
+
 
 
         // Create new marker when user pin on the map
