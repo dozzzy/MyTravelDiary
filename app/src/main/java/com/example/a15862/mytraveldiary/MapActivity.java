@@ -208,7 +208,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         txtUsername=(TextView)headerView.findViewById(R.id.txtUsername);
         txtDisplayName=(TextView)headerView.findViewById(R.id.txtDisplayName);
         imgAvater=(ImageView)headerView.findViewById(R.id.imgAvater);
-        txtUsername.setText(username);
+        txtUsername.setText("Hello,");
         txtDisplayName.setText(displayName);
         Log.i("avatar",avatar);
         if (!avatar.equals(null) && !avatar.equals("DEFAULT") && !(avatar==null)){

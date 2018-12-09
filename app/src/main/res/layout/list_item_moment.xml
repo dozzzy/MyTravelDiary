@@ -53,24 +53,21 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="user name"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:textStyle="bold|italic" />
 
-                <EditText
-                    android:id="@+id/edtDiary"
-                    android:layout_width="286dp"
-                    android:layout_height="61dp"
-                    android:layout_margin="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/order_edt_note_bg"
-                    android:ems="10"
-                    android:hint="Diary here"
-                    android:inputType="textMultiLine" />
+                <TextView
+                    android:id="@+id/txtDiary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="TextView" />
 
                 <ImageView
                     android:id="@+id/diaryImage"
                     android:layout_width="160dp"
                     android:layout_height="108dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
 
@@ -78,7 +75,7 @@
                     android:id="@+id/txtTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:text="time here" />

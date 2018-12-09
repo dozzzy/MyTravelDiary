@@ -69,7 +69,7 @@
             android:background="@drawable/order_edt_note_bg"
             android:ems="10"
             android:gravity="top"
-            android:hint="Your Diary"
+            android:hint="Your diary here:"
             android:inputType="textMultiLine"
             android:padding="5dp" />
 

@@ -51,7 +51,7 @@ public class MyCustomAdapterForMoments extends RecyclerView.Adapter<MyCustomAdap
 
         holder.itemView.setTag(position);
         holder.txtDisplayName.setText(u.getDisplayName());
-        holder.edtDiary.setText(diary.getEdtDiary());
+        holder.txtDiary.setText(diary.getEdtDiary());
         holder.txtTime.setText(new Date(diary.getTime()).toString());
         if (u.getAvatar() != null) {
             Picasso.get().load(u.getAvatar()).into(holder.imgAvatar);
@@ -79,7 +79,7 @@ public class MyCustomAdapterForMoments extends RecyclerView.Adapter<MyCustomAdap
         private ImageView imgAvatar;
         private ImageView diaryImage;
         private CardView cardView;
-        private EditText edtDiary;
+        private TextView txtDiary;
         private TextView txtTime;
 
         public ViewHolder(View itemView) {
@@ -88,7 +88,7 @@ public class MyCustomAdapterForMoments extends RecyclerView.Adapter<MyCustomAdap
             txtDisplayName = (TextView) itemView.findViewById(R.id.txtDisplayName);
             diaryImage = (ImageView) itemView.findViewById(R.id.diaryImage);
             imgAvatar = (ImageView) itemView.findViewById(R.id.imgAvatar);
-            edtDiary = (EditText) itemView.findViewById(R.id.edtDiary);
+            txtDiary = (TextView) itemView.findViewById(R.id.txtDiary);
             txtTime = (TextView) itemView.findViewById(R.id.txtTime);
 
         }
