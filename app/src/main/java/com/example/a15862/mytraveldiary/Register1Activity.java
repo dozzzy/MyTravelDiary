@@ -24,6 +24,7 @@ public class Register1Activity extends AppCompatActivity {
     private Button btnRegister;
     private Button btnAvatar;
     private ImageView imgAvatar;
+    private EditText edtCheck;
     private int PICK=123;
     private User u;
     @Override
@@ -36,6 +37,7 @@ public class Register1Activity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         btnRegister = findViewById(R.id.btnRegister);
         imgAvatar=findViewById(R.id.imgAvater);
+        edtCheck=findViewById(R.id.edtCheck);
 //        btnAvatar=findViewById(R.id.btnAvatar);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,20 +45,26 @@ public class Register1Activity extends AppCompatActivity {
                 String displayName = edtNickName.getText().toString();
                 String username = edtUserName.getText().toString();
                 String psw = edtPassword.getText().toString();
-                Log.i("Jing","click");
-                u.setDisplayName(displayName);
-                u.setPassword(psw);
-                u.setUsername(username);
-                u.setAvatar("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03");
-                UserDAO ud = new UserDAO();
-                ud.addBasicUser(u);
-                SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("displayName", displayName);
-                editor.putString("username",username);
-                editor.commit();
-                Intent intent = new Intent(Register1Activity.this, LoginNewActivity.class);
-                startActivity(intent);
+                String check=edtCheck.getText().toString();
+                if (psw.equals(check)){
+                    Toast.makeText(getApplicationContext(),"check your password",Toast.LENGTH_SHORT).show();
+                }else {
+                    Log.i("Jing","click");
+                    u.setDisplayName(displayName);
+                    u.setPassword(psw);
+                    u.setUsername(username);
+                    u.setAvatar("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03");
+                    UserDAO ud = new UserDAO();
+                    ud.addBasicUser(u);
+                    SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("displayName", displayName);
+                    editor.putString("username",username);
+                    editor.commit();
+                    Intent intent = new Intent(Register1Activity.this, LoginNewActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
 //        btnAvatar.setOnClickListener(new View.OnClickListener() {

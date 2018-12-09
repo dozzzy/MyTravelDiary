@@ -51,6 +51,9 @@ public class AddFriendsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 searchWord= edtSearch.getText().toString();
+                friendList=new ArrayList<>();
+                mAdapter = new MyCustomAdapterForFriends(AddFriendsActivity.this, friendList);
+                searchFriendsList.setAdapter(mAdapter);
                 Log.i("searchResult",searchWord);
                 db.collection("User").orderBy("displayName").startAt(searchWord).endAt(searchWord+ "\uf8ff")
                         .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
