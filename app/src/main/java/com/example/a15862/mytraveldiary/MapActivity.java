@@ -286,6 +286,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             Intent intent = new Intent(MapActivity.this, LoginNewActivity.class);
             startActivity(intent);
+        } else if (id==R.id.nav_settings){
+            Log.e("qwer","setting intent");
+            Intent intent = new Intent(MapActivity.this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

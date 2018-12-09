@@ -51,7 +51,7 @@ public class Register1Activity extends AppCompatActivity {
                 UserDAO ud = new UserDAO();
                 ud.addBasicUser(u);
                 SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("displayName", displayName);
                 editor.putString("username",username);
                 editor.commit();

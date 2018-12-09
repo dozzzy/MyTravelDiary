@@ -82,7 +82,7 @@ public class LoginNewActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (queryDocumentSnapshots.isEmpty()) {
-                            Toast.makeText(getApplicationContext(), "username or password wrong", Toast.LENGTH_SHORT);
+                            Toast.makeText(getApplicationContext(), "username or password wrong", Toast.LENGTH_SHORT).show();
                         } else {
                             for (DocumentSnapshot d : queryDocumentSnapshots) {
                                 User user = d.toObject(User.class);

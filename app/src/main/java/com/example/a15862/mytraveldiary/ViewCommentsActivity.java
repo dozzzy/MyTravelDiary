@@ -47,6 +47,7 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
     private Place currentPlace;
     private RatingBar customRating;
     private float score;
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
                         return o2.getLike() - o1.getLike();
                     }
                 });
+                count=commentArray.size();
                 for (Comment c:commentArray){
                     db.collection("User").document(c.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
@@ -104,9 +106,13 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
                                 u.setUsername("fromApi");
                             }
                             userArray.add(u);
-                            mAdapter = new MyCustomAdapterForComment(ViewCommentsActivity.this,userArray, commentArray,ViewCommentsActivity.this);
-                            Log.e("qwer","set adapter");
-                            commentList.setAdapter(mAdapter);
+                            count--;
+                            if (count==0){
+                                mAdapter = new MyCustomAdapterForComment(ViewCommentsActivity.this,userArray, commentArray,ViewCommentsActivity.this);
+                                Log.e("qwer","set adapter");
+                                commentList.setAdapter(mAdapter);
+                            }
+
                         }
                     });
                 }

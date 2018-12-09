@@ -96,6 +96,15 @@ public class UserDAO {
         }
     }
 
+    public void updateUserWithoutPhoto(User user){
+        db.collection("User").document(user.getUsername()).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i("jingD", "no photo succ");
+
+            }
+        });
+    }
 
 
 
