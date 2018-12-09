@@ -73,6 +73,13 @@
             android:inputType="textMultiLine"
             android:padding="5dp" />
 
+        <Button
+            android:id="@+id/btnSpeech2Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:text="speechto text" />
+
 
     </FrameLayout>
 
