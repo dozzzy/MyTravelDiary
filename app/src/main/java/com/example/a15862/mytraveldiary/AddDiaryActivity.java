@@ -2,18 +2,11 @@ package com.example.a15862.mytraveldiary;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.location.Location;
 import android.net.Uri;
-import android.os.Environment;
-import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,10 +32,7 @@ import com.luck.picture.lib.permissions.RxPermissions;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -53,8 +42,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
 public class AddDiaryActivity extends Activity {
 
@@ -83,7 +70,7 @@ public class AddDiaryActivity extends Activity {
     private String diaryName;
     private Uri tempUri;
 
-    private GridImageAdapter adapter;
+    private MyCustomAdapterForImages adapter;
     private List<LocalMedia> selectList = new ArrayList<>();
     private static int themeId = R.style.picture_white_style;
     private int chooseMode = PictureMimeType.ofAll();
@@ -111,11 +98,11 @@ public class AddDiaryActivity extends Activity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         FullyGridLayoutManager manager = new FullyGridLayoutManager(AddDiaryActivity.this, 4, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-        adapter = new GridImageAdapter(AddDiaryActivity.this, onAddPicClickListener);
+        adapter = new MyCustomAdapterForImages(AddDiaryActivity.this, onAddPicClickListener);
         adapter.setList(selectList);
         adapter.setSelectMax(1);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new MyCustomAdapterForImages.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
                 PictureSelector.create(AddDiaryActivity.this).themeStyle(themeId).openExternalPreview(position, selectList);
@@ -165,7 +152,7 @@ public class AddDiaryActivity extends Activity {
 
     }
 
-    private GridImageAdapter.onAddPicClickListener onAddPicClickListener = new GridImageAdapter.onAddPicClickListener() {
+    private MyCustomAdapterForImages.onAddPicClickListener onAddPicClickListener = new MyCustomAdapterForImages.onAddPicClickListener() {
         @Override
         public void onAddPicClick() {
             gallery();
@@ -210,8 +197,8 @@ public class AddDiaryActivity extends Activity {
                 case PictureConfig.CHOOSE_REQUEST:
                     selectList = PictureSelector.obtainMultipleResult(data);
                     for (LocalMedia media : selectList) {
-                        Log.i("imageupdate", media.getPath());
-                        photoUri = media.getPath();
+                        Log.i("imageAdd", media.getPath());
+                        photoUri = "file://" + media.getPath();
                     }
                     adapter.setList(selectList);
                     adapter.notifyDataSetChanged();

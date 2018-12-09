@@ -46,7 +46,7 @@ public class MomentsActivity extends AppCompatActivity {
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         String username=load.getString("username","DEFAULT");
         db = FirebaseFirestore.getInstance();
-        db.collection("Followship").document("Jing").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        db.collection("Followship").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(final DocumentSnapshot documentSnapshot) {
                 friends = (ArrayList)documentSnapshot.getData().get("followed");

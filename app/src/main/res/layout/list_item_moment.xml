@@ -23,63 +23,68 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="291dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:weightSum="3">
+
+            <ImageView
+                android:id="@+id/imgAvatar"
+                android:layout_width="61dp"
+                android:layout_height="46dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                tools:srcCompat="@tools:sample/avatars[1]" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="251dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:weightSum="3">
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/txtDisplayName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="user name"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/edtDiary"
+                    android:layout_width="286dp"
+                    android:layout_height="61dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/order_edt_note_bg"
+                    android:ems="10"
+                    android:hint="Diary here"
+                    android:inputType="textMultiLine" />
 
                 <ImageView
-                    android:id="@+id/imgAvatar"
-                    android:layout_width="61dp"
-                    android:layout_height="46dp"
-                    android:layout_marginLeft="10dp"
+                    android:id="@+id/diaryImage"
+                    android:layout_width="160dp"
+                    android:layout_height="108dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+
+                <TextView
+                    android:id="@+id/txtTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars[1]" />
+                    android:text="time here" />
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:orientation="vertical"
-                    android:weightSum="4">
-
-                    <TextView
-                        android:id="@+id/txtDisplayName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:text="user name" />
-
-                    <EditText
-                        android:id="@+id/edtDiary"
-                        android:layout_width="286dp"
-                        android:layout_height="181dp"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/order_edt_note_bg"
-                        android:ems="10"
-                        android:hint="Diary here"
-                        android:inputType="textMultiLine" />
-
-                    <TextView
-                        android:id="@+id/txtTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="time here" />
-
-
-                </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

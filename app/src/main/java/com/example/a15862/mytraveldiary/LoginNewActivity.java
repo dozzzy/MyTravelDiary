@@ -34,7 +34,7 @@ public class LoginNewActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String TAG = "LoginTT";
 
-    WelcomeHelper welcomeScreen;
+//    WelcomeHelper welcomeScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,8 @@ public class LoginNewActivity extends AppCompatActivity {
         txtSignUpWithPassword = (TextView) findViewById(R.id.txtSignUpWithPassword);
 
 
-        welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
-        welcomeScreen.forceShow();
+//        welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
+//        welcomeScreen.forceShow();
 
 
         btnSignWithPhone.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +109,6 @@ public class LoginNewActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        welcomeScreen.onSaveInstanceState(outState);
+//        welcomeScreen.onSaveInstanceState(outState);
     }
 }

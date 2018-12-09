@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.ViewHolder> {
+public class MyCustomAdapterForImages extends RecyclerView.Adapter<MyCustomAdapterForImages.ViewHolder> {
     public static final int TYPE_CAMERA = 1;
     public static final int TYPE_PICTURE = 2;
     private LayoutInflater mInflater;
@@ -33,7 +33,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
         void onAddPicClick();
     }
 
-    public GridImageAdapter(Context context, onAddPicClickListener mOnAddPicClickListener) {
+    public MyCustomAdapterForImages(Context context, onAddPicClickListener mOnAddPicClickListener) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
         this.mOnAddPicClickListener = mOnAddPicClickListener;

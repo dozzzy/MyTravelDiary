@@ -61,6 +61,14 @@ public class MyCustomAdapterForMoments extends RecyclerView.Adapter<MyCustomAdap
                     .into(holder.imgAvatar);
         }
 
+//        if (diary.getPhotoUri() != null) {
+//            Picasso.get().load(u.getAvatar()).into(holder.imgAvatar);
+//        } else {
+//            Picasso.get()
+//                    .load("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03")
+//                    .into(holder.imgAvatar);
+//        }
+
     }
 
     @Override
@@ -71,6 +79,7 @@ public class MyCustomAdapterForMoments extends RecyclerView.Adapter<MyCustomAdap
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtDisplayName;
         private ImageView imgAvatar;
+        private ImageView diaryImage;
         private CardView cardView;
         private EditText edtDiary;
         private TextView txtTime;
@@ -79,6 +88,7 @@ public class MyCustomAdapterForMoments extends RecyclerView.Adapter<MyCustomAdap
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
             txtDisplayName = (TextView) itemView.findViewById(R.id.txtDisplayName);
+            diaryImage = (ImageView) itemView.findViewById(R.id.diaryImage);
             imgAvatar = (ImageView) itemView.findViewById(R.id.imgAvatar);
             edtDiary = (EditText) itemView.findViewById(R.id.edtDiary);
             txtTime = (TextView) itemView.findViewById(R.id.txtTime);
