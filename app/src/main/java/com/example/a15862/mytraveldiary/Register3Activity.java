@@ -302,7 +302,7 @@ public class Register3Activity extends AppCompatActivity implements
 
     private boolean validatePhoneNumber() {
         Log.i(TAG,"validateStart");
-        String phoneNumber = edtPhone.getText().toString();
+        String phoneNumber ="+1"+ edtPhone.getText().toString();
         if (TextUtils.isEmpty(phoneNumber)) {
             edtPhone.setError("Invalid phone number.");
             return false;
@@ -333,7 +333,7 @@ public class Register3Activity extends AppCompatActivity implements
                 verifyPhoneNumberWithCode(mVerificationId, code);
                 break;
             case R.id.btnResend:
-                resendVerificationCode(edtPhone.getText().toString(), mResendToken);
+                resendVerificationCode("+1"+edtPhone.getText().toString(), mResendToken);
                 break;
 
         }
