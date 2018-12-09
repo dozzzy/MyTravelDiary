@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:padding="16dp">
     <!-- A CardView that contains a TextView -->
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="2dp"
-        card_view:cardElevation="5dp"
         card_view:cardBackgroundColor="#F1FCF0"
-        card_view:cardCornerRadius="20dp">
+        card_view:cardCornerRadius="20dp"
+        card_view:cardElevation="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +31,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="268dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -39,19 +39,38 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="user name" />
+                    android:text="user name"
+                    android:textSize="24sp"
+                    android:textStyle="bold|italic" />
 
-                <TextView
-                    android:id="@+id/txtUserRates"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/txtDisplayName"
-                    android:text="his/her rating" />
+                <LinearLayout
+                    android:layout_width="250dp"
+                    android:layout_height="35dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtLabel"
+                        android:layout_width="91dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Reputation"
+                        android:textStyle="italic" />
+
+                    <TextView
+                        android:id="@+id/txtUserRates"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toEndOf="@id/txtDisplayName"
+                        android:text="his/her rating"
+                        android:textStyle="italic" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/txtComment"
                     android:layout_width="278dp"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:clickable="false"
                     android:text="comment" />
 
@@ -59,6 +78,7 @@
                     android:id="@+id/img_up"
                     android:layout_width="34dp"
                     android:layout_height="34dp"
+                    android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:clickable="true"
                     android:focusable="true"
@@ -70,6 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/img_up"
+                    android:layout_marginLeft="5dp"
                     android:text="1234" />
             </LinearLayout>
 
