@@ -65,7 +65,7 @@ public class Comment  {
         return placeName;
     }
 
-    public void setPlaceName(String placeID) {
+    public void setPlaceName(String placeName) {
         this.placeName = placeName;
     }
 

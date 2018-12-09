@@ -25,6 +25,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdapterForComment.ViewHolder> {
 
@@ -66,7 +68,7 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
                     .into(holder.imgUserPhoto);
             holder.txtUserRates.setText("not our user");
         }else{
-            holder.txtUserRates.setText(String.valueOf(currentCom.getLike()));
+            holder.txtUserRates.setText(String.valueOf(currentUser.getLike()));
             if (currentUser.getAvatar()==null){
                 Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03")
                         .into(holder.imgUserPhoto);
@@ -118,10 +120,14 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
             TextView tempUserRates=(TextView)temp.findViewById(R.id.txtUserRates);
             TextView tempLikesCout=(TextView)temp.findViewById(R.id.txtLikesCount);
             int likeCount = Integer.parseInt(tempLikesCout.getText().toString()) + 1;
-            int userRate = Integer.parseInt(tempUserRates.getText().toString()) + 1;
-            tempUserRates.setText(String.valueOf(likeCount));
-            tempLikesCout.setText(String.valueOf(userRate));
-            userList.get(getAdapterPosition()).setLike(userRate);
+            tempLikesCout.setText(String.valueOf(likeCount));
+            Pattern pattern = Pattern.compile("[0-9]*");
+            Matcher isNum = pattern.matcher(tempUserRates.getText().toString());
+            if (isNum.matches()){
+                int userRate = Integer.parseInt(tempUserRates.getText().toString()) + 1;
+                tempUserRates.setText(String.valueOf(userRate));
+                userList.get(getAdapterPosition()).setLike(userRate);
+            }
             upload.get(getAdapterPosition()).setLike(likeCount);
             adapter.onItemClick(upload.get(getAdapterPosition()));
         }

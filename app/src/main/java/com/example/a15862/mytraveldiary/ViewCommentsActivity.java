@@ -155,16 +155,20 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
                 db.collection("Comment")
                         .document(clickedComment.getUsername()+"."+String.valueOf(clickedComment.getTime()))
                         .set(clickedComment);
-                db.collection("User").document(clickedComment.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.getData()!=null){
-                            User likedUser =documentSnapshot.toObject(User.class);
-                            likedUser.setLike(likedUser.getLike()+1);
-                            db.collection("User").document(likedUser.getUsername()).set(likedUser);
+                if (clickedComment.getFromAPI()==1){}
+                else {
+                    db.collection("User").document(clickedComment.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.getData()!=null){
+                                User likedUser =documentSnapshot.toObject(User.class);
+                                likedUser.setLike(likedUser.getLike()+1);
+                                db.collection("User").document(likedUser.getUsername()).set(likedUser);
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
     }
 
 
