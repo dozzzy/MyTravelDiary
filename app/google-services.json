@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "593909787271-vf1it8rj5dgsubj7v4mftofq9ojdgssh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.a15862.mytraveldiary",
+            "certificate_hash": "c3ef99adba1c5ab84325b997e9abfa515baf8633"
+          }
+        },
+        {
           "client_id": "593909787271-2kpcgpsi3jnnoc1bqd8k0a858vork95i.apps.googleusercontent.com",
           "client_type": 3
         }

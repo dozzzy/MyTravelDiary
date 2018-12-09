@@ -113,7 +113,7 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:background="@drawable/shape"
-            android:text="Cancel"
+            android:text="Clear"
             android:textAllCaps="false"
             android:theme="@style/Base.V7.Theme.AppCompat.Light.Dialog" />
 

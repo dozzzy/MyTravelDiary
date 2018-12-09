@@ -66,8 +66,10 @@
             android:layout_margin="20dp"
             android:background="@drawable/order_edt_note_bg"
             android:ems="10"
+            android:hint="Your comment here:"
             android:inputType="textMultiLine"
-            android:padding="10dp" />
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
     </LinearLayout>
 
     <LinearLayout
