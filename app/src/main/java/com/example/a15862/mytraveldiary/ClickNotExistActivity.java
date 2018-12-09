@@ -116,7 +116,8 @@ public class ClickNotExistActivity extends Activity {
         pd.updateData(p);
         currentPlace = p;
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
-        Comment c = new Comment(load.getString("displayName", "123"),currentPlace.getPlaceName(),comment);
+        Comment c = new Comment(load.getString("username", "DEFAULT"),currentPlace.getPlaceName(),comment);
+        c.setDisplayName(load.getString("username","DEFAULT"));
 
         CommentDAO cd = new CommentDAO();
         cd.addComment(c,0);
