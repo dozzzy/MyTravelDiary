@@ -40,7 +40,8 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
 
     private MyCustomAdapterForComment mAdapter;
     private RecyclerView commentList;
-    private List<Comment> commentArray = new ArrayList<>();
+    public List<Comment> commentArray = new ArrayList<>();
+    public List<User> userArray=new ArrayList<>();
     PlaceDAO pd;
     private Place currentPlace;
     private RatingBar customRating;
@@ -74,13 +75,13 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
         txtPlaceName.setText(currentPlace.getPlaceName());
 
         Log.e("qwer","get currentPlace");
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Comment").whereEqualTo("placeName", currentPlace.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()){
                     for (DocumentSnapshot d : queryDocumentSnapshots) {
                         Comment c = d.toObject(Comment.class);
+                        c.setPlaceName(currentPlace.getPlaceName());
                         commentArray.add(c);
                     }
                 }
@@ -90,9 +91,25 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
                         return o2.getLike() - o1.getLike();
                     }
                 });
-                mAdapter = new MyCustomAdapterForComment(ViewCommentsActivity.this, commentArray,ViewCommentsActivity.this);
-                Log.e("qwer","set adapter");
-                commentList.setAdapter(mAdapter);
+                for (Comment c:commentArray){
+                    db.collection("User").document(c.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            User u;
+                            if (documentSnapshot.exists()){
+                                u=documentSnapshot.toObject(User.class);
+                            }else {
+                                u=new User();
+                                u.setUsername("fromApi");
+                            }
+                            userArray.add(u);
+                            mAdapter = new MyCustomAdapterForComment(ViewCommentsActivity.this,userArray, commentArray,ViewCommentsActivity.this);
+                            Log.e("qwer","set adapter");
+                            commentList.setAdapter(mAdapter);
+                        }
+                    });
+                }
+
             }
         });
     
@@ -102,7 +119,6 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
             public void onClick(View v) {
                 storeComment();
                 currentPlace.addScore(score);
-                currentPlace.setTotalComment(currentPlace.getTotalComment()+1);
                 Log.e("qwer",currentPlace.getPlaceName());
                 pd.updateData(currentPlace);
                 Log.e("qwer","sent comment");
@@ -131,7 +147,10 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
     public void onItemClick(Comment comment) {
                 Comment clickedComment=comment;
                 clickedComment.setLike(clickedComment.getLike()+1);
-                Log.i("qwer",clickedComment.getUserComment());
+                Log.e("qwer","db change start");
+                Log.e("qwer",clickedComment.getUserComment());
+                clickedComment.setPlaceName(currentPlace.getPlaceName());
+                //Log.e("qwer",clickedComment.getPlaceName());
                 db.collection("Comment")
                         .document(clickedComment.getUsername()+"."+String.valueOf(clickedComment.getTime()))
                         .set(clickedComment);
