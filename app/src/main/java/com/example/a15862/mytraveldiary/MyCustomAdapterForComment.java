@@ -62,7 +62,7 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
         holder.txtDisplayName.setText(currentCom.getUsername());
         holder.txtComment.setText(currentCom.getUserComment());
         holder.txtLikesCount.setText(String.valueOf(currentCom.getLike()));
-        Log.e("qwer",currentUser.getUsername());
+        Log.e("qwer",currentCom.getUserComment());
         if (currentUser.getUsername().equals("fromApi")){
             Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/hdr_logo.jpg?alt=media&token=cc03d9ee-7ae2-40e6-a6be-67d2a311f802")
                     .into(holder.imgUserPhoto);

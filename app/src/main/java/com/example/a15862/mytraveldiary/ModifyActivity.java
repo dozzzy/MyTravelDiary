@@ -239,7 +239,7 @@ public class ModifyActivity extends Activity {
             // if fail
             @Override
             public void onFailure(@NonNull Call<WeatherResult> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
