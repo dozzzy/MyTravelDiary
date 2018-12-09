@@ -47,6 +47,21 @@ public class SearchServicesImp extends Handler implements SearchServices {
 
     }
 
+    @Override
+    public void searchByName(LatLng location,String name,double radius) {
+        //generate the query URL based on the input parameter
+        String url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?language=en&";
+        url+="input="+name;
+        url+="&location="+location.latitude+","+location.longitude +"&radius="+radius;
+        url+=key;
+        Log.i("Jing",url);
+        try {
+            getJson(url,2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 //    @Override
 //    public void getPhoto(String photoId) throws Exception {
 //        String url = "https://maps.googleapis.com/maps/api/place/photo?&photoreference="+photoId;
@@ -104,9 +119,9 @@ public class SearchServicesImp extends Handler implements SearchServices {
             int actionCoode = msg.arg1;
             //Call the method in mainActivity to draw the marker
             if(actionCoode == 0) context.receive((JSONObject)msg.obj);
-//            else if(actionCoode == 2){
-//                //context.getPhoto((JSONObject)msg.obj);
-//            }
+            else if(actionCoode == 2){
+                context.receiveKeySearch((JSONObject) msg.obj);
+            }
             else context.receiveComment((JSONObject)msg.obj);
 
         } catch (JSONException e) {
