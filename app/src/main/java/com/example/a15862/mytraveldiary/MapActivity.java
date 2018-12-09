@@ -250,6 +250,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 //        noinspection SimplifiableIfStatement
         if (id == R.id.search) {//TODO: filter
+            Intent intent = new Intent(MapActivity.this, SearchActivity.class);
+            startActivity(intent);
 
         }
         if (id == R.id.add_friends) {
@@ -628,7 +630,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             marker.showInfoWindow();
         }
         //TODO:CALL THIS
-        //searchServices.searchByName(choosedPoint,"GSU",radius);
+
+
+//        String name = getIntent().getExtras().getString("Search_key");
+//        searchServices.searchByName(choosedPoint,name,radius);
     }
 
     @Override

@@ -26,12 +26,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDjCrdGmiesceyoZTwl--AVr_KRkFYhXMs" />
 
-        <activity android:name=".LoginActivity" >
-
-        </activity>
-        <activity android:name=".MapActivity">
-
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".MapActivity"></activity>
         <activity
             android:name=".AddDiaryActivity"
             android:label="Add new Diary" />
@@ -64,11 +60,12 @@
             android:theme="@style/WelcomeScreenTheme" />
         <activity android:name=".ViewCommentsActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".MomentsActivity"></activity>
+        <activity android:name=".MomentsActivity" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>
