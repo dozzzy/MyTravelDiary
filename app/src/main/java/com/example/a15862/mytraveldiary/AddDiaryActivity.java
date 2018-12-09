@@ -154,47 +154,6 @@ public class AddDiaryActivity extends Activity {
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Device not supported... " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-                btnSpeech2Text.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        // We first check if mic is available
-                        if (!Helper.isMicAvailable(getApplicationContext())) {
-                            Toast.makeText(getApplicationContext(), "Please make sure that your mic is available ", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        // Not all device support the SpeechRecognizer Class.
-                        // We can either use SpeechRecognizer.isRecognitionAvailable(getContext()) to check if the service is available
-                        // or use the try-catch block
-                        // We use try-catch here
-                        try {
-                            Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                            // Specify language model
-                            i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                            i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-us");
-                            i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak Now Please...");
-                            startActivityForResult(i, SPEECH_TO_TEXT);
-                        } catch (ActivityNotFoundException e) {
-                            // catch package exception, which can be fixed by downloading the google app.
-                            // But we shall let the user decide whether to install the google app
-                            // So we redirect.
-                            Toast.makeText(getApplicationContext(), "Google app required for using this feature. Redirecting now... " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            String appPackageName = "com.google.android.googlequicksearchbox";
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                            } catch (android.content.ActivityNotFoundException e1) {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                            }
-                        } catch (Exception e) {
-                            Toast.makeText(getApplicationContext(), "Device not supported... " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-
-
-
-                    }
-                });
-
             }
         });
 
@@ -332,7 +291,6 @@ public class AddDiaryActivity extends Activity {
         Retrofit retrofit = RetrofitClient.getInstance();
         // that query for weather information in the format given in the interface of IOpenWeatherMap
         mService = retrofit.create(IOpenWeatherMap.class);
-
 
         double lat = currentPlace.getLatitude();
         double lon = currentPlace.getLongitude();
