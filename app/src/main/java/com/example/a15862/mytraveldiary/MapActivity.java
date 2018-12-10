@@ -567,13 +567,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         // route, food, store, education, bus station, railway station, health, point_of_interest
 
                         Marker marker = null;
-                        if(key == "route") {
-                            marker = mMap.addMarker(new MarkerOptions()
-                                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
-                                    .title(p.getPlaceName())
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.route)));
-                        }
-                        else if(key == "food") {
+//                        if(key == "route") {
+//                            marker = mMap.addMarker(new MarkerOptions()
+//                                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+//                                    .title(p.getPlaceName())
+//                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.route)));
+//                        }
+                        if(key == "food" || key == "restaurant") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
@@ -613,7 +613,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.interest)));
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi)));
                         }
                         marker.showInfoWindow();
                         marked.put(marker,p);
