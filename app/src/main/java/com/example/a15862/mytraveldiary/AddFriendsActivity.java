@@ -43,7 +43,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         btnSearchFriends=(Button)findViewById(R.id.btnSearchFriends);
         searchFriendsList=(RecyclerView)findViewById(R.id.searchFriendsList);
         friendList=new ArrayList<>();
-
+        
         searchFriendsList.setHasFixedSize(true);
         searchFriendsList.setLayoutManager(new LinearLayoutManager(this));
         btnSearchFriends.setOnClickListener(new View.OnClickListener() {
