@@ -6,7 +6,7 @@
 
     <EditText
         android:id="@+id/edtKeyWord"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="20dp"
         android:background="@drawable/order_edt_note_bg"
