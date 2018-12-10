@@ -51,9 +51,6 @@ public class CRUDFragment extends DialogFragment {
                             startActivity(i);
                         }
                         else if(which==1){
-
-                        }
-                        else if(which==2){
                             DiaryDAO dd = new DiaryDAO();
                             Log.i("Jing",curDiary.getEdtDiary());
                             dd.delete(curDiary);
