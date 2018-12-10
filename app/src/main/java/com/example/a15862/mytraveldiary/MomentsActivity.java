@@ -33,82 +33,83 @@ public class MomentsActivity extends AppCompatActivity {
     List<User> users = new ArrayList<>();
     RecyclerView listMoments;
     int count = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moments);
-        listMoments=(RecyclerView) findViewById(R.id.momentsList);
+        listMoments = (RecyclerView) findViewById(R.id.momentsList);
 
         listMoments.setHasFixedSize(true);
         listMoments.setLayoutManager(new LinearLayoutManager(this));
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String username=load.getString("username","DEFAULT");
+        String username = load.getString("username", "DEFAULT");
         db = FirebaseFirestore.getInstance();
         db.collection("Followship").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(final DocumentSnapshot documentSnapshot) {
-                friends = (ArrayList)documentSnapshot.getData().get("followed");
+                friends = (ArrayList) documentSnapshot.getData().get("followed");
                 count = friends.size();
-
-                for(String cur:friends){
-                    db.collection("Diary").whereEqualTo("username",cur).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                Log.i("Jing2", String.valueOf(count));
+                for (String cur : friends) {
+                    db.collection("Diary").whereEqualTo("username", cur).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             count--;
-                            for(QueryDocumentSnapshot qs:queryDocumentSnapshots){
+                            for (QueryDocumentSnapshot qs : queryDocumentSnapshots) {
                                 Diary d = qs.toObject(Diary.class);
+                                Log.i("Jing2", d.getEdtDiary());
                                 diarys.add(d);
                             }
-                            if(count == 0){
+                            if (count == 0) {
+                                Log.i("Jing2", String.valueOf(diarys.size()));
                                 Collections.sort(diarys, new Comparator<Diary>() {
                                     @Override
                                     public int compare(Diary o1, Diary o2) {
                                         long l2 = o1.getTime();
                                         long l1 = o2.getTime();
-                                        if(l1-l2>0) return 1;
-                                        else if(l1==l2) return 0;
+                                        if (l1 - l2 > 0) return 1;
+                                        else if (l1 == l2) return 0;
                                         else return -1;
                                     }
                                 });
 
-                                final Map<String,User> getUser = new HashMap<>();
+                                final Map<String, User> getUser = new HashMap<>();
                                 count = diarys.size();
                                 Log.e("qwer", String.valueOf(count));
 
                                 //TODO:The diarys stored all recent diary of friends , sorted by time
-                                for(Diary d:diarys){
-                                    db.collection("User").whereEqualTo("username",d.getUsername()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                for (Diary d : diarys) {
+                                    db.collection("User").whereEqualTo("username", d.getUsername()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                         @Override
                                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                            if (!queryDocumentSnapshots.isEmpty()){
-                                                for(QueryDocumentSnapshot t :queryDocumentSnapshots){
+                                            if (!queryDocumentSnapshots.isEmpty()) {
+                                                for (QueryDocumentSnapshot t : queryDocumentSnapshots) {
                                                     User u = t.toObject(User.class);
-                                                    getUser.put(u.getUsername(),u);
+                                                    getUser.put(u.getUsername(), u);
                                                     count--;
                                                 }
-                                                if(count == 0){
-                                                    for(Diary d:diarys){
-                                                        String name =d.getDiaplayName();
+                                                if (count == 0) {
+                                                    for (Diary d : diarys) {
+                                                        String name = d.getUsername();
                                                         User u = getUser.get(name);
                                                         //d is the diary , appear by time
                                                         //u is the writer
                                                         users.add(u);
                                                     }
+                                                    Log.e("qwer1", String.valueOf(users.size()));
+                                                    Log.e("qwer1", String.valueOf(diarys.size()));
+                                                    for (User u : users)
+                                                        Log.i("Jing2", u.getDisplayName());
+                                                    MyCustomAdapterForMoments myCustomAdapterForMoments = new MyCustomAdapterForMoments(MomentsActivity.this, users, diarys);
+                                                    listMoments.setAdapter(myCustomAdapterForMoments);
                                                 }
                                             }
-
-                                            MyCustomAdapterForMoments myCustomAdapterForMoments = new MyCustomAdapterForMoments(MomentsActivity.this, users, diarys);
-                                            listMoments.setAdapter(myCustomAdapterForMoments);
                                         }
                                     });
                                 }
 
                             }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            count--;
                         }
                     });
                 }

@@ -48,8 +48,8 @@ public class MyCustomAdapterForMoments extends RecyclerView.Adapter<MyCustomAdap
 //        User friend= friendList.get(position);
         User u = users.get(position);
         Diary diary = diaries.get(position);
-
-
+//        Log.e("qwer",u.getUsername());
+        Log.e("qwer",u.getDisplayName());
         holder.itemView.setTag(position);
         holder.txtDisplayName.setText(u.getDisplayName());
         holder.txtDiary.setText(diary.getEdtDiary());

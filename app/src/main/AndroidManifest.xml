@@ -15,8 +15,8 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
-        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -29,40 +29,67 @@
             android:value="AIzaSyDjCrdGmiesceyoZTwl--AVr_KRkFYhXMs" />
 
         <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".MapActivity"></activity>
+        <activity
+            android:name=".MapActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".AddDiaryActivity"
-            android:label="Add new Diary" />
+            android:label="Add new Diary"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ClickNotExistActivity"
             android:label="Add new place"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".ClickExistActivity"
             android:label="Place info"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".ViewAllDiaryActivity" />
-        <activity android:name=".Register1Activity" />
-        <activity android:name=".Register2Activity" />
-        <activity android:name=".Register3Activity" />
-        <activity android:name=".LoginNewActivity">
+        <activity
+            android:name=".ViewAllDiaryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Register1Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Register2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Register3Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginNewActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ModifyActivity" />
+        <activity
+            android:name=".ModifyActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AddFriendsActivity"
-            android:label="Add new friends" />
-        <activity android:name=".ViewAllFriendsActivity" />
+            android:label="Add new friends"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ViewAllFriendsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MyWelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/WelcomeScreenTheme" />
-        <activity android:name=".ViewCommentsActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".MomentsActivity" />
+        <activity
+            android:name=".ViewCommentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MomentsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
