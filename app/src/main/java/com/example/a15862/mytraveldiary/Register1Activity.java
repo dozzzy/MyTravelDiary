@@ -46,9 +46,12 @@ public class Register1Activity extends AppCompatActivity {
                 String username = edtUserName.getText().toString();
                 String psw = edtPassword.getText().toString();
                 String check=edtCheck.getText().toString();
-                if (psw.equals(check)){
+                if (!psw.equals(check)){
                     Toast.makeText(getApplicationContext(),"check your password",Toast.LENGTH_SHORT).show();
-                }else {
+                }else if (psw.equals("") || username.equals("")|| displayName.equals("")){
+                    Toast.makeText(getApplicationContext(),"can not fill blank",Toast.LENGTH_SHORT).show();
+                }
+                else {
                     Log.i("Jing","click");
                     u.setDisplayName(displayName);
                     u.setPassword(psw);
