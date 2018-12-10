@@ -65,6 +65,7 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
         btnJump = findViewById(R.id.btnSaveJump);
         commentList = findViewById(R.id.commentList);
 
+        edtAddComment.setText("");
         commentList.setHasFixedSize(true);
         commentList.setLayoutManager(new LinearLayoutManager(this));
         customRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -127,7 +128,9 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storeComment();
+                if (!edtAddComment.equals("")){
+                    storeComment();
+                }
                 currentPlace.addScore(score);
                 Log.e("qwer",currentPlace.getPlaceName());
                 pd.updateData(currentPlace);
@@ -140,7 +143,9 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
         btnJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storeComment();
+                if (!edtAddComment.equals("")){
+                    storeComment();
+                }
                 currentPlace.addScore(score);
                 pd.updateData(currentPlace);
                 Intent intent = new Intent(ViewCommentsActivity.this, AddDiaryActivity.class);
