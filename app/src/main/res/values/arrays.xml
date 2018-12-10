@@ -11,6 +11,10 @@
         <item>Share</item>>
         <item>Delete</item>
     </string-array>
+    <string-array name="Friend">
+        <item>Remove</item>
+        <item>Keep</item>>
+    </string-array>
     <string-array name="ViewAdd">
         <item>View his/her diaries</item>
         <item>Follow</item>>
