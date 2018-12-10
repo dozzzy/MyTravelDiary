@@ -59,7 +59,10 @@ public class MomentsActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot qs : queryDocumentSnapshots) {
                                 Diary d = qs.toObject(Diary.class);
                                 Log.i("Jing2", d.getEdtDiary());
-                                diarys.add(d);
+                                if (d.isVisible()){
+                                    diarys.add(d);
+                                }
+
                             }
                             if (count == 0) {
                                 Log.i("Jing2", String.valueOf(diarys.size()));

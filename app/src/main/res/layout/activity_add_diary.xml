@@ -56,7 +56,7 @@
     </LinearLayout>
 
     <Switch
-        android:id="@+id/switch"
+        android:id="@+id/switchVisible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Switch" />

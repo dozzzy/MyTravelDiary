@@ -16,9 +16,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +63,7 @@ public class ModifyActivity extends Activity {
     private ImageView imgWeather, imgPhoto;
 
     private String imgWeatherUri;
-
+    private Switch switchVisible;
     private TextView txtDate, txtCity, txtTemperature;
     private TextView edtDiary;
 
@@ -91,11 +93,24 @@ public class ModifyActivity extends Activity {
         txtTemperature = (TextView) findViewById(R.id.txtTemperature);
         txtDate = (TextView) findViewById(R.id.txtDate);
         imgWeather = (ImageView) findViewById(R.id.imgWeather);
-
         edtDiary = (EditText) findViewById(R.id.edtDiary);
         btnClear = (Button) findViewById(R.id.btnClear);
         btnSave = (Button) findViewById(R.id.btnSave);
         btnSpeech2Text = (Button) findViewById(R.id.btnSpeech2Text);
+        switchVisible=(Switch)findViewById(R.id.switchVisible);
+        if (switchVisible!=null){
+            switchVisible.setChecked(curDiary.isVisible());
+            switchVisible.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked) {
+                        curDiary.setVisible(true);
+                    } else {
+                        curDiary.setVisible(false);
+                    }
+                }
+            });
+        }
 
 
         Picasso.get().load(curDiary.getImgWeather()).into(imgWeather);
@@ -103,35 +118,7 @@ public class ModifyActivity extends Activity {
         txtTemperature.setText(curDiary.getTxtTemperature());
         txtCity.setText(curDiary.getTxtCity());
         edtDiary.setText(curDiary.getEdtDiary());
-//        Picasso.get().load(curDiary.getPhotoUri()).into(imgPhoto);
 
-//
-//        btnCamera.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View arg0) {
-//                // TODO Auto-generated method stub
-//                Intent intent = new Intent(
-//                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//
-//                File tempFile = new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME);
-//                Uri uri = Uri.fromFile(tempFile);
-//                photoUri = uri;
-//                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-//                startActivityForResult(intent, IMAGE_RESULT_CODE);
-//
-//            }
-//        });
-//
-//        btnGallery.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View arg0) {
-//                // TODO Auto-generated method stub
-//                Intent intent = new Intent(
-//                        Intent.ACTION_PICK,
-//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(intent, PICK);
-//            }
-//        });
 
 
         btnClear.setOnClickListener(new View.OnClickListener()
@@ -148,11 +135,6 @@ public class ModifyActivity extends Activity {
         {
             @Override
             public void onClick(View v) {
-                //saveDiary(diaryName);
-//                Diary diary = new Diary("123", "456");
-//                if (imgWeatherUri != null) {
-//                    diary.setImgWeather(imgWeatherUri);
-//                }
                 FirebaseFirestore db=FirebaseFirestore.getInstance();
                 curDiary.setEdtDiary(edtDiary.getText().toString());
                 db.collection("Diary").document(curDiary.getTime()+":"+curDiary.getUsername()).set(curDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -162,8 +144,6 @@ public class ModifyActivity extends Activity {
                         finish();
                     }
                 });
-//                DiaryDAO diaryDAO = new DiaryDAO();
-//                diaryDAO.uploadDiary(curDiary);
             }
         });
 

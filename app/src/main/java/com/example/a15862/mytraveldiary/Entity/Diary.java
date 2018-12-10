@@ -18,6 +18,7 @@ public class Diary implements Serializable{
     private String txtDate=null, txtCity=null, txtTemperature=null;
     private String edtDiary=null;
     private long time;
+    private boolean visible=false;
 
     public Diary(){
         time=System.currentTimeMillis();
@@ -28,6 +29,14 @@ public class Diary implements Serializable{
         this.username = username;
         this.placeName=placeName;
         time=System.currentTimeMillis();
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public long getTime() {
