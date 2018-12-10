@@ -42,7 +42,6 @@ public class AddFriendsActivity extends AppCompatActivity {
         edtSearch=(EditText)findViewById(R.id.edtSearch);
         btnSearchFriends=(Button)findViewById(R.id.btnSearchFriends);
         searchFriendsList=(RecyclerView)findViewById(R.id.searchFriendsList);
-        searchWord="haohui";
         friendList=new ArrayList<>();
 
         searchFriendsList.setHasFixedSize(true);
@@ -50,7 +49,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         btnSearchFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchWord= edtSearch.getText().toString();
+                searchWord= edtSearch.getText().toString().trim();
                 friendList=new ArrayList<>();
                 mAdapter = new MyCustomAdapterForFriends(AddFriendsActivity.this, friendList);
                 searchFriendsList.setAdapter(mAdapter);

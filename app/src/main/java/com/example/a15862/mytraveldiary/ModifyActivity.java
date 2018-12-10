@@ -205,9 +205,6 @@ public class ModifyActivity extends Activity {
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Device not supported... " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-
-
-
             }
         });
 
