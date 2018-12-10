@@ -48,7 +48,10 @@ public class MomentsActivity extends AppCompatActivity {
         db.collection("Followship").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(final DocumentSnapshot documentSnapshot) {
-                friends = (ArrayList) documentSnapshot.getData().get("followed");
+                if (documentSnapshot.exists() && documentSnapshot.getData() != null) {
+                    friends = (ArrayList) documentSnapshot.getData().get("followed");
+                }
+
                 count = friends.size();
                 Log.i("Jing2", String.valueOf(count));
                 for (String cur : friends) {
@@ -59,7 +62,7 @@ public class MomentsActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot qs : queryDocumentSnapshots) {
                                 Diary d = qs.toObject(Diary.class);
                                 Log.i("Jing2", d.getEdtDiary());
-                                if (d.isVisible()){
+                                if (d.isVisible()) {
                                     diarys.add(d);
                                 }
 
