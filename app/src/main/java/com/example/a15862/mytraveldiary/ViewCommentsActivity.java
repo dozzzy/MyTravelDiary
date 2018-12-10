@@ -29,7 +29,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ViewCommentsActivity extends AppCompatActivity implements AdapterCallback {
 
@@ -43,6 +45,7 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
     private RecyclerView commentList;
     public List<Comment> commentArray = new ArrayList<>();
     public List<User> userArray=new ArrayList<>();
+    public Map<Comment,User> map=new HashMap<>();
     PlaceDAO pd=new PlaceDAO();
     private Place currentPlace;
     private RatingBar customRating;
@@ -50,7 +53,7 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
     private int count;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_comments);
         Log.e("qwer","comment on create");
@@ -94,7 +97,7 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
                     }
                 });
                 count=commentArray.size();
-                for (Comment c:commentArray){
+                for (final Comment c:commentArray){
                     db.collection("User").document(c.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -105,10 +108,10 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
                                 u=new User();
                                 u.setUsername("fromApi");
                             }
-                            userArray.add(u);
+                            map.put(c,u);
                             count--;
                             if (count==0){
-                                mAdapter = new MyCustomAdapterForComment(ViewCommentsActivity.this,userArray, commentArray,ViewCommentsActivity.this);
+                                mAdapter = new MyCustomAdapterForComment(ViewCommentsActivity.this,map, commentArray,ViewCommentsActivity.this);
                                 Log.e("qwer","set adapter");
                                 commentList.setAdapter(mAdapter);
                             }
