@@ -49,6 +49,7 @@ public class MyCustomAdapterForMoments extends RecyclerView.Adapter<MyCustomAdap
         User u = users.get(position);
         Diary diary = diaries.get(position);
 
+
         holder.itemView.setTag(position);
         holder.txtDisplayName.setText(u.getDisplayName());
         holder.txtDiary.setText(diary.getEdtDiary());

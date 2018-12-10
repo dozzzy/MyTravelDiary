@@ -149,19 +149,21 @@ public class ModifyActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //saveDiary(diaryName);
-                Diary diary = new Diary("123", "456");
-                if (photoUri != null) {
-                    diary.setPhotoUri(photoUri.toString());
-                }
-                if (imgWeatherUri != null) {
-                    diary.setImgWeather(imgWeatherUri);
-                }
-                diary.setTxtDate(txtDate.getText().toString());
-                diary.setTxtCity(txtCity.getText().toString());
-                diary.setTxtTemperature(txtTemperature.getText().toString());
-                diary.setEdtDiary(edtDiary.getText().toString());
-                DiaryDAO diaryDAO = new DiaryDAO();
-                diaryDAO.uploadDiary(diary);
+//                Diary diary = new Diary("123", "456");
+//                if (imgWeatherUri != null) {
+//                    diary.setImgWeather(imgWeatherUri);
+//                }
+                FirebaseFirestore db=FirebaseFirestore.getInstance();
+                curDiary.setEdtDiary(edtDiary.getText().toString());
+                db.collection("Diary").document(curDiary.getTime()+":"+curDiary.getUsername()).set(curDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i("jingD","no photo succ");
+                        finish();
+                    }
+                });
+//                DiaryDAO diaryDAO = new DiaryDAO();
+//                diaryDAO.uploadDiary(curDiary);
             }
         });
 

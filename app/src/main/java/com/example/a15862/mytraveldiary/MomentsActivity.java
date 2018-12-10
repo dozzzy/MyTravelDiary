@@ -32,8 +32,6 @@ public class MomentsActivity extends AppCompatActivity {
     List<String> friends = new ArrayList<>();
     List<User> users = new ArrayList<>();
     RecyclerView listMoments;
-
-
     int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
