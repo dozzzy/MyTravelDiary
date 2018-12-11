@@ -600,7 +600,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi)));
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.interest)));
                         }
                         marker.showInfoWindow();
                         marked.put(marker, p);

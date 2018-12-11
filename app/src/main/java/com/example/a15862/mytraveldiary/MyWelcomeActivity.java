@@ -11,19 +11,19 @@ import com.stephentuso.welcome.WelcomeConfiguration;
 
 public class MyWelcomeActivity extends WelcomeActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_welcome);
+//    }
 
     @Override
     protected WelcomeConfiguration configuration() {
         return new WelcomeConfiguration.Builder(this)
                 .defaultTitleTypefacePath("Montserrat-Bold.ttf")
                 .defaultHeaderTypefacePath("Montserrat-Bold.ttf")
-//                .defaultBackgroundColor(R.color.colorPrimary)
-                .page(new TitlePage(R.drawable.first,
+                .defaultBackgroundColor(R.color.colorPrimary)
+                .page(new TitlePage(R.drawable.logo,
                         "MyTravelDiary")
                         .titleColor(getResources().getColor(R.color.white))
                 )
@@ -33,13 +33,10 @@ public class MyWelcomeActivity extends WelcomeActivity {
                         .lastParallaxFactor(2f)
                         .background(R.color.colorPrimary)
                 )
-                .page(new BasicPage(R.drawable.kitty_001,
-                        "Header",
-                        "More text.")
-//                        .background(R.color.red_background)
-                )
+
 
                 .swipeToDismiss(true)
+                .exitAnimation(android.R.anim.fade_out)
                 .build();
     }
 }
