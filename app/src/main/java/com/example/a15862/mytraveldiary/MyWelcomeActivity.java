@@ -20,21 +20,32 @@ public class MyWelcomeActivity extends WelcomeActivity {
     @Override
     protected WelcomeConfiguration configuration() {
         return new WelcomeConfiguration.Builder(this)
-                .defaultTitleTypefacePath("Montserrat-Bold.ttf")
+                .defaultTitleTypefacePath("Cursive.ttf")
                 .defaultHeaderTypefacePath("Montserrat-Bold.ttf")
                 .defaultBackgroundColor(R.color.colorPrimary)
                 .page(new TitlePage(R.drawable.logo,
                         "MyTravelDiary")
                         .titleColor(getResources().getColor(R.color.white))
                 )
-                .page(new ParallaxPage(R.layout.activity_welcome2,
-                        "Easy parallax",
-                        "Supply a layout and parallax effects will automatically be applied")
+                .page(new BasicPage(R.drawable.ic_),
+                        "Write Your Diary",
+                        "You can choose to write a public comment and/or your personal diary")
                         .lastParallaxFactor(2f)
                         .background(R.color.colorPrimary)
                 )
+                .page(new ParallaxPage(R.layout.activity_welcome3,
+                        "Share your Diary",
+                        "")
+                        .lastParallaxFactor(2f)
+                        .background(R.color.colorPrimary)
+                )
+                .page(new ParallaxPage(R.layout.activity_welcome3,
+                        "Discover places around you",
+                        "Discover places that you may find interesting based on the users comments and the rating of the usrs")
+                        .lastParallaxFactor(2f)
+                        .background(R.color.colorPrimary)
 
-
+                )
                 .swipeToDismiss(true)
                 .exitAnimation(android.R.anim.fade_out)
                 .build();
