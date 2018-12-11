@@ -65,6 +65,7 @@ public class Register3Activity extends AppCompatActivity implements
     private Button btnVerify;
     private Button btnResend;
     private User detectUser=null;
+    private User currentUser=null;
 
     private FirebaseFirestore db;
     @Override
@@ -77,6 +78,7 @@ public class Register3Activity extends AppCompatActivity implements
 //            onRestoreInstanceState(savedInstanceState);
 //        }
         db=FirebaseFirestore.getInstance();
+        currentUser=new User();
         // Assign views
         Log.e(TAG,"oncreste 2");
         edtPhone = (EditText) findViewById(R.id.edtPhone);
@@ -90,7 +92,9 @@ public class Register3Activity extends AppCompatActivity implements
         btnStart.setOnClickListener(this);
         btnVerify.setOnClickListener(this);
         btnResend.setOnClickListener(this);
-
+        btnStart.setEnabled(true);
+        btnVerify.setEnabled(false);
+        btnResend.setEnabled(false);
         // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -169,21 +173,7 @@ public class Register3Activity extends AppCompatActivity implements
         // [END phone_auth_callbacks]
     }
 
-    // [START on_start_check_user]
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        //updateUI(currentUser);
-//
-//        // [START_EXCLUDE]
-//        if (mVerificationInProgress && validatePhoneNumber()) {
-//            startPhoneNumberVerification(edtPhone.getText().toString());
-//        }
-//        // [END_EXCLUDE]
-//    }
-    // [END on_start_check_user]
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -206,7 +196,6 @@ public class Register3Activity extends AppCompatActivity implements
                 TimeUnit.SECONDS,   // Unit of timeout
                 this,               // Activity (for callback binding)
                 mCallbacks);        // OnVerificationStateChangedCallbacks
-        // [END start_phone_auth]
 
         mVerificationInProgress = true;
     }
@@ -218,7 +207,6 @@ public class Register3Activity extends AppCompatActivity implements
         signInWithPhoneAuthCredential(credential);
     }
 
-    // [START resend_verification]
     private void resendVerificationCode(String phoneNumber,
                                         PhoneAuthProvider.ForceResendingToken token) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -229,9 +217,7 @@ public class Register3Activity extends AppCompatActivity implements
                 mCallbacks,         // OnVerificationStateChangedCallbacks
                 token);             // ForceResendingToken from callbacks
     }
-    // [END resend_verification]
 
-    // [START sign_in_with_phone]
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -242,57 +228,60 @@ public class Register3Activity extends AppCompatActivity implements
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser authUser = task.getResult().getUser();
 
-                            final User currentUser=new User();
                             currentUser.setUserid(authUser.getUid());
                             currentUser.setPhone(authUser.getPhoneNumber());
                             currentUser.setDisplayName(authUser.getPhoneNumber());
                             currentUser.setUsername(authUser.getPhoneNumber());
-                            findUserInDB(currentUser);
-                            if (detectUser!=null){
-                                Log.e(TAG,"old user");
-                                SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-
-                                SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
-
-                                editor.putString("displayName", detectUser.getDisplayName());
-
-                                editor.putString("username",detectUser.getUsername());
-                                editor.putString("avatar",detectUser.getAvatar());
-
-                                editor.commit();
 
 
-                                Intent i = new Intent(getApplicationContext(), MapActivity.class);
-                                startActivity(i);
-                            }else{
-                                db.collection("User").document(currentUser.getUsername()).set(currentUser).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
-                                        editor.putString("displayName", currentUser.getDisplayName());
-                                        editor.putString("username",currentUser.getUsername());
-                                        editor.putString("avatar",currentUser.getAvatar());
-                                        editor.commit();
-                                        Log.e(TAG,"after save");
-                                        Intent i = new Intent(getApplicationContext(), MapActivity.class);
-                                        startActivity(i);
+                            db.collection("User").document(currentUser.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        if (documentSnapshot.exists()){
+                                            User user=documentSnapshot.toObject(User.class);
+                                                                            Log.e(TAG,"old user");
+                                            SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+
+                                            editor.putString("displayName", user.getDisplayName());
+
+                                            editor.putString("username",user.getUsername());
+                                            editor.putString("avatar",user.getAvatar());
+
+                                            editor.commit();
+
+
+                                            Intent i = new Intent(getApplicationContext(), MapActivity.class);
+                                            startActivity(i);
+                                        }   else {
+                                            currentUser.setAvatar("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03");
+                                            db.collection("User").document(currentUser.getUsername()).set(currentUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                                                    SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+                                                    editor.putString("displayName", currentUser.getDisplayName());
+                                                    editor.putString("username",currentUser.getUsername());
+                                                    editor.putString("avatar",currentUser.getAvatar());
+                                                    editor.commit();
+                                                    Log.e(TAG,"after save");
+                                                    Intent i = new Intent(getApplicationContext(), MapActivity.class);
+                                                    startActivity(i);
                                     }
                                 });
-                            }
+                                        }
+                                }
+                            });
                         } else {
-                            // Sign in failed, display a message and update the UI
+
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                // The verification code entered was invalid
-                                // [START_EXCLUDE silent]
+
                                 edtVerify.setError("Invalid code.");
-                                // [END_EXCLUDE]
+
                             }
-                            // [START_EXCLUDE silent]
-                            // Update UI
-                            //updateUI(STATE_SIGNIN_FAILED);
-                            // [END_EXCLUDE]
+
                         }
                     }
                 });
@@ -302,7 +291,7 @@ public class Register3Activity extends AppCompatActivity implements
 
     private boolean validatePhoneNumber() {
         Log.i(TAG,"validateStart");
-        String phoneNumber ="+1"+ edtPhone.getText().toString();
+        String phoneNumber = edtPhone.getText().toString();
         if (TextUtils.isEmpty(phoneNumber)) {
             edtPhone.setError("Invalid phone number.");
             return false;
@@ -318,10 +307,13 @@ public class Register3Activity extends AppCompatActivity implements
         switch (view.getId()) {
             case R.id.btnStart:
                 Log.i(TAG,"btnStart click");
+                btnStart.setEnabled(true);
+                btnResend.setEnabled(true);
+                btnVerify.setEnabled(true);
                 if (!validatePhoneNumber()) {
                     return;
                 }
-                startPhoneNumberVerification("+1"+edtPhone.getText().toString());
+                startPhoneNumberVerification(edtPhone.getText().toString());
                 break;
             case R.id.btnVerify:
                 String code = edtVerify.getText().toString();
@@ -333,7 +325,7 @@ public class Register3Activity extends AppCompatActivity implements
                 verifyPhoneNumberWithCode(mVerificationId, code);
                 break;
             case R.id.btnResend:
-                resendVerificationCode("+1"+edtPhone.getText().toString(), mResendToken);
+                resendVerificationCode(edtPhone.getText().toString(), mResendToken);
                 break;
 
         }
@@ -341,18 +333,7 @@ public class Register3Activity extends AppCompatActivity implements
 
 
     private void findUserInDB(User u){
-        db.collection("User").whereEqualTo("userid",u.getUserid())
-            .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (queryDocumentSnapshots.isEmpty()){
-                }else {
-                    for(DocumentSnapshot d:queryDocumentSnapshots){
-                        detectUser=d.toObject(User.class);
-                    }
-                }
-            }
-        });
+
     }
 
 }

@@ -291,54 +291,7 @@ public class ModifyActivity extends Activity {
         });
 
     }
-//
-//    /**
-//     * Create a file Uri for saving an image or video
-//     **/
-//    private static Uri getOutputMediaFileUri(int type) {
-//        return Uri.fromFile(getOutputMediaFile(type));
-//    }
-//
-//    /**
-//     * Create a File for saving an image or video
-//     */
-//    private static File getOutputMediaFile(int type) {
-//        String path;
-//
-//        // check if the sd card is mounted
-//        boolean sdCardMounted = Environment.getExternalStorageState().equals(
-//                Environment.MEDIA_MOUNTED);
-//        if (sdCardMounted) {
-//
-//            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-//                    Environment.DIRECTORY_PICTURES), "MyTravelDiary");
-//            // This location works best if you want the created images to be shared
-//            // between applications and persist after your app has been uninstalled.
-//
-//            // Create the storage directory if it does not exist
-//            if (!mediaStorageDir.exists()) {
-//                if (!mediaStorageDir.mkdirs()) {
-//                    Log.e("qwer", "failed to create directory");
-//                    return null;
-//                }
-//            }
-//
-//            path = mediaStorageDir.getPath();
-//
-//        } else {
-//            // no external sd card
-//            Log.e("qwer", "Cannot save photo. No external storage detected");
-//            // use the internal storage
-//            //path = getFilesDir();
-//            return null;
-//        }
-//
-//        // Create a media file name
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//        File mediaFile;
-//        mediaFile = new File(path + File.separator + "IMG_" + timeStamp + ".jpg");
-//        return mediaFile;
-//    }
+
 
     private void saveDiary(String diary) {
 
