@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.stephentuso.welcome.BasicPage;
+import com.stephentuso.welcome.ParallaxPage;
 import com.stephentuso.welcome.TitlePage;
 import com.stephentuso.welcome.WelcomeActivity;
 import com.stephentuso.welcome.WelcomeConfiguration;
@@ -19,19 +20,25 @@ public class MyWelcomeActivity extends WelcomeActivity {
     @Override
     protected WelcomeConfiguration configuration() {
         return new WelcomeConfiguration.Builder(this)
-                .defaultBackgroundColor(R.color.colorPrimary)
-                .page(new TitlePage(R.drawable.kitty_001,
-                        "Title")
+                .defaultTitleTypefacePath("Montserrat-Bold.ttf")
+                .defaultHeaderTypefacePath("Montserrat-Bold.ttf")
+//                .defaultBackgroundColor(R.color.colorPrimary)
+                .page(new TitlePage(R.drawable.first,
+                        "MyTravelDiary")
+                        .titleColor(getResources().getColor(R.color.white))
+                )
+                .page(new ParallaxPage(R.layout.activity_welcome2,
+                        "Easy parallax",
+                        "Supply a layout and parallax effects will automatically be applied")
+                        .lastParallaxFactor(2f)
+                        .background(R.color.colorPrimary)
                 )
                 .page(new BasicPage(R.drawable.kitty_001,
                         "Header",
                         "More text.")
 //                        .background(R.color.red_background)
                 )
-                .page(new BasicPage(R.drawable.kitty_001,
-                        "Lorem ipsum",
-                        "dolor sit amet.")
-                )
+
                 .swipeToDismiss(true)
                 .build();
     }
