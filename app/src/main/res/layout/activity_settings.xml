@@ -12,22 +12,34 @@
         android:layout_width="405dp"
         android:layout_height="199dp">
 
-        <ImageView
+        <!--<ImageView-->
+            <!--android:id="@+id/imgLogo"-->
+            <!--android:layout_width="142dp"-->
+            <!--android:layout_height="146dp"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginTop="24dp"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent"-->
+            <!--app:srcCompat="@drawable/logo" />-->
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/imgLogo"
-            android:layout_width="142dp"
-            android:layout_height="146dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/logo"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnChangePhoto"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginStart="136dp"
-            android:layout_marginTop="148dp"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="140dp"
             android:background="@drawable/shape"
             android:text="+"
             android:textAllCaps="false"
@@ -70,7 +82,7 @@
             android:layout_weight="1"
             android:background="@drawable/edt_shape"
             android:ems="10"
-            android:hint="Password"
+            android:hint="Enter a new password"
             android:inputType="textPassword"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"

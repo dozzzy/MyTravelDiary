@@ -39,9 +39,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|end"
-        app:fab_addButtonColorNormal="@color/white"
+        app:fab_addButtonColorNormal="@color/color_orange"
         app:fab_addButtonColorPressed="@color/white_pressed"
-        app:fab_addButtonPlusIconColor="@color/half_black"
+        app:fab_addButtonPlusIconColor="@color/black"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp">
@@ -50,7 +50,7 @@
             android:id="@+id/action_a"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_colorNormal="@color/white"
+            app:fab_colorNormal="@color/fui_bgFacebook"
             app:fab_title="Write"
             app:fab_icon="@drawable/ic_create_black_24dp"/>
 
@@ -58,7 +58,7 @@
             android:id="@+id/action_b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_colorNormal="@color/white"
+            app:fab_colorNormal="@color/darkGrey"
             app:fab_title="Locate"
             app:fab_colorPressed="@color/white_pressed"
             app:fab_icon="@drawable/ic_my_location_black_24dp"/>

@@ -109,7 +109,6 @@ public class SettingsActivity extends AppCompatActivity {
                             editor.putString("avatar", user.getAvatar());
                             editor.putString("displayName",user.getDisplayName());
                             editor.commit();
-                            Log.e("qwer save after avatar",user.getAvatar());
                             Intent intent=new Intent(SettingsActivity.this,MapActivity.class);
                             startActivity(intent);
                         }

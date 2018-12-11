@@ -17,7 +17,7 @@
         android:layout_weight="3"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        card_view:cardBackgroundColor="#F1FCF0"
+        card_view:cardBackgroundColor="#95ffffff"
         card_view:cardCornerRadius="20dp"
         card_view:cardElevation="5dp">
 
@@ -30,13 +30,23 @@
             android:paddingBottom="10dp"
             android:weightSum="3">
 
-            <ImageView
+            <!--<ImageView-->
+                <!--android:id="@+id/imgAvatar"-->
+                <!--android:layout_width="61dp"-->
+                <!--android:layout_height="46dp"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_weight="1"-->
+                <!--tools:srcCompat="@tools:sample/avatars[1]" />-->
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/imgAvatar"
-                android:layout_width="61dp"
-                android:layout_height="46dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                tools:srcCompat="@tools:sample/avatars[1]" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                app:civ_border_color="#50FFFFFF"
+                app:civ_border_width="2dp" />
 
 
             <LinearLayout
@@ -53,24 +63,21 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="user name"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:textStyle="bold|italic" />
 
-                <EditText
-                    android:id="@+id/edtDiary"
-                    android:layout_width="286dp"
-                    android:layout_height="61dp"
-                    android:layout_margin="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/order_edt_note_bg"
-                    android:ems="10"
-                    android:hint="Diary here"
-                    android:inputType="textMultiLine" />
+                <TextView
+                    android:id="@+id/txtDiary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="TextView" />
 
                 <ImageView
                     android:id="@+id/diaryImage"
                     android:layout_width="160dp"
                     android:layout_height="108dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
 
@@ -78,7 +85,7 @@
                     android:id="@+id/txtTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:text="time here" />

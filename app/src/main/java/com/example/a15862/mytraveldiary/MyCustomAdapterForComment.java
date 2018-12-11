@@ -25,19 +25,20 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdapterForComment.ViewHolder> {
 
     public List<Comment> upload;
-    public List<User> userList;
+    public Map<Comment,User> userList;
     private Context context;
     private LayoutInflater mInflater;
     private AdapterCallback adapter;
 
 
-    public MyCustomAdapterForComment(Context aContext,List<User> users, List<Comment> aupload,AdapterCallback adapterCallback) {
+    public MyCustomAdapterForComment(Context aContext, Map<Comment,User> users, List<Comment> aupload, AdapterCallback adapterCallback) {
         context = aContext;  //saving the context we'll need it again.
         upload = aupload;
         userList=users;
@@ -58,7 +59,7 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Comment currentCom = upload.get(position);
-        User currentUser=userList.get(position);
+        User currentUser=userList.get(currentCom);
         holder.txtDisplayName.setText(currentCom.getUsername());
         holder.txtComment.setText(currentCom.getUserComment());
         holder.txtLikesCount.setText(String.valueOf(currentCom.getLike()));
@@ -126,7 +127,7 @@ public class MyCustomAdapterForComment extends RecyclerView.Adapter<MyCustomAdap
             if (isNum.matches()){
                 int userRate = Integer.parseInt(tempUserRates.getText().toString()) + 1;
                 tempUserRates.setText(String.valueOf(userRate));
-                userList.get(getAdapterPosition()).setLike(userRate);
+                userList.get(upload.get(getAdapterPosition())).setLike(userRate);
             }
             upload.get(getAdapterPosition()).setLike(likeCount);
             adapter.onItemClick(upload.get(getAdapterPosition()));

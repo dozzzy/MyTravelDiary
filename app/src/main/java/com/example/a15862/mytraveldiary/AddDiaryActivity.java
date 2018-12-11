@@ -15,8 +15,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,11 +74,13 @@ public class AddDiaryActivity extends Activity {
     private String cityLoc;
     private String diaryName;
     private Uri tempUri;
-
+    private boolean visible=false;
     private MyCustomAdapterForImages adapter;
     private List<LocalMedia> selectList = new ArrayList<>();
     private static int themeId = R.style.picture_white_style;
     private int chooseMode = PictureMimeType.ofAll();
+    private Switch switchVisible;
+
 
     private Button btnSpeech2Text;
 
@@ -99,7 +103,20 @@ public class AddDiaryActivity extends Activity {
         btnClear = (Button) findViewById(R.id.btnClear);
         btnSave = (Button) findViewById(R.id.btnSave);
         btnSpeech2Text = (Button) findViewById(R.id.btnSpeech2Text);
+        switchVisible=(Switch) findViewById(R.id.switchVisible);
 
+        if (switchVisible!=null){
+            switchVisible.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked) {
+                        visible=true;
+                    } else {
+                        visible=false;
+                    }
+                }
+            });
+        }
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         FullyGridLayoutManager manager = new FullyGridLayoutManager(AddDiaryActivity.this, 4, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
@@ -186,6 +203,7 @@ public class AddDiaryActivity extends Activity {
                 diary.setTxtCity(txtCity.getText().toString());
                 diary.setTxtTemperature(txtTemperature.getText().toString());
                 diary.setEdtDiary(edtDiary.getText().toString());
+                diary.setVisible(visible);
                 DiaryDAO diaryDAO = new DiaryDAO();
                 diaryDAO.uploadDiary(diary);
                 Intent back = new Intent(AddDiaryActivity.this, MapActivity.class);

@@ -73,9 +73,15 @@ public class ClickNotExistActivity extends Activity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storeData();
-                Intent back = new Intent(ClickNotExistActivity.this,MapActivity.class);
-                startActivity(back);
+                String placeName=edtPlaceName.getText().toString().trim();
+                String placeComment=edtComment.getText().toString().trim();
+                if (placeComment.equals("") || placeComment.equals("")){
+                    Toast.makeText(getApplicationContext(),"Place name and Comment should not be null",Toast.LENGTH_LONG).show();
+                }else {
+                    storeData();
+                    Intent back = new Intent(ClickNotExistActivity.this,MapActivity.class);
+                    startActivity(back);
+                }
 //                AskWriteDiaryFragment askWriteDiaryFragment = new AskWriteDiaryFragment();
 //                askWriteDiaryFragment.show(getSupportFragmentManager(), "ConfirmFragment");
             }
@@ -84,12 +90,19 @@ public class ClickNotExistActivity extends Activity {
         btnJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storeData();
-                Intent intent = new Intent(ClickNotExistActivity.this, AddDiaryActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable("Place",currentPlace);
-                intent.putExtras(b);
-                startActivity(intent);
+                String placeName=edtPlaceName.getText().toString().trim();
+                String placeComment=edtComment.getText().toString().trim();
+                if (placeComment.equals("") || placeComment.equals("")){
+                    Toast.makeText(getApplicationContext(),"Place name and Comment should not be null",Toast.LENGTH_LONG).show();
+                }else {
+                    storeData();
+                    Intent intent = new Intent(ClickNotExistActivity.this, AddDiaryActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("Place",currentPlace);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -116,7 +129,8 @@ public class ClickNotExistActivity extends Activity {
         pd.updateData(p);
         currentPlace = p;
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
-        Comment c = new Comment(load.getString("displayName", "123"),currentPlace.getPlaceName(),comment);
+        Comment c = new Comment(load.getString("username", "DEFAULT"),currentPlace.getPlaceName(),comment);
+        c.setDisplayName(load.getString("username","DEFAULT"));
 
         CommentDAO cd = new CommentDAO();
         cd.addComment(c,0);

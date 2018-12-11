@@ -87,8 +87,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver, NavigationView.OnNavigationItemSelectedListener {
-    private final Map<String,Set<String>> getKeyWords = new HashMap<>();
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver, NavigationView.OnNavigationItemSelectedListener{
+    private final Map<String, Set<String>> getKeyWords = new HashMap<>();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
     private final int radius = 50;
@@ -98,7 +98,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Set<String> existed;
     private Map<String, Place> findPlaceByName;
     private LatLng choosedPoint = null;
-    private Map<Marker,Place> marked = new HashMap<>();
+    private Map<Marker, Place> marked = new HashMap<>();
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -126,6 +126,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private ImageView imgAvater;
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    private String keyword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +135,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         searchServices = new SearchServicesImp(this);
         findPlaceByName = new HashMap<>();
         super.onCreate(savedInstanceState);
-        User testUser=new User();
+        User testUser = new User();
 
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
@@ -159,7 +160,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
-
         // Floating buttons
         final com.getbase.floatingactionbutton.FloatingActionButton actionA = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_a);
         actionA.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +177,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         actionB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude()), NEARBY_ZOOM));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), NEARBY_ZOOM));
             }
         });
 
@@ -193,30 +193,25 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         toggle.syncState();
 
 
-
-
-
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        SharedPreferences load = getSharedPreferences("user",Context.MODE_PRIVATE);
-        String displayName=load.getString("displayName", "DEFAULT");
-        String username=load.getString("username","DEFAULT");
-        String avatar=load.getString("avatar","DEFAULT");
+        SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String displayName = load.getString("displayName", "DEFAULT");
+        String username = load.getString("username", "DEFAULT");
+        String avatar = load.getString("avatar", "DEFAULT");
         View headerView = navigationView.getHeaderView(0);
 
-        txtUsername=(TextView)headerView.findViewById(R.id.txtUsername);
-        txtDisplayName=(TextView)headerView.findViewById(R.id.txtDisplayName);
-        imgAvater=(ImageView)headerView.findViewById(R.id.imgAvater);
-        txtUsername.setText(username);
+        txtUsername = (TextView) headerView.findViewById(R.id.txtUsername);
+        txtDisplayName = (TextView) headerView.findViewById(R.id.txtDisplayName);
+        imgAvater = (ImageView) headerView.findViewById(R.id.imgAvater);
+        txtUsername.setText("Hello,");
         txtDisplayName.setText(displayName);
-        Log.i("avatar",avatar);
-        if (!avatar.equals(null) && !avatar.equals("DEFAULT") && !(avatar==null)){
+        Log.i("avatar", avatar);
+        if (!avatar.equals(null) && !avatar.equals("DEFAULT") && !(avatar == null)) {
             Picasso.get().load(avatar).into(imgAvater);
-        }else{
+        } else {
             Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03").into(imgAvater);
         }
-
 
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -250,6 +245,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 //        noinspection SimplifiableIfStatement
         if (id == R.id.search) {//TODO: filter
+//            startActivityForResult(new Intent(MapActivity.this, SearchActivity.class), 999);
+            SearchFragment searchFragment = new SearchFragment();
+            searchFragment.show(getSupportFragmentManager(), "search");
 
         }
         if (id == R.id.add_friends) {
@@ -281,13 +279,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
             editor.putString("displayName", "DEFAULT");
             editor.putString("username", "DEFAULT");
-            editor.putString("avatar","DEFAULT");
+            editor.putString("avatar", "DEFAULT");
             editor.commit();
 
             Intent intent = new Intent(MapActivity.this, LoginNewActivity.class);
             startActivity(intent);
-        } else if (id==R.id.nav_settings){
-            Log.e("qwer","setting intent");
+        } else if (id == R.id.nav_settings) {
+            Log.e("qwer", "setting intent");
             Intent intent = new Intent(MapActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
@@ -319,13 +317,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        getKeyWords.put("route",new HashSet<String>(Arrays.asList(new String[]{"route"})));
-        getKeyWords.put("bus station",new HashSet<String>(Arrays.asList(new String[]{"bus_station"})));
-        getKeyWords.put("store",new HashSet<String>(Arrays.asList(new String[]{"store"})));
-        getKeyWords.put("railway station",new HashSet<String>(Arrays.asList(new String[]{"transit_station"})));
-        getKeyWords.put("education",new HashSet<String>(Arrays.asList(new String[]{"school","university"})));
-        getKeyWords.put("health",new HashSet<String>(Arrays.asList(new String[]{"health","doctor","gym"})));
-        getKeyWords.put("point_of_interest",new HashSet<String>(Arrays.asList(new String[]{"point_of_interest"})));
+        getKeyWords.put("route", new HashSet<String>(Arrays.asList(new String[]{"route"})));
+        getKeyWords.put("bus station", new HashSet<String>(Arrays.asList(new String[]{"bus_station"})));
+        getKeyWords.put("store", new HashSet<String>(Arrays.asList(new String[]{"store"})));
+        getKeyWords.put("railway station", new HashSet<String>(Arrays.asList(new String[]{"transit_station"})));
+        getKeyWords.put("education", new HashSet<String>(Arrays.asList(new String[]{"school", "university"})));
+        getKeyWords.put("health", new HashSet<String>(Arrays.asList(new String[]{"health", "doctor", "gym"})));
+        getKeyWords.put("point_of_interest", new HashSet<String>(Arrays.asList(new String[]{"point_of_interest"})));
 
 
         // Prompt the user for permission.
@@ -341,9 +339,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         UiSettings uiSettings = mMap.getUiSettings();
 //        uiSettings.setZoomControlsEnabled(true);
 //        uiSettings.setMyLocationButtonEnabled(true);
-
-
-
 
 
         // Create new marker when user pin on the map
@@ -438,14 +433,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = task.getResult();
-                            LatLng latLng = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+                            final LatLng latLng = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
 
 
 
+                            choosedPoint = latLng;
                             mMap.clear();
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), NEARBY_ZOOM));
-                            Log.i("Info", String.valueOf(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()).latitude) + "," + String.valueOf(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()).longitude));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, NEARBY_ZOOM));
+                            Log.i("Info", String.valueOf(latLng + "," + String.valueOf(latLng.longitude)));
                             // Use YelpAPI with parameters.
                             try {
                                 FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -455,7 +451,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                         for (DocumentSnapshot ds : queryDocumentSnapshots) {
                                             Place p = ds.toObject(Place.class);
                                             LatLng loc = new LatLng(p.getLatitude(), p.getLongitude());
-                                            if (getDistance(loc.longitude, loc.latitude, new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()).longitude, new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()).latitude) <= radius) {
+                                            if (getDistance(loc.longitude, loc.latitude, latLng.longitude, latLng.latitude) <= radius) {
                                                 if (existed.add(p.getPid())) {
                                                     nearbyPlaces.add(p);
                                                     findPlaceByName.put(p.getPlaceName(), p);
@@ -463,7 +459,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                             }
                                         }
                                         try {
-                                            searchServices.searchLocation(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), radius);
+                                            searchServices.searchLocation(latLng, radius);
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -472,9 +468,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             } catch (Exception e) {
                                 Log.e("Exception: %s", e.getMessage());
                             }
-
-
-
 
 
                         } else {
@@ -560,9 +553,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         label1:
         for (Place p : nearbyPlaces) {
             List<String> cats = p.getCategory();
-            for(String cat:cats){
-                for(String key:getKeyWords.keySet()){
-                    if(getKeyWords.get(key).contains(cat)){
+            for (String cat : cats) {
+                for (String key : getKeyWords.keySet()) {
+                    if (getKeyWords.get(key).contains(cat)) {
                         // here the key is one of the predefined catagories
                         // route, food, store, education, bus station, railway station, health, point_of_interest
 
@@ -578,45 +571,39 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.food)));
-                        }
-                        else if(key == "store") {
+                        } else if (key == "store") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.store)));
-                        }
-                        else if(key == "education") {
+                        } else if (key == "education") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.education)));
-                        }
-                        else if(key == "bus station") {
+                        } else if (key == "bus station") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.bus)));
-                        }
-                        else if(key == "railway station") {
+                        } else if (key == "railway station") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.railway)));
-                        }
-                        else if(key == "health") {
+                        } else if (key == "health") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.health)));
-                        }
-                        else if(key == "point_of_interest") {
+                        } else if (key == "point_of_interest") {
                             marker = mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                                     .title(p.getPlaceName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi)));
                         }
                         marker.showInfoWindow();
-                        marked.put(marker,p);
+                        marked.put(marker, p);
                         continue label1;
                     }
                 }
@@ -624,11 +611,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                     .title(p.getPlaceName()));
-            marked.put(marker,p);
+            marked.put(marker, p);
             marker.showInfoWindow();
         }
         //TODO:CALL THIS
-        //searchServices.searchByName(choosedPoint,"GSU",radius);
+
+//        searchServices.searchByName(choosedPoint, keyword, radius);
     }
 
     @Override
@@ -662,8 +650,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                     p.setCategory(cat);
                 }
-                if(cur.has("rating")){
-                    p.addScore((float)cur.getDouble("rating"));
+                if (cur.has("rating")) {
+                    p.addScore((float) cur.getDouble("rating"));
                 }
                 nearbyPlaces.add(p);
                 findPlaceByName.put(p.getPlaceName(), p);
@@ -680,17 +668,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void receiveComment(JSONObject res) throws JSONException {
         JSONObject total = res.getJSONObject("result");
-        if(!total.has("reviews")) return;
-        JSONArray arr =total.getJSONArray("reviews");
+        if (!total.has("reviews")) return;
+        JSONArray arr = total.getJSONArray("reviews");
         String placeName = total.getString("name");
-        for(int i = 0;i<arr.length();i++){
+        for (int i = 0; i < arr.length(); i++) {
             JSONObject cur = arr.getJSONObject(i);
             String userName = cur.getString("author_name");
             String text = cur.getString("text");
-            Comment comment = new Comment(userName,placeName,text);
+            Comment comment = new Comment(userName, placeName, text);
             CommentDAO cd = new CommentDAO();
-            cd.addComment(comment,1);
+            cd.addComment(comment, 1);
         }
+    }
+
+    @Override
+    public void getCallBackFromFrag(String key) {
+        Log.i("jing",key);
+        searchServices.searchByName(choosedPoint,key,radius);
     }
 
 
@@ -707,28 +701,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-
-    public void undoFilter(){
-        for(Marker m : marked.keySet()){
+    public void undoFilter() {
+        for (Marker m : marked.keySet()) {
             m.setVisible(true);
         }
     }
 
-    public void doFilter(String keyWords){
+    public void doFilter(String keyWords) {
         Set<String> validWord = getKeyWords.get(keyWords);
         label1:
-        for(Marker m:marked.keySet()){
+        for (Marker m : marked.keySet()) {
             Place p = marked.get(m);
             List<String> cats = p.getCategory();
-            for(String cat:cats){
-                if(validWord.contains(cat)) continue label1;
+            for (String cat : cats) {
+                if (validWord.contains(cat)) continue label1;
             }
             m.setVisible(false);
         }
     }
-
-
-
 
 
     @Override
@@ -745,6 +735,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
             }
+//        } else if (requestCode == 999) {
+//            if (requestCode == RESULT_OK) {
+//                keyword = data.getExtras().getString("result");
+//            }
         }
     }
 
@@ -757,13 +751,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             for (int i = 0; i < array.length(); i++) {
                 JSONObject cur = array.getJSONObject(i);
                 String pid = cur.getString("place_id");
-                Log.i("Jing",pid);
                 validId.add(pid);
             }
-            for(Marker m:marked.keySet()){
+            for (Marker m : marked.keySet()) {
                 Place p = marked.get(m);
-                if(validId.contains(p.getPid())) continue;
-                Log.i("Hide",p.getPlaceName());
+                if (validId.contains(p.getPid())){
+                    continue;
+                }
+                Log.i("Jing", p.getPlaceName());
                 m.setVisible(false);
             }
         } catch (JSONException e) {
@@ -772,5 +767,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
     }
+
+
+
+
+
+
+
+//    public void showNoticeDialog() {
+//        // Create an instance of the dialog fragment and show it
+//        DialogFragment dialog = new SearchFragment();
+//        dialog.show(getSupportFragmentManager(), "SearchFragment");
+//    }
+//
+//    // The dialog fragment receives a reference to this Activity through the
+//    // Fragment.onAttach() callback, which it uses to call the following methods
+//    // defined by the NoticeDialogFragment.NoticeDialogListener interface
+//    @Override
+//    public void onDialogPositiveClick(DialogFragment dialog) {
+//        // User touched the dialog's positive button
+//
+//    }
+//
+//    @Override
+//    public void onDialogNegativeClick(DialogFragment dialog) {
+//        // User touched the dialog's negative button
+//    }
 
 }

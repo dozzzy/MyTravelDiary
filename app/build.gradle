@@ -76,8 +76,15 @@ dependencies {
     //Welcome pages
     implementation 'com.stephentuso:welcome:1.4.1'
 
+    //Photo choose and upload
     implementation 'com.android.support:gridlayout-v7:28.0.0'
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+
+    //search
+//    implementation 'com.carson_ho:SearchLayout:1.0.1'
+
+    //circle imageview
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

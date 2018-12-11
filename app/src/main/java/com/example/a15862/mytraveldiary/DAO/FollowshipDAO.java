@@ -38,5 +38,20 @@ public class FollowshipDAO {
         });
 
     }
+    public void delete(final String curUser,final String target){
+        db.collection("Followship").document(curUser).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.getData()!=null) newF = (ArrayList)documentSnapshot.getData().get("followed");
+                else newF = new ArrayList<>();
+                Map<String,Object> data = new HashMap<>();
+                if(newF.contains(target)) newF.remove(target);
+                data.put("followed",newF);
+                db.collection("Followship").document(curUser).set(data);
+            }
+        });
+    }
+
+
 
 }

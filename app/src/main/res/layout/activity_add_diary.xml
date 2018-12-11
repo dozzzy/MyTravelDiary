@@ -55,30 +55,49 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtNotice"
+            android:layout_width="212dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Public your diary to moments?"
+            android:textStyle="bold" />
+
+        <Switch
+            android:id="@+id/switchVisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_weight="6">
 
         <EditText
             android:id="@+id/edtDiary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:background="@drawable/order_edt_note_bg"
             android:ems="10"
             android:gravity="top"
-            android:hint="Your Diary"
+            android:hint="Your diary here:"
             android:inputType="textMultiLine"
             android:padding="5dp" />
 
         <Button
             android:id="@+id/btnSpeech2Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="bottom|right"
-            android:text="speechto text" />
+            android:background="@drawable/btn_voice_black" />
 
 
     </FrameLayout>
@@ -91,7 +110,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="47dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"

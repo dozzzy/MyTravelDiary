@@ -16,9 +16,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +63,7 @@ public class ModifyActivity extends Activity {
     private ImageView imgWeather, imgPhoto;
 
     private String imgWeatherUri;
-
+    private Switch switchVisible;
     private TextView txtDate, txtCity, txtTemperature;
     private TextView edtDiary;
 
@@ -91,11 +93,24 @@ public class ModifyActivity extends Activity {
         txtTemperature = (TextView) findViewById(R.id.txtTemperature);
         txtDate = (TextView) findViewById(R.id.txtDate);
         imgWeather = (ImageView) findViewById(R.id.imgWeather);
-
         edtDiary = (EditText) findViewById(R.id.edtDiary);
         btnClear = (Button) findViewById(R.id.btnClear);
         btnSave = (Button) findViewById(R.id.btnSave);
         btnSpeech2Text = (Button) findViewById(R.id.btnSpeech2Text);
+        switchVisible=(Switch)findViewById(R.id.switchVisible);
+        if (switchVisible!=null){
+            switchVisible.setChecked(curDiary.isVisible());
+            switchVisible.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked) {
+                        curDiary.setVisible(true);
+                    } else {
+                        curDiary.setVisible(false);
+                    }
+                }
+            });
+        }
 
 
         Picasso.get().load(curDiary.getImgWeather()).into(imgWeather);
@@ -103,35 +118,7 @@ public class ModifyActivity extends Activity {
         txtTemperature.setText(curDiary.getTxtTemperature());
         txtCity.setText(curDiary.getTxtCity());
         edtDiary.setText(curDiary.getEdtDiary());
-//        Picasso.get().load(curDiary.getPhotoUri()).into(imgPhoto);
 
-//
-//        btnCamera.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View arg0) {
-//                // TODO Auto-generated method stub
-//                Intent intent = new Intent(
-//                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//
-//                File tempFile = new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME);
-//                Uri uri = Uri.fromFile(tempFile);
-//                photoUri = uri;
-//                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-//                startActivityForResult(intent, IMAGE_RESULT_CODE);
-//
-//            }
-//        });
-//
-//        btnGallery.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View arg0) {
-//                // TODO Auto-generated method stub
-//                Intent intent = new Intent(
-//                        Intent.ACTION_PICK,
-//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(intent, PICK);
-//            }
-//        });
 
 
         btnClear.setOnClickListener(new View.OnClickListener()
@@ -148,20 +135,15 @@ public class ModifyActivity extends Activity {
         {
             @Override
             public void onClick(View v) {
-                //saveDiary(diaryName);
-                Diary diary = new Diary("123", "456");
-                if (photoUri != null) {
-                    diary.setPhotoUri(photoUri.toString());
-                }
-                if (imgWeatherUri != null) {
-                    diary.setImgWeather(imgWeatherUri);
-                }
-                diary.setTxtDate(txtDate.getText().toString());
-                diary.setTxtCity(txtCity.getText().toString());
-                diary.setTxtTemperature(txtTemperature.getText().toString());
-                diary.setEdtDiary(edtDiary.getText().toString());
-                DiaryDAO diaryDAO = new DiaryDAO();
-                diaryDAO.uploadDiary(diary);
+                FirebaseFirestore db=FirebaseFirestore.getInstance();
+                curDiary.setEdtDiary(edtDiary.getText().toString());
+                db.collection("Diary").document(curDiary.getTime()+":"+curDiary.getUsername()).set(curDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i("jingD","no photo succ");
+                        finish();
+                    }
+                });
             }
         });
 
@@ -203,9 +185,6 @@ public class ModifyActivity extends Activity {
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Device not supported... " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-
-
-
             }
         });
 
@@ -312,54 +291,7 @@ public class ModifyActivity extends Activity {
         });
 
     }
-//
-//    /**
-//     * Create a file Uri for saving an image or video
-//     **/
-//    private static Uri getOutputMediaFileUri(int type) {
-//        return Uri.fromFile(getOutputMediaFile(type));
-//    }
-//
-//    /**
-//     * Create a File for saving an image or video
-//     */
-//    private static File getOutputMediaFile(int type) {
-//        String path;
-//
-//        // check if the sd card is mounted
-//        boolean sdCardMounted = Environment.getExternalStorageState().equals(
-//                Environment.MEDIA_MOUNTED);
-//        if (sdCardMounted) {
-//
-//            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-//                    Environment.DIRECTORY_PICTURES), "MyTravelDiary");
-//            // This location works best if you want the created images to be shared
-//            // between applications and persist after your app has been uninstalled.
-//
-//            // Create the storage directory if it does not exist
-//            if (!mediaStorageDir.exists()) {
-//                if (!mediaStorageDir.mkdirs()) {
-//                    Log.e("qwer", "failed to create directory");
-//                    return null;
-//                }
-//            }
-//
-//            path = mediaStorageDir.getPath();
-//
-//        } else {
-//            // no external sd card
-//            Log.e("qwer", "Cannot save photo. No external storage detected");
-//            // use the internal storage
-//            //path = getFilesDir();
-//            return null;
-//        }
-//
-//        // Create a media file name
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//        File mediaFile;
-//        mediaFile = new File(path + File.separator + "IMG_" + timeStamp + ".jpg");
-//        return mediaFile;
-//    }
+
 
     private void saveDiary(String diary) {
 

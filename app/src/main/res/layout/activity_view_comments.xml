@@ -6,78 +6,69 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
+    android:background="#D1D1D1"
     tools:context=".ViewCommentsActivity">
 
-    <FrameLayout
+    <TextView
+        android:id="@+id/txtPlaceName"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <TextView
-            android:id="@+id/txtPlaceName"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:text="PlaceName"
-            android:textSize="30sp" />
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="PlaceName"
+        android:textSize="30sp"
+        android:textStyle="bold|italic" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="326dp"
         android:layout_weight="5"
         android:paddingBottom="@dimen/fui_auth_method_button_margin">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/commentList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="326dp"
                 android:layout_margin="10dp"
-                android:isScrollContainer="true" />
+                android:isScrollContainer="true">
+
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:orientation="vertical">
-
-        <RatingBar
-            android:id="@+id/ratingBarCustom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:numStars="5"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
-            android:stepSize="0.1" />
-
-        <EditText
-            android:id="@+id/edtAddComment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:background="@drawable/order_edt_note_bg"
-            android:ems="10"
-            android:hint="Your comment here:"
-            android:inputType="textMultiLine"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+    <RatingBar
+        android:id="@+id/ratingBarCustom"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:numStars="5"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:stepSize="0.1" />
+
+    <EditText
+        android:id="@+id/edtAddComment"
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/order_edt_note_bg"
+        android:ems="10"
+        android:hint="Your comment here:"
+        android:inputType="textMultiLine"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnSaveReturn"
@@ -86,9 +77,9 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:textAllCaps="false"
             android:background="@drawable/shape"
-            android:text="Save and Return" />
+            android:text="Save and Return"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btnSaveJump"
@@ -97,8 +88,8 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:textAllCaps="false"
             android:background="@drawable/shape"
-            android:text="Save and Write Diary" />
+            android:text="Save and Write Diary"
+            android:textAllCaps="false" />
     </LinearLayout>
 </LinearLayout>

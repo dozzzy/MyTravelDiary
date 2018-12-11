@@ -9,5 +9,7 @@ public interface placeInfoReceiver {
 
     void receiveComment(JSONObject res) throws JSONException;
 
+
+    void getCallBackFromFrag(String key);
     void receiveKeySearch(JSONObject res) throws JSONException;
 }

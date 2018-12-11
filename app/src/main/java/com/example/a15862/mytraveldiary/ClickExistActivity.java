@@ -79,7 +79,7 @@ public class ClickExistActivity extends Activity {
             Picasso.get().load(path).into(imgPlace);
         }
         Log.i("qwer",String.valueOf(currentPlace.getTotalComment()));
-        txtTotalComments.setText(new StringBuilder("Comments: ").append(currentPlace.getTotalComment()).toString());
+        txtTotalComments.setText("View comments");
         txtTotalComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
