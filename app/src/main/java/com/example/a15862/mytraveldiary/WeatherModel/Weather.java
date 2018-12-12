@@ -6,7 +6,7 @@ public class Weather {
     private String description;
     private String icon;
 
-    public Weather(){
+    public Weather() {
 
     }
 

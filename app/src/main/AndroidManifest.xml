@@ -28,7 +28,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDjCrdGmiesceyoZTwl--AVr_KRkFYhXMs" />
 
-        <activity android:name=".LoginActivity"></activity>
         <activity
             android:name=".MapActivity"
             android:screenOrientation="portrait"></activity>
@@ -54,9 +53,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Register2Activity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Register3Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginNewActivity"

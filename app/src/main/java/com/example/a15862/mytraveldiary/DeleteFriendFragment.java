@@ -34,6 +34,7 @@ public class DeleteFriendFragment extends DialogFragment {
     private FirebaseFirestore db;
     List<String> newF;
     FragmentActivity fragmentActivity;
+
     public DeleteFriendFragment() {
         // Required empty public constructor
     }
@@ -43,11 +44,10 @@ public class DeleteFriendFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        db=FirebaseFirestore.getInstance();
-        newF=null;
+        db = FirebaseFirestore.getInstance();
+        newF = null;
         return inflater.inflate(R.layout.fragment_delete_friend, container, false);
     }
-
 
 
     @Override
@@ -55,33 +55,33 @@ public class DeleteFriendFragment extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         Bundle b = getArguments();
-        username=b.getString("username");
-        target=b.getString("target");
-        fragmentActivity=getActivity();
+        username = b.getString("username");
+        target = b.getString("target");
+        fragmentActivity = getActivity();
         builder.setTitle("You do not want this friend?").setItems(R.array.Friend, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(which==0){
-                    FollowshipDAO fd=new FollowshipDAO();
+                if (which == 0) {
+                    FollowshipDAO fd = new FollowshipDAO();
 
                     db.collection("Followship").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if(documentSnapshot.getData()!=null) newF = (ArrayList)documentSnapshot.getData().get("followed");
+                            if (documentSnapshot.getData() != null)
+                                newF = (ArrayList) documentSnapshot.getData().get("followed");
                             else newF = new ArrayList<>();
-                            Map<String,Object> data = new HashMap<>();
-                            if(newF.contains(target)) newF.remove(target);
-                            data.put("followed",newF);
+                            Map<String, Object> data = new HashMap<>();
+                            if (newF.contains(target)) newF.remove(target);
+                            data.put("followed", newF);
                             db.collection("Followship").document(username).set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    ((ViewAllFriendsActivity)fragmentActivity).showFriends();
+                                    ((ViewAllFriendsActivity) fragmentActivity).showFriends();
                                 }
                             });
                         }
                     });
-                }
-                else if(which==1){
+                } else if (which == 1) {
 
                 }
             }

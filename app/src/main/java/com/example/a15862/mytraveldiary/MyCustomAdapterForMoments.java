@@ -31,8 +31,8 @@ public class MyCustomAdapterForMoments extends RecyclerView.Adapter<MyCustomAdap
         users = u;
         diaries = d;
         mInflater = LayoutInflater.from(context);
-        Log.e("qwer",String.valueOf(u.size()));
-        Log.e("qwer",String.valueOf(d.size()));
+        Log.e("qwer", String.valueOf(u.size()));
+        Log.e("qwer", String.valueOf(d.size()));
     }
 
 
@@ -45,11 +45,9 @@ public class MyCustomAdapterForMoments extends RecyclerView.Adapter<MyCustomAdap
 
     @Override
     public void onBindViewHolder(MyCustomAdapterForMoments.ViewHolder holder, int position) {
-//        User friend= friendList.get(position);
         User u = users.get(position);
         Diary diary = diaries.get(position);
-//        Log.e("qwer",u.getUsername());
-        Log.e("qwer",u.getDisplayName());
+        Log.e("qwer", u.getDisplayName());
         holder.itemView.setTag(position);
         holder.txtDisplayName.setText(u.getDisplayName());
         holder.txtDiary.setText(diary.getEdtDiary());

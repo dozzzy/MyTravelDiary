@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Place implements Serializable{
+public class Place implements Serializable {
 
     private static final long serialVersionUID = -7620435178023928252L;
 
@@ -20,7 +20,7 @@ public class Place implements Serializable{
     private String vicinity;
     private String photoPath;
     private List<String> category;
-    private int totalComment=0;
+    private int totalComment = 0;
 
     public List<String> getCategory() {
         return category;
@@ -59,10 +59,11 @@ public class Place implements Serializable{
         this.pid = pid;
     }
 
-    public void addScore(float n){
+    public void addScore(float n) {
         scoreCount++;
-        totalScore+=n;
+        totalScore += n;
     }
+
     private String pid;
 
     public double getLatitude() {
@@ -114,12 +115,12 @@ public class Place implements Serializable{
         this.totalScore = totalScore;
     }
 
-    public float getAvgScore (Place pl) {
+    public float getAvgScore(Place pl) {
         return pl.totalScore / pl.scoreCount;
     }
 
 
-    public Place(LatLng location, String name, String address, String pid){
+    public Place(LatLng location, String name, String address, String pid) {
         this.longitude = location.longitude;
         this.latitude = location.latitude;
         placeName = name;
@@ -128,12 +129,14 @@ public class Place implements Serializable{
         this.pid = pid;
     }
 
-    public Place(){
+    public Place() {
         category = new ArrayList<>();
-    };
+    }
+
+    ;
 
 
-    public String print(){
-        return ("Name:" +placeName +"Location:"+latitude+","+longitude +"vicinity:"+vicinity+"photoPath:"+photoPath );
+    public String print() {
+        return ("Name:" + placeName + "Location:" + latitude + "," + longitude + "vicinity:" + vicinity + "photoPath:" + photoPath);
     }
 }

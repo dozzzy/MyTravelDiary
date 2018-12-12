@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Comment  {
+public class Comment {
     private String placeName;
     private User user;
     private String username;
@@ -15,14 +15,16 @@ public class Comment  {
     private int fromAPI;
     private long time;
     private int like;
-    public Comment(){
-        time=System.currentTimeMillis();
+
+    public Comment() {
+        time = System.currentTimeMillis();
     }
-    public Comment(String userID, String placeName, String userComment){
-        this.placeName=placeName;
-        this.username=userID;
-        this.userComment=userComment;
-        time=System.currentTimeMillis();
+
+    public Comment(String userID, String placeName, String userComment) {
+        this.placeName = placeName;
+        this.username = userID;
+        this.userComment = userComment;
+        time = System.currentTimeMillis();
     }
 
     public int getLike() {
@@ -41,7 +43,7 @@ public class Comment  {
         this.like = like;
     }
 
-    public void addLike(){
+    public void addLike() {
         like++;
     }
 
@@ -85,8 +87,8 @@ public class Comment  {
         this.userComment = userComment;
     }
 
-    public void setTime(){
-        time = time=System.currentTimeMillis();
+    public void setTime() {
+        time = time = System.currentTimeMillis();
     }
 
 }

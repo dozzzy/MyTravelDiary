@@ -5,51 +5,31 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.example.a15862.mytraveldiary.DAO.CommentDAO;
-import com.example.a15862.mytraveldiary.DAO.FollowshipDAO;
 import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
-import com.example.a15862.mytraveldiary.DAO.UserDAO;
 import com.example.a15862.mytraveldiary.Entity.Comment;
 import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Entity.User;
 import com.example.a15862.mytraveldiary.ServiceImps.SearchServicesImp;
 import com.example.a15862.mytraveldiary.Services.SearchServices;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
@@ -71,15 +51,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 import com.stephentuso.welcome.WelcomeHelper;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -88,7 +64,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver, NavigationView.OnNavigationItemSelectedListener{
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver, NavigationView.OnNavigationItemSelectedListener {
     private static boolean firstOpen = true;
     private final Map<String, Set<String>> getKeyWords = new HashMap<>();
     private GoogleMap mMap;
@@ -220,7 +196,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        if(firstOpen){
+        if (firstOpen) {
             welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
             welcomeScreen.forceShow();
             firstOpen = false;
@@ -347,11 +323,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getDeviceLocation();
 
 
-        UiSettings uiSettings = mMap.getUiSettings();
-//        uiSettings.setZoomControlsEnabled(true);
-//        uiSettings.setMyLocationButtonEnabled(true);
-
-
         // Create new marker when user pin on the map
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -393,13 +364,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-//                mMap.clear();
-//                Marker marker = mMap.addMarker(new MarkerOptions()
-//                        .position(latLng)
-//                        .title("Touch to add a diary")
-//                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.question_32)));
-//                marker.showInfoWindow();
-
                 DialogFragment dialog = new ConfirmFragment();
                 Bundle b = new Bundle();
                 b.putDouble("Latitude", latLng.latitude);
@@ -413,8 +377,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-//                Intent intent = new Intent(MapActivity.this, ClickExistActivity.class);
-//                Intent intent = new Intent(MapActivity.this, ClickNotExistActivity.class);
                 Intent intent = new Intent(MapActivity.this, ClickExistActivity.class);
                 Bundle b = new Bundle();
                 b.putSerializable("Place", findPlaceByName.get(marker.getTitle()));
@@ -446,7 +408,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             mLastKnownLocation = task.getResult();
                             final LatLng latLng = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
-
 
 
                             choosedPoint = latLng;
@@ -693,8 +654,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void getCallBackFromFrag(String key) {
-        Log.i("jing",key);
-        searchServices.searchByName(choosedPoint,key,radius);
+        Log.i("jing", key);
+        searchServices.searchByName(choosedPoint, key, radius);
     }
 
 
@@ -730,29 +691,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-//                Place place = PlaceAutocomplete.getPlace(this, data);
-//                Log.i(TAG, "Place: " + place.getName());
-            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-//                Status status = PlaceAutocomplete.getStatus(this, data);
-//                // TODO: Handle the error.
-//                Log.i(TAG, status.getStatusMessage());
-
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
-            }
-//        } else if (requestCode == 999) {
-//            if (requestCode == RESULT_OK) {
-//                keyword = data.getExtras().getString("result");
-//            }
-        }
-    }
-
-
     @Override
     public void receiveKeySearch(JSONObject res) throws JSONException {
         try {
@@ -765,7 +703,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
             for (Marker m : marked.keySet()) {
                 Place p = marked.get(m);
-                if (validId.contains(p.getPid())){
+                if (validId.contains(p.getPid())) {
                     continue;
                 }
                 Log.i("Jing", p.getPlaceName());
@@ -777,31 +715,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
-
-//    public void showNoticeDialog() {
-//        // Create an instance of the dialog fragment and show it
-//        DialogFragment dialog = new SearchFragment();
-//        dialog.show(getSupportFragmentManager(), "SearchFragment");
-//    }
-//
-//    // The dialog fragment receives a reference to this Activity through the
-//    // Fragment.onAttach() callback, which it uses to call the following methods
-//    // defined by the NoticeDialogFragment.NoticeDialogListener interface
-//    @Override
-//    public void onDialogPositiveClick(DialogFragment dialog) {
-//        // User touched the dialog's positive button
-//
-//    }
-//
-//    @Override
-//    public void onDialogNegativeClick(DialogFragment dialog) {
-//        // User touched the dialog's negative button
-//    }
-
 }

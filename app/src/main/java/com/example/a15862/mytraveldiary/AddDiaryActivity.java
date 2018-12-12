@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.a15862.mytraveldiary.DAO.DiaryDAO;
 import com.example.a15862.mytraveldiary.Entity.Diary;
 import com.example.a15862.mytraveldiary.Entity.Place;
@@ -34,8 +35,10 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.permissions.RxPermissions;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -71,7 +74,7 @@ public class AddDiaryActivity extends Activity {
     private String cityLoc;
     private String diaryName;
     private Uri tempUri;
-    private boolean visible=false;
+    private boolean visible = false;
     private MyCustomAdapterForImages adapter;
     private List<LocalMedia> selectList = new ArrayList<>();
     private static int themeId = R.style.picture_white_style;
@@ -99,16 +102,16 @@ public class AddDiaryActivity extends Activity {
         btnClear = (Button) findViewById(R.id.btnClear);
         btnSave = (Button) findViewById(R.id.btnSave);
         btnSpeech2Text = (Button) findViewById(R.id.btnSpeech2Text);
-        switchVisible=(Switch) findViewById(R.id.switchVisible);
+        switchVisible = (Switch) findViewById(R.id.switchVisible);
 
-        if (switchVisible!=null){
+        if (switchVisible != null) {
             switchVisible.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked) {
-                        visible=true;
+                    if (isChecked) {
+                        visible = true;
                     } else {
-                        visible=false;
+                        visible = false;
                     }
                 }
             });
@@ -219,7 +222,7 @@ public class AddDiaryActivity extends Activity {
         PictureSelector.create(AddDiaryActivity.this)
                 .openGallery(chooseMode)
                 .theme(R.style.picture_white_style)
-                .maxSelectNum(9)
+                .maxSelectNum(1)
                 .minSelectNum(1)
                 .imageSpanCount(4)
                 .selectionMode(PictureConfig.MULTIPLE)

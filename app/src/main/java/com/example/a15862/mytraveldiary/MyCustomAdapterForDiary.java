@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class MyCustomAdapterForDiary extends RecyclerView.Adapter<MyCustomAdapterForDiary.ViewHolder> implements View.OnClickListener{
+public class MyCustomAdapterForDiary extends RecyclerView.Adapter<MyCustomAdapterForDiary.ViewHolder> implements View.OnClickListener {
 
     private List<Diary> upload;
     private Context context;
@@ -24,18 +24,18 @@ public class MyCustomAdapterForDiary extends RecyclerView.Adapter<MyCustomAdapte
 
 
     public MyCustomAdapterForDiary(Context aContext, List<Diary> aupload) {
-        Log.e("3rd","mycustonAdapter constructor");
+        Log.e("3rd", "mycustonAdapter constructor");
         context = aContext;  //saving the context we'll need it again.
         upload = aupload;
-        Log.e("3rd",String.valueOf(upload.size()));
-        mInflater=LayoutInflater.from(context);
-        Log.e("3rd","mycustonAdapter constructor end");
+        Log.e("3rd", String.valueOf(upload.size()));
+        mInflater = LayoutInflater.from(context);
+        Log.e("3rd", "mycustonAdapter constructor end");
     }
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e("3rd","onCreateViewHolder");
+        Log.e("3rd", "onCreateViewHolder");
         View view = mInflater.inflate(R.layout.list_item_diary, parent, false);
         view.setOnClickListener(this);
         return new ViewHolder(view);
@@ -43,8 +43,8 @@ public class MyCustomAdapterForDiary extends RecyclerView.Adapter<MyCustomAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.e("3rd","onBindViewHolder");
-        Diary currentUp=upload.get(position);
+        Log.e("3rd", "onBindViewHolder");
+        Diary currentUp = upload.get(position);
         holder.txtLocation.setText(currentUp.getTxtCity());
 
         holder.itemView.setTag(position);
@@ -68,12 +68,12 @@ public class MyCustomAdapterForDiary extends RecyclerView.Adapter<MyCustomAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-            Log.e("3rd","viewholder constructor");
-            cardView=(CardView)itemView.findViewById(R.id.card_view);
-            txtLocation=(TextView)itemView.findViewById(R.id.txtLocation);
+            Log.e("3rd", "viewholder constructor");
+            cardView = (CardView) itemView.findViewById(R.id.card_view);
+            txtLocation = (TextView) itemView.findViewById(R.id.txtLocation);
             txtDate = (TextView) itemView.findViewById(R.id.txtDate);
-            txtDiary=(TextView)itemView.findViewById(R.id.txtDiary);
-            photoUri=(ImageView)itemView.findViewById(R.id.imgPhoto);
+            txtDiary = (TextView) itemView.findViewById(R.id.txtDiary);
+            photoUri = (ImageView) itemView.findViewById(R.id.imgPhoto);
         }
     }
 
@@ -86,14 +86,14 @@ public class MyCustomAdapterForDiary extends RecyclerView.Adapter<MyCustomAdapte
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
-        Log.e("haohui","lsi");
+        Log.e("haohui", "lsi");
         this.myOnItemClickListener = listener;
     }
 
     @Override
     public void onClick(View v) {
         if (myOnItemClickListener != null) {
-            Log.e("haohui","lsi");
+            Log.e("haohui", "lsi");
             myOnItemClickListener.onItemClick(v, (int) v.getTag());
         }
     }

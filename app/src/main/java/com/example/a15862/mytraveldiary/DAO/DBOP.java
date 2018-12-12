@@ -24,12 +24,12 @@ public class DBOP {
         db = FirebaseFirestore.getInstance();
     }
 
-    public void insertData(Object insertTest,String tablename) {
+    public void insertData(Object insertTest, String tablename) {
         db.collection(tablename).document()
                 .set(insertTest).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.i("TuZ","insert success");
+                Log.i("TuZ", "insert success");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -38,12 +38,13 @@ public class DBOP {
             }
         });
     }
-    public void insertData(Map<String,Object> insertTest,String tablename) {
+
+    public void insertData(Map<String, Object> insertTest, String tablename) {
         db.collection(tablename).document()
                 .set(insertTest).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.i("TuZ","insert success");
+                Log.i("TuZ", "insert success");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -111,21 +112,4 @@ public class DBOP {
             }
         });
     }
-
-//        private void findUserInDB(User u){
-//        db.collection("FirstTry").whereEqualTo("username",u.getUsername()).whereEqualTo("password",u.getPassword())
-//            .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                if (queryDocumentSnapshots.isEmpty()){
-//                    Toast.makeText(MainActivity.this,"error with username or password",Toast.LENGTH_SHORT).show();
-//                }else {
-//                    for(DocumentSnapshot d:queryDocumentSnapshots){
-//                        user=d.toObject(User.class);
-//                    }
-//                }
-//            }
-//        });
-//    }
-
 }

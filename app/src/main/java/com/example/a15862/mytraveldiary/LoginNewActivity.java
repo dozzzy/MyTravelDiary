@@ -13,21 +13,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.a15862.mytraveldiary.DAO.CommentDAO;
-import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
-import com.example.a15862.mytraveldiary.Entity.Comment;
-import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Entity.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.stephentuso.welcome.WelcomeHelper;
 
 public class LoginNewActivity extends AppCompatActivity {
     private EditText edtUserName;
@@ -40,7 +33,6 @@ public class LoginNewActivity extends AppCompatActivity {
 
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
-//    WelcomeHelper welcomeScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +48,10 @@ public class LoginNewActivity extends AppCompatActivity {
         txtSignUpWithPassword = (TextView) findViewById(R.id.txtSignUpWithPassword);
 
 
-//        welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
-//        welcomeScreen.forceShow();
-
-
         btnSignWithPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Register3Activity.class);
+                Intent intent = new Intent(getApplicationContext(), Register2Activity.class);
                 startActivity(intent);
             }
         });
@@ -118,6 +106,7 @@ public class LoginNewActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 //        welcomeScreen.onSaveInstanceState(outState);
     }
+
     private void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
@@ -134,6 +123,7 @@ public class LoginNewActivity extends AppCompatActivity {
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],

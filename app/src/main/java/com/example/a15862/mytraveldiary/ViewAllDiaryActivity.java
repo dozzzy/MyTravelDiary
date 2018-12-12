@@ -37,7 +37,7 @@ public class ViewAllDiaryActivity extends AppCompatActivity {
         cList.setLayoutManager(new LinearLayoutManager(this));
 
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String username=load.getString("username","DEFAULT");
+        String username = load.getString("username", "DEFAULT");
         db = FirebaseFirestore.getInstance();
         // we use snapshotListener here so if other users upload new comments, we can see the changes in our view.
         db.collection("Diary").whereEqualTo("username", username).addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -59,11 +59,11 @@ public class ViewAllDiaryActivity extends AppCompatActivity {
                 mAdapter.setOnItemClickListener(new MyCustomAdapterForDiary.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Diary diary=diaryList.get(position);
+                        Diary diary = diaryList.get(position);
                         Log.e("HAOHUI", "onItemClick: hahaha");
                         CRUDFragment crudFragment = new CRUDFragment();
                         Bundle b = new Bundle();
-                        b.putSerializable("Diary",diary);
+                        b.putSerializable("Diary", diary);
                         crudFragment.setArguments(b);
                         crudFragment.show(getSupportFragmentManager(), "CRUD");
                     }

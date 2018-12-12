@@ -8,27 +8,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Diary implements Serializable{
+public class Diary implements Serializable {
     private static final long serialVersionUID = -7634235178023352252L;
-    private String username =null;
+    private String username = null;
     private String diaplayName;
-    private String placeName=null;
-    private String photoUri=null;
-    private String imgWeather=null;
-    private String txtDate=null, txtCity=null, txtTemperature=null;
-    private String edtDiary=null;
+    private String placeName = null;
+    private String photoUri = null;
+    private String imgWeather = null;
+    private String txtDate = null, txtCity = null, txtTemperature = null;
+    private String edtDiary = null;
     private long time;
-    private boolean visible=false;
+    private boolean visible = false;
 
-    public Diary(){
-        time=System.currentTimeMillis();
+    public Diary() {
+        time = System.currentTimeMillis();
     }
 
 
-    public Diary(String username, String placeName){
+    public Diary(String username, String placeName) {
         this.username = username;
-        this.placeName=placeName;
-        time=System.currentTimeMillis();
+        this.placeName = placeName;
+        time = System.currentTimeMillis();
     }
 
     public boolean isVisible() {
@@ -120,31 +120,31 @@ public class Diary implements Serializable{
         this.time = time;
     }
 
-    public Map<String,Object> toMap(){
-        Map<String, Object> map=new HashMap<>();
-        if (username !=null){
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        if (username != null) {
             map.put("username", username);
         }
-        if (placeName!=null){
-            map.put("placeName",placeName);
+        if (placeName != null) {
+            map.put("placeName", placeName);
         }
-        if (photoUri!=null){
-            map.put("photoUri",photoUri);
+        if (photoUri != null) {
+            map.put("photoUri", photoUri);
         }
-        if (imgWeather!=null){
-            map.put("imgWeather",imgWeather);
+        if (imgWeather != null) {
+            map.put("imgWeather", imgWeather);
         }
-        if (txtDate!=null){
-            map.put("txtDate",txtDate);
+        if (txtDate != null) {
+            map.put("txtDate", txtDate);
         }
-        if (txtCity!=null){
-            map.put("txtCity",txtCity);
+        if (txtCity != null) {
+            map.put("txtCity", txtCity);
         }
-        if (txtTemperature!=null){
-            map.put("txtTemperature",txtTemperature);
+        if (txtTemperature != null) {
+            map.put("txtTemperature", txtTemperature);
         }
-        if (edtDiary!=null){
-            map.put("edtDiary",edtDiary);
+        if (edtDiary != null) {
+            map.put("edtDiary", edtDiary);
         }
         return map;
     }

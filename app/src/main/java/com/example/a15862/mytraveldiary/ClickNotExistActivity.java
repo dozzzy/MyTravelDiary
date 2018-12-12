@@ -33,6 +33,7 @@ public class ClickNotExistActivity extends Activity {
     double lon;
     private float score;
     private Place currentPlace;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,13 +74,13 @@ public class ClickNotExistActivity extends Activity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String placeName=edtPlaceName.getText().toString().trim();
-                String placeComment=edtComment.getText().toString().trim();
-                if (placeComment.equals("") || placeComment.equals("")){
-                    Toast.makeText(getApplicationContext(),"Place name and Comment should not be null",Toast.LENGTH_LONG).show();
-                }else {
+                String placeName = edtPlaceName.getText().toString().trim();
+                String placeComment = edtComment.getText().toString().trim();
+                if (placeComment.equals("") || placeComment.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Place name and Comment should not be null", Toast.LENGTH_LONG).show();
+                } else {
                     storeData();
-                    Intent back = new Intent(ClickNotExistActivity.this,MapActivity.class);
+                    Intent back = new Intent(ClickNotExistActivity.this, MapActivity.class);
                     startActivity(back);
                 }
 //                AskWriteDiaryFragment askWriteDiaryFragment = new AskWriteDiaryFragment();
@@ -90,15 +91,15 @@ public class ClickNotExistActivity extends Activity {
         btnJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String placeName=edtPlaceName.getText().toString().trim();
-                String placeComment=edtComment.getText().toString().trim();
-                if (placeComment.equals("") || placeComment.equals("")){
-                    Toast.makeText(getApplicationContext(),"Place name and Comment should not be null",Toast.LENGTH_LONG).show();
-                }else {
+                String placeName = edtPlaceName.getText().toString().trim();
+                String placeComment = edtComment.getText().toString().trim();
+                if (placeComment.equals("") || placeComment.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Place name and Comment should not be null", Toast.LENGTH_LONG).show();
+                } else {
                     storeData();
                     Intent intent = new Intent(ClickNotExistActivity.this, AddDiaryActivity.class);
                     Bundle b = new Bundle();
-                    b.putSerializable("Place",currentPlace);
+                    b.putSerializable("Place", currentPlace);
                     intent.putExtras(b);
                     startActivity(intent);
                 }
@@ -108,7 +109,7 @@ public class ClickNotExistActivity extends Activity {
 
     }
 
-    private void storeData(){
+    private void storeData() {
         String pname = edtPlaceName.getText().toString();
         String comment = edtComment.getText().toString();
 //        testUser.setDisplayName(load.getString("displayName", "DEFAULT"));
@@ -119,8 +120,8 @@ public class ClickNotExistActivity extends Activity {
         p.setPlaceName(pname);
         p.getCategory().add(cat);
         p.addScore(score);
-        Log.i("This",String.valueOf(p.getLatitude()));
-        Log.i("This",String.valueOf(p.getLongitude()));
+        Log.i("This", String.valueOf(p.getLatitude()));
+        Log.i("This", String.valueOf(p.getLongitude()));
         //this place is user_defined , generate unique pid for it
         String pid = String.valueOf(p.hashCode());
         p.setPid(pid);
@@ -129,10 +130,10 @@ public class ClickNotExistActivity extends Activity {
         pd.updateData(p);
         currentPlace = p;
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
-        Comment c = new Comment(load.getString("username", "DEFAULT"),currentPlace.getPlaceName(),comment);
-        c.setDisplayName(load.getString("username","DEFAULT"));
+        Comment c = new Comment(load.getString("username", "DEFAULT"), currentPlace.getPlaceName(), comment);
+        c.setDisplayName(load.getString("username", "DEFAULT"));
 
         CommentDAO cd = new CommentDAO();
-        cd.addComment(c,0);
+        cd.addComment(c, 0);
     }
 }

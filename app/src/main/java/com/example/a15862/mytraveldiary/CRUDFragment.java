@@ -25,6 +25,7 @@ import com.example.a15862.mytraveldiary.Entity.Diary;
  */
 public class CRUDFragment extends DialogFragment {
     Diary curDiary;
+
     public CRUDFragment() {
         // Required empty public constructor
     }
@@ -35,24 +36,24 @@ public class CRUDFragment extends DialogFragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_crud, container, false);
     }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         Bundle b = getArguments();
-        curDiary = (Diary)b.getSerializable("Diary");
+        curDiary = (Diary) b.getSerializable("Diary");
         builder.setTitle("Actions on diary:")
                 .setItems(R.array.CRUD, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        if(which==0){
-                            Intent i = new Intent(getActivity(),ModifyActivity.class);
+                        if (which == 0) {
+                            Intent i = new Intent(getActivity(), ModifyActivity.class);
                             Bundle b = new Bundle();
-                            b.putSerializable("Diary",curDiary);
+                            b.putSerializable("Diary", curDiary);
                             i.putExtras(b);
                             startActivity(i);
-                        }
-                        else if(which==1){
+                        } else if (which == 1) {
                             DiaryDAO dd = new DiaryDAO();
-                            Log.i("Jing",curDiary.getEdtDiary());
+                            Log.i("Jing", curDiary.getEdtDiary());
                             dd.delete(curDiary);
                         }
                     }
