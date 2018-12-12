@@ -9,21 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.a15862.mytraveldiary.DAO.CommentDAO;
-import com.example.a15862.mytraveldiary.DAO.PlaceDAO;
-import com.example.a15862.mytraveldiary.Entity.Comment;
-import com.example.a15862.mytraveldiary.Entity.Place;
 import com.example.a15862.mytraveldiary.Entity.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.stephentuso.welcome.WelcomeHelper;
 
 public class LoginNewActivity extends AppCompatActivity {
     private EditText edtUserName;
@@ -57,7 +50,7 @@ public class LoginNewActivity extends AppCompatActivity {
         btnSignWithPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Register3Activity.class);
+                Intent intent = new Intent(getApplicationContext(), Register2Activity.class);
                 startActivity(intent);
             }
         });

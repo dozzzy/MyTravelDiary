@@ -1,10 +1,5 @@
 package com.example.a15862.mytraveldiary.DAO;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
-import com.example.a15862.mytraveldiary.LoginActivity;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -13,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class FollowshipDAO {
     List<String> newF;
