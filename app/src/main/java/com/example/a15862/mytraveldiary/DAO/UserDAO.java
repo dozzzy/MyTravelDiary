@@ -33,12 +33,10 @@ public class UserDAO {
     private User uploadUser;
     private StorageReference mStorageRef;
     private StorageTask sk;
-
     public UserDAO(){
         db = FirebaseFirestore.getInstance();
         mStorageRef=FirebaseStorage.getInstance().getReference();
     }
-
     public void addBasicUser(User user){
         Map<String,Object> m = new HashMap<>();
         m.put("username",user.getUsername());
@@ -47,8 +45,6 @@ public class UserDAO {
         m.put("avater",user.getAvatar());
         db.collection("User").document(user.getUsername()).set(m);
     }
-
-
     public void uploadUser(final User user){
         uploadUser =user;
         if (user.getAvatar()!=null){
@@ -95,7 +91,6 @@ public class UserDAO {
             });
         }
     }
-
     public void updateUserWithoutPhoto(User user){
         db.collection("User").document(user.getUsername()).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -105,9 +100,6 @@ public class UserDAO {
             }
         });
     }
-
-
-
     public void updateLike(final String username){
         db.collection("User").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -118,7 +110,4 @@ public class UserDAO {
             }
         });
     }
-
-
-
 }

@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.a15862.mytraveldiary.DAO.DiaryDAO;
 import com.example.a15862.mytraveldiary.Entity.Diary;
 import com.example.a15862.mytraveldiary.Entity.Place;
@@ -35,10 +34,8 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.permissions.RxPermissions;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.reactivex.Observer;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -90,8 +87,6 @@ public class AddDiaryActivity extends Activity {
         setContentView(R.layout.activity_add_diary);
         Bundle info = getIntent().getExtras();
         currentPlace = (Place) info.getSerializable("Place");
-
-
 //        btnCamera = (ImageButton) findViewById(R.id.btnCamera);
 //        btnGallery = (ImageButton) findViewById(R.id.btnGallery);
         imgPhoto = (ImageView) findViewById(R.id.imgPhoto);
@@ -134,8 +129,6 @@ public class AddDiaryActivity extends Activity {
                 }
             }
         });
-
-
         btnSpeech2Text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
