@@ -73,6 +73,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
+import com.stephentuso.welcome.WelcomeHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,6 +89,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, placeInfoReceiver, NavigationView.OnNavigationItemSelectedListener{
+    private static boolean firstOpen = true;
     private final Map<String, Set<String>> getKeyWords = new HashMap<>();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
@@ -127,6 +129,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ImageView imgAvater;
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private String keyword;
+    WelcomeHelper welcomeScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,6 +220,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        if(firstOpen){
+            welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
+            welcomeScreen.forceShow();
+            firstOpen = false;
+        }
+
+
     }
 
     @Override
@@ -302,6 +312,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
             outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
             super.onSaveInstanceState(outState);
+//            welcomeScreen.onSaveInstanceState(outState);
         }
     }
 

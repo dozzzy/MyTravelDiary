@@ -91,6 +91,7 @@ public class AddDiaryActivity extends Activity {
 //        btnGallery = (ImageButton) findViewById(R.id.btnGallery);
         imgPhoto = (ImageView) findViewById(R.id.imgPhoto);
         txtCity = (TextView) findViewById(R.id.txtCity);
+        txtCity.setText(currentPlace.getPlaceName());
         txtTemperature = (TextView) findViewById(R.id.txtTemperature);
         txtDate = (TextView) findViewById(R.id.txtDate);
         imgWeather = (ImageView) findViewById(R.id.imgWeather);
@@ -324,7 +325,7 @@ public class AddDiaryActivity extends Activity {
 
                 // Set corresponding TextView to the information retrieved
                 //TODO: change City to the location retrieved from the map
-                txtCity.setText(response.body().getName());
+//                txtCity.setText(response.body().getName());
                 txtTemperature.setText(new StringBuilder("The current temperature is ")
                         .append(String.valueOf(response.body().getMain().getTemp())).append("°C").toString());
                 txtDate.setText(Helper.convertUnixToDate(response.body().getDt()));

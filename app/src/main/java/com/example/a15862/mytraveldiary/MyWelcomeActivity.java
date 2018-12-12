@@ -1,9 +1,12 @@
 package com.example.a15862.mytraveldiary;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.stephentuso.welcome.BasicPage;
+import com.stephentuso.welcome.FragmentWelcomePage;
+import com.stephentuso.welcome.ParallaxPage;
 import com.stephentuso.welcome.TitlePage;
 import com.stephentuso.welcome.WelcomeActivity;
 import com.stephentuso.welcome.WelcomeConfiguration;
@@ -16,23 +19,29 @@ public class MyWelcomeActivity extends WelcomeActivity {
         setContentView(R.layout.activity_welcome);
     }
 
+//    @Override
+//    protected WelcomeConfiguration configuration() {
+//        return null;
+//    }
+
     @Override
     protected WelcomeConfiguration configuration() {
         return new WelcomeConfiguration.Builder(this)
-                .defaultBackgroundColor(R.color.colorPrimary)
-                .page(new TitlePage(R.drawable.kitty_001,
-                        "Title")
+                .defaultTitleTypefacePath("Cursive.ttf")
+                .defaultHeaderTypefacePath("Montserrat-Bold.ttf")
+//                .defaultBackgroundColor(R.color.colorPrimary)
+                .page(new ParallaxPage(R.layout.activity_welcome,
+                        "","")
+                        .lastParallaxFactor(2f)
                 )
-                .page(new BasicPage(R.drawable.kitty_001,
-                        "Header",
-                        "More text.")
-//                        .background(R.color.red_background)
-                )
-                .page(new BasicPage(R.drawable.kitty_001,
-                        "Lorem ipsum",
-                        "dolor sit amet.")
-                )
+//                .page(new ParallaxPage(R.layout.activity_welcome,
+//                        "","")
+//                )
+//                .page(new ParallaxPage(R.layout.activity_welcome,
+//                        "","")
+//                )
                 .swipeToDismiss(true)
+                .exitAnimation(android.R.anim.fade_out)
                 .build();
     }
 }
