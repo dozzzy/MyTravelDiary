@@ -33,7 +33,6 @@ public class LoginNewActivity extends AppCompatActivity {
 
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
-//    WelcomeHelper welcomeScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +46,6 @@ public class LoginNewActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnSignWithPhone = (Button) findViewById(R.id.btnSignWithPhone);
         txtSignUpWithPassword = (TextView) findViewById(R.id.txtSignUpWithPassword);
-
-
-//        welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
-//        welcomeScreen.forceShow();
 
 
         btnSignWithPhone.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +106,7 @@ public class LoginNewActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 //        welcomeScreen.onSaveInstanceState(outState);
     }
+
     private void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
@@ -127,6 +123,7 @@ public class LoginNewActivity extends AppCompatActivity {
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],

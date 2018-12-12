@@ -21,7 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewAllFriendsActivity extends AppCompatActivity{
+public class ViewAllFriendsActivity extends AppCompatActivity {
     List<User> friends = new ArrayList<>();
     List<String> friendName = null;
     FirebaseFirestore db;
@@ -29,6 +29,7 @@ public class ViewAllFriendsActivity extends AppCompatActivity{
     MyCustomAdapterForFriends mAdapter;
     String username;
     int count;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +37,13 @@ public class ViewAllFriendsActivity extends AppCompatActivity{
         db = FirebaseFirestore.getInstance();
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         username = load.getString("username", "DEFAULT");
-        listFriends=(RecyclerView)findViewById(R.id.listFriends);
+        listFriends = (RecyclerView) findViewById(R.id.listFriends);
         listFriends.setHasFixedSize(true);
         listFriends.setLayoutManager(new LinearLayoutManager(this));
         showFriends();
     }
 
-    public void showFriends(){
+    public void showFriends() {
         friends = new ArrayList<>();
         friendName = null;
         mAdapter = new MyCustomAdapterForFriends(ViewAllFriendsActivity.this, friends);
@@ -50,20 +51,20 @@ public class ViewAllFriendsActivity extends AppCompatActivity{
         db.collection("Followship").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()){
+                if (documentSnapshot.exists()) {
                     friendName = (ArrayList) documentSnapshot.getData().get("followed");
-                    count=friendName.size();
+                    count = friendName.size();
                     for (String name : friendName) {
                         Log.i("Jing", name);
                         db.collection("User").whereEqualTo("username", name).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                Log.i("Jing","get user info");
+                                Log.i("Jing", "get user info");
                                 for (QueryDocumentSnapshot qs : queryDocumentSnapshots) {
                                     friends.add(qs.toObject(User.class));
                                 }
                                 count--;
-                                if (count==0){
+                                if (count == 0) {
                                     mAdapter = new MyCustomAdapterForFriends(ViewAllFriendsActivity.this, friends);
                                     listFriends.setAdapter(mAdapter);
                                     mAdapter.setOnItemClickListener(new MyCustomAdapterForFriends.OnItemClickListener() {
@@ -71,8 +72,8 @@ public class ViewAllFriendsActivity extends AppCompatActivity{
                                         public void onItemClick(View view, int position) {
                                             DeleteFriendFragment deleteFriendFragment = new DeleteFriendFragment();
                                             Bundle b = new Bundle();
-                                            b.putString("username",username);
-                                            b.putString("target",friends.get(position).getUsername());
+                                            b.putString("username", username);
+                                            b.putString("target", friends.get(position).getUsername());
                                             deleteFriendFragment.setArguments(b);
                                             deleteFriendFragment.show(getSupportFragmentManager(), "deleteFriend");
                                         }

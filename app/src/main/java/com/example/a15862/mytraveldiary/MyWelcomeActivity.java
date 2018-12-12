@@ -19,27 +19,16 @@ public class MyWelcomeActivity extends WelcomeActivity {
         setContentView(R.layout.activity_welcome);
     }
 
-//    @Override
-//    protected WelcomeConfiguration configuration() {
-//        return null;
-//    }
 
     @Override
     protected WelcomeConfiguration configuration() {
         return new WelcomeConfiguration.Builder(this)
                 .defaultTitleTypefacePath("Cursive.ttf")
                 .defaultHeaderTypefacePath("Montserrat-Bold.ttf")
-//                .defaultBackgroundColor(R.color.colorPrimary)
                 .page(new ParallaxPage(R.layout.activity_welcome,
-                        "","")
+                        "", "")
                         .lastParallaxFactor(2f)
                 )
-//                .page(new ParallaxPage(R.layout.activity_welcome,
-//                        "","")
-//                )
-//                .page(new ParallaxPage(R.layout.activity_welcome,
-//                        "","")
-//                )
                 .swipeToDismiss(true)
                 .exitAnimation(android.R.anim.fade_out)
                 .build();

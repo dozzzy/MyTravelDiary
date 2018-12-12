@@ -25,6 +25,7 @@ public class ViewAndAddFriendsFragment extends DialogFragment {
 
     private String myUsername;
     private String targetUsername;
+
     public ViewAndAddFriendsFragment() {
         // Required empty public constructor
     }
@@ -46,8 +47,8 @@ public class ViewAndAddFriendsFragment extends DialogFragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // FIRE ZE MISSILES!
-                        FollowshipDAO fDAO=new FollowshipDAO();
-                        fDAO.follow(myUsername,targetUsername);
+                        FollowshipDAO fDAO = new FollowshipDAO();
+                        fDAO.follow(myUsername, targetUsername);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

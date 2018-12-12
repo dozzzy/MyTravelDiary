@@ -97,13 +97,13 @@ public class ModifyActivity extends Activity {
         btnClear = (Button) findViewById(R.id.btnClear);
         btnSave = (Button) findViewById(R.id.btnSave);
         btnSpeech2Text = (Button) findViewById(R.id.btnSpeech2Text);
-        switchVisible=(Switch)findViewById(R.id.switchVisible);
-        if (switchVisible!=null){
+        switchVisible = (Switch) findViewById(R.id.switchVisible);
+        if (switchVisible != null) {
             switchVisible.setChecked(curDiary.isVisible());
             switchVisible.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked) {
+                    if (isChecked) {
                         curDiary.setVisible(true);
                     } else {
                         curDiary.setVisible(false);
@@ -120,7 +120,6 @@ public class ModifyActivity extends Activity {
         edtDiary.setText(curDiary.getEdtDiary());
 
 
-
         btnClear.setOnClickListener(new View.OnClickListener()
 
         {
@@ -135,12 +134,12 @@ public class ModifyActivity extends Activity {
         {
             @Override
             public void onClick(View v) {
-                FirebaseFirestore db=FirebaseFirestore.getInstance();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
                 curDiary.setEdtDiary(edtDiary.getText().toString());
-                db.collection("Diary").document(curDiary.getTime()+":"+curDiary.getUsername()).set(curDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
+                db.collection("Diary").document(curDiary.getTime() + ":" + curDiary.getUsername()).set(curDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.i("jingD","no photo succ");
+                        Log.i("jingD", "no photo succ");
                         finish();
                     }
                 });

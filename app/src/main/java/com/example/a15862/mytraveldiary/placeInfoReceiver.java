@@ -11,5 +11,6 @@ public interface placeInfoReceiver {
 
 
     void getCallBackFromFrag(String key);
+
     void receiveKeySearch(JSONObject res) throws JSONException;
 }

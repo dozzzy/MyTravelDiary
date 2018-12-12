@@ -62,28 +62,29 @@ public class Register2Activity extends AppCompatActivity implements
     private Button btnStart;
     private Button btnVerify;
     private Button btnResend;
-    private User detectUser=null;
-    private User currentUser=null;
+    private User detectUser = null;
+    private User currentUser = null;
 
     private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
-        Log.e(TAG,"oncreste 1");
+        Log.e(TAG, "oncreste 1");
         // Restore instance state
 //        if (savedInstanceState != null) {
 //            onRestoreInstanceState(savedInstanceState);
 //        }
-        db=FirebaseFirestore.getInstance();
-        currentUser=new User();
+        db = FirebaseFirestore.getInstance();
+        currentUser = new User();
         // Assign views
-        Log.e(TAG,"oncreste 2");
+        Log.e(TAG, "oncreste 2");
         edtPhone = (EditText) findViewById(R.id.edtPhone);
-        edtVerify = (EditText)findViewById(R.id.edtVerify);
+        edtVerify = (EditText) findViewById(R.id.edtVerify);
 
-        btnStart = (Button)findViewById(R.id.btnStart);
-        btnVerify = (Button)findViewById(R.id.btnVerify);
+        btnStart = (Button) findViewById(R.id.btnStart);
+        btnVerify = (Button) findViewById(R.id.btnVerify);
         btnResend = (Button) findViewById(R.id.btnResend);
 
         // Assign click listeners
@@ -97,7 +98,7 @@ public class Register2Activity extends AppCompatActivity implements
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
-        Log.e(TAG,"oncreste 3");
+        Log.e(TAG, "oncreste 3");
         // Initialize phone auth callbacks
         // [START phone_auth_callbacks]
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -172,7 +173,6 @@ public class Register2Activity extends AppCompatActivity implements
     }
 
 
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -235,40 +235,40 @@ public class Register2Activity extends AppCompatActivity implements
                             db.collection("User").document(currentUser.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        if (documentSnapshot.exists()){
-                                            User user=documentSnapshot.toObject(User.class);
-                                                                            Log.e(TAG,"old user");
-                                            SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                                    if (documentSnapshot.exists()) {
+                                        User user = documentSnapshot.toObject(User.class);
+                                        Log.e(TAG, "old user");
+                                        SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
-                                            SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
 
-                                            editor.putString("displayName", user.getDisplayName());
+                                        editor.putString("displayName", user.getDisplayName());
 
-                                            editor.putString("username",user.getUsername());
-                                            editor.putString("avatar",user.getAvatar());
+                                        editor.putString("username", user.getUsername());
+                                        editor.putString("avatar", user.getAvatar());
 
-                                            editor.commit();
+                                        editor.commit();
 
 
-                                            Intent i = new Intent(getApplicationContext(), MapActivity.class);
-                                            startActivity(i);
-                                        }   else {
-                                            currentUser.setAvatar("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03");
-                                            db.collection("User").document(currentUser.getUsername()).set(currentUser).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-                                                    SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
-                                                    editor.putString("displayName", currentUser.getDisplayName());
-                                                    editor.putString("username",currentUser.getUsername());
-                                                    editor.putString("avatar",currentUser.getAvatar());
-                                                    editor.commit();
-                                                    Log.e(TAG,"after save");
-                                                    Intent i = new Intent(getApplicationContext(), MapActivity.class);
-                                                    startActivity(i);
+                                        Intent i = new Intent(getApplicationContext(), MapActivity.class);
+                                        startActivity(i);
+                                    } else {
+                                        currentUser.setAvatar("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03");
+                                        db.collection("User").document(currentUser.getUsername()).set(currentUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+                                                editor.putString("displayName", currentUser.getDisplayName());
+                                                editor.putString("username", currentUser.getUsername());
+                                                editor.putString("avatar", currentUser.getAvatar());
+                                                editor.commit();
+                                                Log.e(TAG, "after save");
+                                                Intent i = new Intent(getApplicationContext(), MapActivity.class);
+                                                startActivity(i);
+                                            }
+                                        });
                                     }
-                                });
-                                        }
                                 }
                             });
                         } else {
@@ -288,7 +288,7 @@ public class Register2Activity extends AppCompatActivity implements
 
 
     private boolean validatePhoneNumber() {
-        Log.i(TAG,"validateStart");
+        Log.i(TAG, "validateStart");
         String phoneNumber = edtPhone.getText().toString();
         if (TextUtils.isEmpty(phoneNumber)) {
             edtPhone.setError("Invalid phone number.");
@@ -299,12 +299,11 @@ public class Register2Activity extends AppCompatActivity implements
     }
 
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnStart:
-                Log.i(TAG,"btnStart click");
+                Log.i(TAG, "btnStart click");
                 btnStart.setEnabled(true);
                 btnResend.setEnabled(true);
                 btnVerify.setEnabled(true);
@@ -315,7 +314,7 @@ public class Register2Activity extends AppCompatActivity implements
                 break;
             case R.id.btnVerify:
                 String code = edtVerify.getText().toString();
-                Log.i(TAG,"verify click");
+                Log.i(TAG, "verify click");
                 if (TextUtils.isEmpty(code)) {
                     edtVerify.setError("Cannot be empty.");
                     return;
@@ -330,7 +329,7 @@ public class Register2Activity extends AppCompatActivity implements
     }
 
 
-    private void findUserInDB(User u){
+    private void findUserInDB(User u) {
 
     }
 

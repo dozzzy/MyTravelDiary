@@ -19,30 +19,32 @@ import javax.annotation.Nullable;
 
 public class PlaceDAO {
     private FirebaseFirestore db;
-    public PlaceDAO(){
+
+    public PlaceDAO() {
         db = FirebaseFirestore.getInstance();
     }
 
-    public void addPlace(Place p){
-        Map<String,Object> data = new HashMap<>();
-        data.put("latitude",p.getLatitude());
-        data.put("longitude",p.getLongitude());
-        data.put("pid",p.getPid());
-        data.put("placeName",p.getPlaceName());
-        data.put("photoPath",p.getPhotoPath());
-        data.put("vicinity",p.getVicinity());
-        data.put("category",p.getCategory());
-        data.put("scoreCount",p.getScoreCount());
-        data.put("totalScore",p.getTotalScore());
-        data.put("totalComment",p.getTotalComment());
+    public void addPlace(Place p) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("latitude", p.getLatitude());
+        data.put("longitude", p.getLongitude());
+        data.put("pid", p.getPid());
+        data.put("placeName", p.getPlaceName());
+        data.put("photoPath", p.getPhotoPath());
+        data.put("vicinity", p.getVicinity());
+        data.put("category", p.getCategory());
+        data.put("scoreCount", p.getScoreCount());
+        data.put("totalScore", p.getTotalScore());
+        data.put("totalComment", p.getTotalComment());
         db.collection("Place").document(p.getPlaceName()).set(data);
     }
 
     public void updateData(Place p) {
-        CollectionReference cr = db.collection("Place");;
-        cr.document(p.getPlaceName()).update("totalScore",p.getTotalScore());
-        cr.document(p.getPlaceName()).update("scoreCount",p.getScoreCount());
-        cr.document(p.getPlaceName()).update("totalComment",p.getTotalComment());
+        CollectionReference cr = db.collection("Place");
+        ;
+        cr.document(p.getPlaceName()).update("totalScore", p.getTotalScore());
+        cr.document(p.getPlaceName()).update("scoreCount", p.getScoreCount());
+        cr.document(p.getPlaceName()).update("totalComment", p.getTotalComment());
     }
 
 

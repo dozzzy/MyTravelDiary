@@ -14,7 +14,6 @@ public interface SearchServices {
 
     void getComment(String pid) throws Exception;
 
-    void searchByName(LatLng longitude,String name,double r);
+    void searchByName(LatLng longitude, String name, double r);
 
-    //void getPhoto(String photoId) throws Exception;
 }

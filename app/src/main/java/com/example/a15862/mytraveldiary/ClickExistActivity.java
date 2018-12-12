@@ -69,16 +69,16 @@ public class ClickExistActivity extends Activity {
         txtCategory.setText(categorys.get(0));
         float rating = currentPlace.getTotalScore() / currentPlace.getScoreCount();
         Log.i("qwer", Float.toString(rating));
-        if(rating != 0) {
+        if (rating != 0) {
             ratingBar.setRating(rating);
         }
 
         //int totalComments = currentPlace.getTotalComments;
-        if(currentPlace.getPhotoPath()!=null){
-            String path = url+currentPlace.getPhotoPath()+key;
+        if (currentPlace.getPhotoPath() != null) {
+            String path = url + currentPlace.getPhotoPath() + key;
             Picasso.get().load(path).into(imgPlace);
         }
-        Log.i("qwer",String.valueOf(currentPlace.getTotalComment()));
+        Log.i("qwer", String.valueOf(currentPlace.getTotalComment()));
         txtTotalComments.setText("View comments");
         txtTotalComments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +87,7 @@ public class ClickExistActivity extends Activity {
                 Intent intent = new Intent(ClickExistActivity.this, ViewCommentsActivity.class);
                 Bundle b = new Bundle();
                 //b.putString("Place", currentPlace.getPlaceName());
-                b.putSerializable("Place",currentPlace);
+                b.putSerializable("Place", currentPlace);
                 intent.putExtras(b);
                 startActivity(intent);
             }

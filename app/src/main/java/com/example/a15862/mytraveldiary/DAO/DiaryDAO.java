@@ -22,20 +22,21 @@ public class DiaryDAO {
     private StorageReference mStorageRef;
     private StorageTask sk;
     private Diary uploadDiary;
+
     public DiaryDAO() {
         db = FirebaseFirestore.getInstance();
-        mStorageRef=FirebaseStorage.getInstance().getReference();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
     }
 
 
-    public void uploadDiary(final Diary diary){
-        uploadDiary =diary;
-        if (diary.getPhotoUri()!=null){
-            Uri uri=Uri.parse(diary.getPhotoUri());
+    public void uploadDiary(final Diary diary) {
+        uploadDiary = diary;
+        if (diary.getPhotoUri() != null) {
+            Uri uri = Uri.parse(diary.getPhotoUri());
             // if we have photo to upload we upload photo first, and retrieve the url of photo. then save the url with other things(username, comments....) in firestore
-            final StorageReference fileRef = mStorageRef.child(System.currentTimeMillis() + "." +uri);
+            final StorageReference fileRef = mStorageRef.child(System.currentTimeMillis() + "." + uri);
             // sk record upload task
-            sk=fileRef.putFile(uri)
+            sk = fileRef.putFile(uri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -45,12 +46,12 @@ public class DiaryDAO {
                                 public void onSuccess(Uri uri) {
                                     // in the past getDownloadUrl can retrieve the url in no time. But now the call can be asynchronous, so we need to use an listener
                                     // after we upload photo to storage, we restore the url of photo and other stuff to firestore
-                                    Log.i("upload diary","photo in storage");
+                                    Log.i("upload diary", "photo in storage");
                                     uploadDiary.setPhotoUri(uri.toString());
-                                    db.collection("Diary").document(diary.getTime()+":"+diary.getUsername()).set(uploadDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    db.collection("Diary").document(diary.getTime() + ":" + diary.getUsername()).set(uploadDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Log.i("upload diary","photo succ");
+                                            Log.i("upload diary", "photo succ");
                                         }
                                     });
                                 }
@@ -62,30 +63,22 @@ public class DiaryDAO {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.e("my",e.getMessage());
+                            Log.e("my", e.getMessage());
                         }
                     });
         } else {
-            db.collection("Diary").document(diary.getTime()+":"+diary.getUsername()).set(uploadDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
+            db.collection("Diary").document(diary.getTime() + ":" + diary.getUsername()).set(uploadDiary).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Log.i("jingD","no photo succ");
+                    Log.i("jingD", "no photo succ");
                 }
             });
         }
     }
 
 
-    public void delete(Diary diary){
-        Log.i("Jing",diary.getTime()+"."+diary.getUsername());
-        db.collection("Diary").document(diary.getTime()+":"+diary.getUsername()).delete();
+    public void delete(Diary diary) {
+        Log.i("Jing", diary.getTime() + "." + diary.getUsername());
+        db.collection("Diary").document(diary.getTime() + ":" + diary.getUsername()).delete();
     }
-
-//    // this method is to get the full name of a photo. (apple -> apple.jpg)
-//    private String getFileExtension(Uri uri){
-//        ContentResolver cR=getContentResolver();
-//        MimeTypeMap mime=MimeTypeMap.getSingleton();
-//        return mime.getExtensionFromMimeType(cR.getType(uri));
-//    }
-
 }

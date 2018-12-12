@@ -27,8 +27,6 @@ public class ConfirmFragment extends DialogFragment {
     }
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,7 +43,7 @@ public class ConfirmFragment extends DialogFragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent intent = new Intent(getActivity(), ClickNotExistActivity.class);
-                        Log.i("Jing","go to Not exist");
+                        Log.i("Jing", "go to Not exist");
                         Bundle b = getArguments();
                         intent.putExtras(b);
                         startActivity(intent);
