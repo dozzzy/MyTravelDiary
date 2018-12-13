@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewAllFriendsActivity extends AppCompatActivity {
+    // view all current user friends
     List<User> friends = new ArrayList<>();
     List<String> friendName = null;
     FirebaseFirestore db;
@@ -48,6 +49,7 @@ public class ViewAllFriendsActivity extends AppCompatActivity {
         friendName = null;
         mAdapter = new MyCustomAdapterForFriends(ViewAllFriendsActivity.this, friends);
         listFriends.setAdapter(mAdapter);
+        // followship only store username but we want to other user information (avatar and display name). so after we get username we need to retrieve the user data
         db.collection("Followship").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

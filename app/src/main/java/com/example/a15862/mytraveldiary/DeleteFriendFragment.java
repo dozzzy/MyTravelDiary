@@ -78,6 +78,7 @@ public class DeleteFriendFragment extends DialogFragment {
                             db.collection("Followship").document(username).set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
+                                    // once we update database we want to refresh our UI, so user can know they have delete successfully
                                     ((ViewAllFriendsActivity) fragmentActivity).showFriends();
                                 }
                             });

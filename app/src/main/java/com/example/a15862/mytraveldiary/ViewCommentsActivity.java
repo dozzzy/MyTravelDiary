@@ -64,7 +64,6 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
         btnSave = findViewById(R.id.btnSaveReturn);
         btnJump = findViewById(R.id.btnSaveJump);
         commentList = findViewById(R.id.commentList);
-
         edtAddComment.setText("");
         commentList.setHasFixedSize(true);
         commentList.setLayoutManager(new LinearLayoutManager(this));
@@ -91,6 +90,7 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
                         commentArray.add(c);
                     }
                 }
+                // comments are sorted by the number of like
                 Collections.sort(commentArray, new Comparator<Comment>() {
                     @Override
                     public int compare(Comment o1, Comment o2) {
@@ -98,6 +98,7 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
                     }
                 });
                 count = commentArray.size();
+                // when we get all the comments we need to find the creator of them so we can display the creators' reputation.
                 for (final Comment c : commentArray) {
                     db.collection("User").document(c.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
@@ -160,17 +161,19 @@ public class ViewCommentsActivity extends AppCompatActivity implements AdapterCa
 
     @Override
     public void onItemClick(Comment comment) {
+        // we handle the database operation for "like" here
         Comment clickedComment = comment;
         clickedComment.setLike(clickedComment.getLike() + 1);
         Log.e("qwer", "db change start");
         Log.e("qwer", clickedComment.getUserComment());
         clickedComment.setPlaceName(currentPlace.getPlaceName());
-        //Log.e("qwer",clickedComment.getPlaceName());
+        // need to update the total like of comment
         db.collection("Comment")
                 .document(clickedComment.getUsername() + "." + String.valueOf(clickedComment.getTime()))
                 .set(clickedComment);
         if (clickedComment.getFromAPI() == 1) {
         } else {
+            // if the creator is a user of our app, we need to add its reputation.
             db.collection("User").document(clickedComment.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
