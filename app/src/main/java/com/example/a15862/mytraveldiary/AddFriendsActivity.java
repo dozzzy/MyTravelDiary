@@ -55,6 +55,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                 mAdapter = new MyCustomAdapterForFriends(AddFriendsActivity.this, friendList);
                 searchFriendsList.setAdapter(mAdapter);
                 Log.i("searchResult", searchWord);
+                // fuzzy query by adding \uf8ff
                 db.collection("User").orderBy("displayName").startAt(searchWord).endAt(searchWord + "\uf8ff")
                         .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -78,6 +79,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                             public void onItemClick(View view, int position) {
                                 SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
                                 String username = load.getString("username", "DEFAULT");
+                                // get the user username from sharepreferences and pass it with the username user want to add friend
                                 Bundle bundle = new Bundle();
                                 bundle.putString("myUsername", username);
                                 bundle.putString("targetUsername", friendList.get(position).getUsername());

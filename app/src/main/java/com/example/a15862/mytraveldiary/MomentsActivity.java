@@ -45,6 +45,7 @@ public class MomentsActivity extends AppCompatActivity {
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         String username = load.getString("username", "DEFAULT");
         db = FirebaseFirestore.getInstance();
+        // first we get all the friends username of current user
         db.collection("Followship").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(final DocumentSnapshot documentSnapshot) {
@@ -54,6 +55,7 @@ public class MomentsActivity extends AppCompatActivity {
 
                 count = friends.size();
                 Log.i("Jing2", String.valueOf(count));
+                // second we get all diary from each friend
                 for (String cur : friends) {
                     db.collection("Diary").whereEqualTo("username", cur).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
@@ -67,6 +69,7 @@ public class MomentsActivity extends AppCompatActivity {
                                 }
 
                             }
+                            // diarys are sorted by time, we use count to make sure we get all the diary
                             if (count == 0) {
                                 Log.i("Jing2", String.valueOf(diarys.size()));
                                 Collections.sort(diarys, new Comparator<Diary>() {
@@ -83,8 +86,7 @@ public class MomentsActivity extends AppCompatActivity {
                                 final Map<String, User> getUser = new HashMap<>();
                                 count = diarys.size();
                                 Log.e("qwer", String.valueOf(count));
-
-                                //TODO:The diarys stored all recent diary of friends , sorted by time
+                                // for each diary we need its creator's information.(friends) so we retrieve data from user collection
                                 for (Diary d : diarys) {
                                     db.collection("User").whereEqualTo("username", d.getUsername()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                         @Override
@@ -95,6 +97,7 @@ public class MomentsActivity extends AppCompatActivity {
                                                     getUser.put(u.getUsername(), u);
                                                     count--;
                                                 }
+                                                // we use count to know we have all the creator.
                                                 if (count == 0) {
                                                     for (Diary d : diarys) {
                                                         String name = d.getUsername();

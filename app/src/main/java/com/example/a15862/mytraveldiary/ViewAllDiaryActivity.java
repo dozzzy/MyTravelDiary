@@ -59,6 +59,7 @@ public class ViewAllDiaryActivity extends AppCompatActivity {
                 mAdapter.setOnItemClickListener(new MyCustomAdapterForDiary.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+                        // when a row is clicked we can modify or delete it.
                         Diary diary = diaryList.get(position);
                         Log.e("HAOHUI", "onItemClick: hahaha");
                         CRUDFragment crudFragment = new CRUDFragment();

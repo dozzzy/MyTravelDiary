@@ -22,6 +22,7 @@ import com.example.a15862.mytraveldiary.Entity.Comment;
 import com.example.a15862.mytraveldiary.Entity.Place;
 
 public class ClickNotExistActivity extends Activity {
+    // create new place on map
     private Button btnJump;
     private EditText edtPlaceName;
     private Spinner spinner;
@@ -74,8 +75,10 @@ public class ClickNotExistActivity extends Activity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // save comment and go back to map
                 String placeName = edtPlaceName.getText().toString().trim();
                 String placeComment = edtComment.getText().toString().trim();
+                // comment can not be null but rating can
                 if (placeComment.equals("") || placeComment.equals("")) {
                     Toast.makeText(getApplicationContext(), "Place name and Comment should not be null", Toast.LENGTH_LONG).show();
                 } else {
@@ -83,14 +86,14 @@ public class ClickNotExistActivity extends Activity {
                     Intent back = new Intent(ClickNotExistActivity.this, MapActivity.class);
                     startActivity(back);
                 }
-//                AskWriteDiaryFragment askWriteDiaryFragment = new AskWriteDiaryFragment();
-//                askWriteDiaryFragment.show(getSupportFragmentManager(), "ConfirmFragment");
+
             }
         });
 
         btnJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // save comment and go to write diary
                 String placeName = edtPlaceName.getText().toString().trim();
                 String placeComment = edtComment.getText().toString().trim();
                 if (placeComment.equals("") || placeComment.equals("")) {
@@ -112,8 +115,6 @@ public class ClickNotExistActivity extends Activity {
     private void storeData() {
         String pname = edtPlaceName.getText().toString();
         String comment = edtComment.getText().toString();
-//        testUser.setDisplayName(load.getString("displayName", "DEFAULT"));
-//        testUser.setUsername(load.getString("username","DEFAULT"));
         Place p = new Place();
         p.setLatitude(lat);
         p.setLongitude(lon);
@@ -126,13 +127,14 @@ public class ClickNotExistActivity extends Activity {
         String pid = String.valueOf(p.hashCode());
         p.setPid(pid);
         PlaceDAO pd = new PlaceDAO();
+        // add new place to database
         pd.addPlace(p);
         pd.updateData(p);
         currentPlace = p;
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         Comment c = new Comment(load.getString("username", "DEFAULT"), currentPlace.getPlaceName(), comment);
         c.setDisplayName(load.getString("username", "DEFAULT"));
-
+        // add first comment of place
         CommentDAO cd = new CommentDAO();
         cd.addComment(c, 0);
     }

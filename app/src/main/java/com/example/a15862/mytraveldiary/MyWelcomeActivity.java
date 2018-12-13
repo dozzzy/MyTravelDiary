@@ -12,7 +12,7 @@ import com.stephentuso.welcome.WelcomeActivity;
 import com.stephentuso.welcome.WelcomeConfiguration;
 
 public class MyWelcomeActivity extends WelcomeActivity {
-
+    // our guide page
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

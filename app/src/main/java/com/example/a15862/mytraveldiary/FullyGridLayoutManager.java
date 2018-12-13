@@ -15,6 +15,7 @@ import android.view.ViewGroup;
  */
 
 public class FullyGridLayoutManager extends GridLayoutManager {
+    // this manager is used to help pictureSelector pick and edit image.
     public FullyGridLayoutManager(Context context, int spanCount) {
         super(context, spanCount);
     }

@@ -50,8 +50,8 @@ import retrofit2.Retrofit;
 public class AddDiaryActivity extends Activity {
 
     private ImageView addImg;
-    private final int IMAGE_RESULT_CODE = 2;// 表示打开照相机
-    private final int PICK = 1;// 选择图片库
+    private final int IMAGE_RESULT_CODE = 2;
+    private final int PICK = 1;
     private final int SPEECH_TO_TEXT = 3;
     public static final int SAVE = 9997;
     private Place currentPlace;
@@ -90,8 +90,6 @@ public class AddDiaryActivity extends Activity {
         setContentView(R.layout.activity_add_diary);
         Bundle info = getIntent().getExtras();
         currentPlace = (Place) info.getSerializable("Place");
-//        btnCamera = (ImageButton) findViewById(R.id.btnCamera);
-//        btnGallery = (ImageButton) findViewById(R.id.btnGallery);
         imgPhoto = (ImageView) findViewById(R.id.imgPhoto);
         txtCity = (TextView) findViewById(R.id.txtCity);
         txtCity.setText(currentPlace.getPlaceName());
@@ -108,6 +106,7 @@ public class AddDiaryActivity extends Activity {
             switchVisible.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    // set diary is private or public
                     if (isChecked) {
                         visible = true;
                     } else {
@@ -116,6 +115,8 @@ public class AddDiaryActivity extends Activity {
                 }
             });
         }
+        // recyclerView and adapter is to show the list of photos user selected. We use PhotoSelector to get photos. Because some android phones do not save photo
+        // locally after user take a shot. And we can not get the uri of the photo. PhotoSelector will store the photo once it is taken. So the problem no longer bother us.
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         FullyGridLayoutManager manager = new FullyGridLayoutManager(AddDiaryActivity.this, 4, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
@@ -173,7 +174,7 @@ public class AddDiaryActivity extends Activity {
 
 
         getWeatherInfo();
-
+        // btnClear is used to reset the diary.
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,7 +185,7 @@ public class AddDiaryActivity extends Activity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //saveDiary(diaryName);
+                // retrieve username from sharedpreferences
                 SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
                 String displayName = load.getString("displayName", "DEFAULT");
                 String username = load.getString("username", "DEFAULT");
@@ -344,9 +345,4 @@ public class AddDiaryActivity extends Activity {
 
     }
 
-
-
-    private void saveDiary(String diary) {
-
-    }
 }

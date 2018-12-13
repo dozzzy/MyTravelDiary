@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Register2Activity extends AppCompatActivity implements
         View.OnClickListener {
-
+    // register for phone number
     private static final String TAG = "PhoneAuthActivity";
 
     private static final String KEY_VERIFY_IN_PROGRESS = "key_verify_in_progress";

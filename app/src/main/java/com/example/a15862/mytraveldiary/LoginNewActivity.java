@@ -98,13 +98,13 @@ public class LoginNewActivity extends AppCompatActivity {
                 });
             }
         });
+        // we try to get location permission when we start our app. so app won't crash in MapActivity
         getLocationPermission();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        welcomeScreen.onSaveInstanceState(outState);
     }
 
     private void getLocationPermission() {

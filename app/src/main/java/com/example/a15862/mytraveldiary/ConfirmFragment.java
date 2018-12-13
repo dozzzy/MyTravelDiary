@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
  * A simple {@link Fragment} subclass.
  */
 public class ConfirmFragment extends DialogFragment {
-
+    // the dialogFragment after pin on screen
     public ConfirmFragment() {
         // Required empty public constructor
 

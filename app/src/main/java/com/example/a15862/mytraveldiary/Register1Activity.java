@@ -18,6 +18,7 @@ import com.example.a15862.mytraveldiary.DAO.UserDAO;
 import com.example.a15862.mytraveldiary.Entity.User;
 
 public class Register1Activity extends AppCompatActivity {
+    // username and password register
     private EditText edtUserName;
     private EditText edtNickName;
     private EditText edtPassword;
@@ -56,9 +57,11 @@ public class Register1Activity extends AppCompatActivity {
                     u.setDisplayName(displayName);
                     u.setPassword(psw);
                     u.setUsername(username);
+                    // set a default avatar for user
                     u.setAvatar("https://firebasestorage.googleapis.com/v0/b/mytraveldiary-d8885.appspot.com/o/avater.png?alt=media&token=fae2ef71-2350-4237-98f3-2a51be9ccb03");
                     UserDAO ud = new UserDAO();
                     ud.addBasicUser(u);
+                    // put user information into sharedPreferences
                     SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("displayName", displayName);
@@ -75,7 +78,6 @@ public class Register1Activity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK) {

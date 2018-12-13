@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 import org.w3c.dom.Text;
 
 public class SettingsActivity extends AppCompatActivity {
-
+    // user can change avatar and display name in this activity
     private EditText txtNickName;
     private EditText edtPassword;
     private EditText edtCheck;
@@ -52,18 +52,19 @@ public class SettingsActivity extends AppCompatActivity {
         btnChangePhoto = (Button) findViewById(R.id.btnChangePhoto);
         imgLogo = (ImageView) findViewById(R.id.imgLogo);
         photo = false;
+        // get current user information
         SharedPreferences load = getSharedPreferences("user", Context.MODE_PRIVATE);
         displayName = load.getString("displayName", "DEFAULT");
         username = load.getString("username", "DEFAULT");
         avatar = load.getString("avatar", "DEFAULT");
         Log.e("qwer", avatar);
+        // get the current from database
         db.collection("User").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 user = documentSnapshot.toObject(User.class);
             }
         });
-
         txtNickName.setText(displayName);
         edtPassword.setText("");
         edtCheck.setText("");
@@ -97,14 +98,17 @@ public class SettingsActivity extends AppCompatActivity {
                         user.setDisplayName(txtNickName.getText().toString());
                     }
                     UserDAO udb = new UserDAO();
+                    // if avatar changed
                     if (photo) {
                         udb.uploadUser(user);
                     } else {
+                        // if avatar does not changed
                         udb.updateUserWithoutPhoto(user);
                     }
                     db.collection("User").document(user.getUsername()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            // after update we update sharedPreferences
                             SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("avatar", user.getAvatar());

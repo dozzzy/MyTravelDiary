@@ -63,7 +63,7 @@ public class DeleteFriendFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
                     FollowshipDAO fd = new FollowshipDAO();
-
+                    // when decide to delete a friend we need to retrieve all friends of user.
                     db.collection("Followship").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -71,8 +71,10 @@ public class DeleteFriendFragment extends DialogFragment {
                                 newF = (ArrayList) documentSnapshot.getData().get("followed");
                             else newF = new ArrayList<>();
                             Map<String, Object> data = new HashMap<>();
+                            // remove the target friends from list
                             if (newF.contains(target)) newF.remove(target);
                             data.put("followed", newF);
+                            // insert friend list back to database
                             db.collection("Followship").document(username).set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

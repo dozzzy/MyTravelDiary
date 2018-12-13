@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyCustomAdapterForImages extends RecyclerView.Adapter<MyCustomAdapterForImages.ViewHolder> {
+    // used for PictureSelector
     public static final int TYPE_CAMERA = 1;
     public static final int TYPE_PICTURE = 2;
     private LayoutInflater mInflater;

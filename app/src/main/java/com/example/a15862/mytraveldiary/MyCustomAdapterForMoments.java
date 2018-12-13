@@ -25,7 +25,6 @@ public class MyCustomAdapterForMoments extends RecyclerView.Adapter<MyCustomAdap
     private Context context;
     private LayoutInflater mInflater;
 
-
     public MyCustomAdapterForMoments(Context aContext, List<User> u, List<Diary> d) {
         context = aContext;  //saving the context we'll need it again.
         users = u;

@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClickExistActivity extends Activity {
+    // after clicked an exist place on map
     private Place currentPlace;
     private TextView txtPlaceName;
     private RatingBar ratingBar;
@@ -61,11 +62,7 @@ public class ClickExistActivity extends Activity {
         currentPlace = (Place) info.getSerializable("Place");
         txtPlaceName.setText(currentPlace.getPlaceName());
         List<String> categorys = currentPlace.getCategory();
-//        String cats = "";
-//        for (int i = 0; i < categorys.size(); i++) {
-//            cats = new StringBuilder(cats)
-//                    .append(categorys.get(i)).append(" ").toString();
-//        }
+
         txtCategory.setText(categorys.get(0));
         float rating = currentPlace.getTotalScore() / currentPlace.getScoreCount();
         Log.i("qwer", Float.toString(rating));
@@ -73,7 +70,6 @@ public class ClickExistActivity extends Activity {
             ratingBar.setRating(rating);
         }
 
-        //int totalComments = currentPlace.getTotalComments;
         if (currentPlace.getPhotoPath() != null) {
             String path = url + currentPlace.getPhotoPath() + key;
             Picasso.get().load(path).into(imgPlace);
@@ -85,8 +81,8 @@ public class ClickExistActivity extends Activity {
             public void onClick(View v) {
                 Log.i("qwer", "view comments clicked");
                 Intent intent = new Intent(ClickExistActivity.this, ViewCommentsActivity.class);
+                // put the place information into bundle
                 Bundle b = new Bundle();
-                //b.putString("Place", currentPlace.getPlaceName());
                 b.putSerializable("Place", currentPlace);
                 intent.putExtras(b);
                 startActivity(intent);

@@ -53,10 +53,10 @@ import retrofit2.Retrofit;
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
 public class ModifyActivity extends Activity {
-
+    // modify diary
     private ImageButton btnCamera, btnGallery;
-    private final int IMAGE_RESULT_CODE = 2;// 表示打开照相机
-    private final int PICK = 1;// 选择图片库
+    private final int IMAGE_RESULT_CODE = 2;
+    private final int PICK = 1;
     private final int SPEECH_TO_TEXT = 3;
     public static final int SAVE = 9997;
     private Place currentPlace;
@@ -203,35 +203,9 @@ public class ModifyActivity extends Activity {
     }
 
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        // TODO Auto-generated method stub
-//        super.onActivityResult(requestCode, resultCode, data);
-//        switch (requestCode) {
-//            // 表示 调用照相机拍照
-//            case IMAGE_RESULT_CODE:
-//                if (resultCode == RESULT_OK) {
-//                    Bundle bundle = data.getExtras();
-//                    Bitmap bitmap = (Bitmap) bundle.get("data");
-//                    imgPhoto.setImageBitmap(bitmap);
-//                    Toast.makeText(getApplicationContext(), "Image saved to:\n" + data.getData(), Toast.LENGTH_LONG).show();
-//                }
-//                break;
-//            // 选择图片库的图片
-//            case PICK:
-//                if (resultCode == RESULT_OK) {
-//                    Uri uri = data.getData();
-//                    imgPhoto.setImageURI(uri);
-//                    photoUri = uri;
-//
-//                }
-//                break;
-//        }
-//
-//    }
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
