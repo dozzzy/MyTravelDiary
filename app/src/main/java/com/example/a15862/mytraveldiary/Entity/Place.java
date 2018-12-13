@@ -14,8 +14,8 @@ public class Place implements Serializable {
 
     private double latitude;
     private double longitude;
-    private int scoreCount = 0;
-    private float totalScore = 0;
+    private int scoreCount = 0;     // how many people rate the place
+    private float totalScore = 0;   // total score the place get
     private String placeName;
     private String vicinity;
     private String photoPath;

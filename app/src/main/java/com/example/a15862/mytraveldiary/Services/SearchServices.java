@@ -8,8 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-
+// interface for getting information from google api
 public interface SearchServices {
+
     void searchLocation(LatLng location, double radius) throws Exception;
 
     void getComment(String pid) throws Exception;

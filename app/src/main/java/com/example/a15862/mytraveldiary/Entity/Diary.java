@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.Map;
 
 public class Diary implements Serializable {
-    private static final long serialVersionUID = -7634235178023352252L;
-    private String username = null;
-    private String diaplayName;
-    private String placeName = null;
-    private String photoUri = null;
-    private String imgWeather = null;
+    private static final long serialVersionUID = -7634235178023352252L;  // for serializable
+    private String username = null; // creator's username
+    private String diaplayName;     // creator's display name
+    private String placeName = null; // where the diary happen
+    private String photoUri = null;     // photo uri
+    private String imgWeather = null;   // weather,city,temperature information are from OpenWeather Api
     private String txtDate = null, txtCity = null, txtTemperature = null;
     private String edtDiary = null;
-    private long time;
-    private boolean visible = false;
+    private long time;                  // the time diary happen
+    private boolean visible = false;    // whether the diary is share to friends
 
     public Diary() {
         time = System.currentTimeMillis();

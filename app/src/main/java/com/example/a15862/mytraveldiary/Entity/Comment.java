@@ -7,14 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Comment {
-    private String placeName;
+    private String placeName;  // where the comment happen
     private User user;
-    private String username;
-    private String displayName;
-    private String userComment;
-    private int fromAPI;
-    private long time;
-    private int like;
+    private String username;    // username of the creator
+    private String displayName; // display name of the creator
+    private String userComment; // user's comment
+    private int fromAPI;        // if the comment is from our user this value will be 0, otherwise 1
+    private long time;          // the time of comment
+    private int like;           // how many people click like
 
     public Comment() {
         time = System.currentTimeMillis();

@@ -13,10 +13,8 @@ public class User {
     private String phone;
     private String email;
     private String displayName;
-    private int scoreCountUser = 0;
-    private float totalScoreUser = 0;
     private List<String> following;
-    private int like = 0;
+    private int like = 0;       // reputation
     private String avatar;
 
     public User() {
