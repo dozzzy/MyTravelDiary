@@ -34,6 +34,7 @@ public class CommentDAO {
         db.collection("Place").document(c.getPlaceName()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+                // every time a comment is added. The total comment number of place should add 1.
                 if (documentSnapshot.getData() != null) {
                     Place p = documentSnapshot.toObject(Place.class);
                     p.setTotalComment(p.getTotalComment() + 1);
@@ -45,6 +46,7 @@ public class CommentDAO {
         db.collection("Comment").document(c.getUsername() + "." + c.getTime()).set(data);
     }
 
+    // comment get like
     public void addLike(Comment c) {
         pointer = c;
         db.collection("Comment").whereEqualTo("userComment", c.getUserComment()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
