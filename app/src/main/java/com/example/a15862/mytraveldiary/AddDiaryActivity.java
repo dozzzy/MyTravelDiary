@@ -327,9 +327,7 @@ public class AddDiaryActivity extends Activity {
                         .append(response.body().getWeather().get(0).getIcon())
                         .append(".png").toString();
 
-                // Set corresponding TextView to the information retrieved
-                //TODO: change City to the location retrieved from the map
-//                txtCity.setText(response.body().getName());
+                // Set corresponding TextView to the information retrievel
                 txtTemperature.setText(new StringBuilder("The current temperature is ")
                         .append(String.valueOf(response.body().getMain().getTemp())).append("°C").toString());
                 txtDate.setText(Helper.convertUnixToDate(response.body().getDt()));
